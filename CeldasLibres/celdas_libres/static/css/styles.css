@@ -3,3 +3,24 @@
         -webkit-box-shadow: 0 0 0 0.2rem rgba(254, 218, 110, 0.25);
     box-shadow: 0 0 0 0.2rem rgba(254, 218, 110, 0.25);
 }
+select {
+    background: transparent;
+    border-radius: 5px;
+    font-size: 14px;
+    height: 30px;
+    padding: 5px;
+    margin: 5px;
+    width: 250px;
+}
+
+    select:hover {
+        border-color: #feda6e !important;
+        -webkit-box-shadow: 0 0 0 0.2rem rgba(254, 218, 110, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba(254, 218, 110, 0.25);
+    }
+
+.form-control:read-only {
+    border-color: #feda6e !important;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(254, 218, 110, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(254, 218, 110, 0.25);
+}
