@@ -19,12 +19,7 @@ class CrearTarifa(CreateView):
     template_name = 'parqueaderos/crear_tarifa.html'
     form_class = CrearTarifaForm
     success_url = reverse_lazy('tarifas')
-    
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            messages.success(request, 'Tarifa creada')
-        return super(CrearTarifa, self).post(request, kwargs)
+
 
     def post(self, request, *args, **kwargs):
         anno = request.POST.get('anno')
@@ -32,6 +27,8 @@ class CrearTarifa(CreateView):
         for tarifa in Tarifa.objects.all():
             if (tarifa.anno, tarifa.tipo_vehiculo) == (int(anno), tipo_vehiculo):
                 tarifa.delete()
+        if form.is_valid():
+            messages.success(request, 'Tarifa creada')
         return super(CrearTarifa, self).post(request, *args, **kwargs)
 
 @method_decorator([login_required], name='dispatch')
@@ -47,10 +44,22 @@ class ModificarTarifa(UpdateView):
     template_name_suffix = '_update_form'
     success_url =  reverse_lazy('tarifas')
 
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Tarifa modificada')
+        return super(ModificarTarifa, self).post(request, kwargs)
+
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class EliminarTarifa(DeleteView):
     model = Tarifa
     success_url = reverse_lazy('tarifas')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Tarifa eliminada')
+        return super(EliminarTarifa, self).post(request, kwargs)
 
 @method_decorator([login_required], name='dispatch')
 class CrearEntradaVehiculo(CreateView):
