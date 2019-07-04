@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Modificar vehiculo{% endblock title %}
+
+{% block content %}
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Modificacion de Vehiculo</div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="Pnombre">Tipo vehiculo</label>
+            {{ form.tipo_vehiculo }}
+          </div>
+          <div class="form-group">
+            <label for="Papell">Tarifa</label>
+            {{ form.tarifa }}
+          </div>
+          <div class="form-group">
+            <label for="Pnombre">Año</label>
+            {{ form.anno }}
+          </div>
+          {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="card border-danger mb-3">
+                          <div class="card-body text-danger">
+                              <p class="card-text">
+                                  {{ error|escape }}
+                              </p>
+                          </div>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="card border-danger mb-3">
+                      <div class="card-body text-danger">
+                          <p class="card-text">
+                              {{ error|escape }}
+                          </p>
+                      </div>
+                  </div>
+              {% endfor %}
+          {% endif %}
+          <button type="submit" class="btn btn-warning btn-block">Modificar vehiculo</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('parqueaderos/', include('parqueaderos.urls')),
+    path('vehiculos/', include('vehiculos.urls')),
 ]
 
 if settings.DEBUG:

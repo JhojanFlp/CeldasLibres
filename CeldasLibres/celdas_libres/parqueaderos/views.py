@@ -22,6 +22,7 @@ class CrearTarifa(CreateView):
 
 
     def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         anno = request.POST.get('anno')
         tipo_vehiculo = request.POST.get('tipo_vehiculo')
         for tarifa in Tarifa.objects.all():
@@ -53,6 +54,7 @@ class ModificarTarifa(UpdateView):
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class EliminarTarifa(DeleteView):
     model = Tarifa
+    form_class = CrearTarifaForm
     success_url = reverse_lazy('tarifas')
 
     def post(self, request, *args, **kwargs):

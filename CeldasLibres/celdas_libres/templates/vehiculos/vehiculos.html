@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehiculos{% endblock title %}
+
+{% block content %}
+<div class="container pt-5 mt-3">
+    <table class="table table-secondary table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Año</th>
+                <th scope="col">Tipo vehiculo</th>
+                <th scope="col">Tarifa</th>
+                {% if user.is_staff %}
+                <th scope="col">Modificar</th>
+                <th scope="col">Eliminar</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehiculo in vehiculos_list %}
+                {% now "Y" as current %}
+                {% ifequal vehiculo.anno|stringformat:'i' current %}
+                <tr>
+                    <th scope="row">{{ vehiculo.anno }}</th>
+                    <td>{{ vehiculo.tipo_vehiculo }}</td>
+                    <td>{{ vehiculo.tarifa }}</td>
+                    {% if user.is_staff %}
+                    <td>
+                        <a href="{% url 'modificar-vehiculo' vehiculo.id %}">Modificar</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'eliminar-vehiculo' vehiculo.id %}">Eliminar</a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endifequal %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

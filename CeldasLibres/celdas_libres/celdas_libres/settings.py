@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'parqueaderos',
     'accounts',
     'core',
+    'vehiculos',
 ]
 
 MIDDLEWARE = [

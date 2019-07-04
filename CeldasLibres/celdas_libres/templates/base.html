@@ -40,7 +40,10 @@
                 <a class="nav-link" href="{% url 'signup' %}">Registrar Operario</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{%url 'crear_tarifa' %}">Crear tarifa</a>
+                <a class="nav-link" href="{% url 'crear_tarifa' %}">Crear tarifa</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'crear_vehiculo' %}">Crear vehiculo</a>
               </li>
               <!-- Esto va hacer una HU próxima - estará comentada mientras tanto -->
               <!-- <li class="nav-item">
@@ -48,14 +51,17 @@
               </li> -->
             {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="{%url 'vehiculos-ingresados' %}">Vehiculos ingresados</a>
+                <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehiculos ingresados</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{%url 'ingresar-vehiculo' %}">Entrada vehiculo</a>
+                <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Entrada vehiculo</a>
               </li>
             {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{%url 'tarifas' %}">Tarifas</a>
+            <a class="nav-link" href="{% url 'tarifas' %}">Tarifas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'vehiculos' %}">Vehiculos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
