@@ -45,21 +45,30 @@ class SignUpForm(UserCreationForm):
     )
     tipo_identificacion = forms.ChoiceField(
         required=True,
-         widget=forms.PasswordInput(
-            attrs={'class': 'form-control'}
-        ),
+         
         choices=[
             ('TI', 'Tarjeta de identidad'),
             ('CC', 'Cédula de ciudadanía'),
             ('PS', 'Pasaporte'),
-        ]
+        ],
+        widget=forms.Select(
+            attrs={'class': 'form-control'}
+        )
     )
-    nacionalidad = forms.CharField(max_length=15, required=True,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                }
-        ))
+    nacionalidad = forms.ChoiceField(required=True,
+        choices=[
+            ('COL', 'Colombiana'),
+            ('VEN', 'Venezolana'),
+            ('ECU', 'Ecuatoriana'),
+            ('ESP', 'Española'),
+            ('CHI', 'Chilena'),
+            ('PER', 'Peruana'),
+            ('PAN', 'Panameña'),
+        ],
+        widget=forms.Select(
+            attrs={'class': 'form-control'}
+        )
+        )
     fecha_nacimiento = forms.DateField(input_formats=['%d/%m/%Y'],
     required=True,
         widget=forms.DateTimeInput(attrs={
