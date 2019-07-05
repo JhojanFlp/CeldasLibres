@@ -38,7 +38,7 @@ class CrearUsuario(CreateView):
             if user is not None:
                 login(request, user)
 
-            messages.success(request, 'Registro exitoso')
+            messages.success(request, 'Usuario registrado correctamente')
             return redirect('home')
         return render(request, 'accounts/signup.html', {'form': form})
 
@@ -52,7 +52,7 @@ class ModificarUsuario(UpdateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            messages.success(request, 'Usuario modificado')
+            messages.success(request, 'Usuario actualizado correctamente')
         return super(ModificarUsuario, self).post(request, kwargs)
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
@@ -67,7 +67,5 @@ class EliminarUsuario(DeleteView):
     success_url = reverse_lazy('usuarios')
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            messages.success(request, 'Usuario elinimado')
-        return super(EliminarUsuario, self).post(request, kwargs)
+        messages.success(request, 'Usuario elinimado correctamente')
+        return super(EliminarUsuario, self).post(request, *args, **kwargs)
