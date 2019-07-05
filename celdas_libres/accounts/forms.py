@@ -35,7 +35,7 @@ class SignUpForm(UserCreationForm):
         )
     )
     email = forms.EmailField(
-        label='Correo electrónico', required=False,
+        label='Correo electrónico', required=True,
         widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
@@ -54,32 +54,32 @@ class SignUpForm(UserCreationForm):
             ('PS', 'Pasaporte'),
         ]
     )
-    nacionalidad = forms.CharField(max_length=15, required=False,
+    nacionalidad = forms.CharField(max_length=15, required=True,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
                 }
         ))
     fecha_nacimiento = forms.DateField(input_formats=['%d/%m/%Y'],
-    required=False,
+    required=True,
         widget=forms.DateTimeInput(attrs={
             'class': 'form-control datetimepicker-input',
             'data-target': '#datetimepicker1'
         })
     )
-    telefono = forms.CharField(max_length=15, required=False,
+    telefono = forms.CharField(max_length=15, required=True,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
                 }
         ))
-    celular = forms.CharField(max_length=15, required=False,
+    celular = forms.CharField(max_length=15, required=True,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
                 }
         ))
-    direccion = forms.CharField(max_length=30, required=False,
+    direccion = forms.CharField(max_length=30, required=True,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
