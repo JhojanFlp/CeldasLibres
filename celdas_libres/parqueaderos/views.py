@@ -32,7 +32,7 @@ class CrearTarifa(CreateView):
             if (tarifa.anno, tarifa.tipo_vehiculo) == (int(anno), tipo_vehiculo):
                 tarifa.delete()
         if form.is_valid():
-            messages.success(request, 'Tarifa creada')
+            messages.success(request, 'Tarifa creada correctamente')
         return super(CrearTarifa, self).post(request, *args, **kwargs)
 
 @method_decorator([login_required], name='dispatch')
@@ -51,8 +51,8 @@ class ModificarTarifa(UpdateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            messages.success(request, 'Tarifa modificada')
-        return super(ModificarTarifa, self).post(request, kwargs)
+            messages.success(request, 'Tarifa actualizada correctamente')
+        return super(ModificarTarifa, self).post(request, *args, **kwargs)
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class EliminarTarifa(DeleteView):
@@ -63,8 +63,8 @@ class EliminarTarifa(DeleteView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            messages.success(request, 'Tarifa eliminada')
-        return super(EliminarTarifa, self).post(request, kwargs)
+            messages.success(request, 'Tarifa eliminada correctamente')
+        return super(EliminarTarifa, self).post(request, *args, **kwargs)
 
 @method_decorator([login_required], name='dispatch')
 class CrearEntradaVehiculo(CreateView):
@@ -85,7 +85,11 @@ class CrearEntradaVehiculo(CreateView):
         
         if form.is_valid():
             messages.success(request, 'Vehículo ingresado')
+<<<<<<< HEAD
             return super(CrearEntradaVehiculo, self).post(request, kwargs)
+=======
+        return super(CrearEntradaVehiculo, self).post(request, *args, **kwargs)
+>>>>>>> 4e877287c7578ecfb4d650280f8bc4430ba771e0
 
 
 @method_decorator([login_required], name='dispatch')
