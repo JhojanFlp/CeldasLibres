@@ -45,6 +45,9 @@ class SignUpForm(UserCreationForm):
     )
     tipo_identificacion = forms.ChoiceField(
         required=True,
+         widget=forms.PasswordInput(
+            attrs={'class': 'form-control'}
+        ),
         choices=[
             ('TI', 'Tarjeta de identidad'),
             ('CC', 'Cédula de ciudadanía'),
