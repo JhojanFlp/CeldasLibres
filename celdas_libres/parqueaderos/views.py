@@ -12,6 +12,9 @@ from .models import Tarifa, EntradaVehiculo
 from .forms import CrearTarifaForm, EntradaVehiculoForm
 from django.contrib import messages
 
+import re
+import time
+
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class CrearTarifa(CreateView):
@@ -23,7 +26,7 @@ class CrearTarifa(CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        anno = request.POST.get('anno')
+        anno = time.strftime("%Y")
         tipo_vehiculo = request.POST.get('tipo_vehiculo')
         for tarifa in Tarifa.objects.all():
             if (tarifa.anno, tarifa.tipo_vehiculo) == (int(anno), tipo_vehiculo):
@@ -79,9 +82,10 @@ class CrearEntradaVehiculo(CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        
         if form.is_valid():
             messages.success(request, 'Vehículo ingresado')
-        return super(CrearEntradaVehiculo, self).post(request, kwargs)
+            return super(CrearEntradaVehiculo, self).post(request, kwargs)
 
 
 @method_decorator([login_required], name='dispatch')
