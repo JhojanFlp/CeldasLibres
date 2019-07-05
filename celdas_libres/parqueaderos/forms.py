@@ -14,12 +14,6 @@ class CrearTarifaForm(forms.ModelForm):
         model = Tarifa
         fields = '__all__'
         widgets = {
-            'anno': forms.NumberInput(
-                attrs={
-                    'class': 'form-control',
-                    'readonly': True
-                }
-            ),
             'tipo_vehiculo': forms.Select(
                 attrs={
                     'class': 'form-control'
