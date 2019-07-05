@@ -12,7 +12,8 @@
 
   {% load static %}
   <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
   <!-- Custom styles for this template-->
   <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
   <link href="{% static 'css/styles.css' %}" rel="stylesheet">
@@ -36,32 +37,20 @@
           </li>
           {% if user.is_authenticated %}
             {% if user.is_staff %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'signup' %}">Registrar Operario</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'crear_tarifa' %}">Crear tarifa</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'crear_vehiculo' %}">Crear vehiculo</a>
-              </li>
-              <!-- Esto va hacer una HU próxima - estará comentada mientras tanto -->
               <!-- <li class="nav-item">
-                <a class="nav-link" href="{%url 'usuarios' %}">Usuarios</a>
+                <a class="nav-link" href="{% url 'crear_vehiculo' %}">Crear vehiculo</a>
               </li> -->
+              <!-- Esto va hacer una HU próxima - estará comentada mientras tanto -->
+              <li class="nav-item">
+                <a class="nav-link" href="{%url 'usuarios' %}">Usuarios</a>
+              </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehiculos ingresados</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Entrada vehiculo</a>
+                <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehiculos</a>
               </li>
             {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'tarifas' %}">Tarifas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'vehiculos' %}">Vehiculos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
@@ -75,6 +64,7 @@
       </div>
     </div>
   </nav>
+  {% block role_nav %}{% endblock role_nav %}
   {% block content %}{% endblock content %}
   <!-- Bootstrap core JavaScript-->
   <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
@@ -82,8 +72,22 @@
 
   <!-- Core plugin JavaScript-->
   <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <!-- Font Awesome -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+  <!-- Moment.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+  <!-- Tempus Dominus Bootstrap 4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
 
   {% for message in messages %}
 <script>
@@ -101,5 +105,6 @@
 </script>
 {% endfor %}
 
+{% block scripts %}{% endblock scripts %}
 </body>
 </html>

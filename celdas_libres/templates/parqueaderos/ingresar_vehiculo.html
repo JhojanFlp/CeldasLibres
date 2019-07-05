@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
 
-{% block title %}Ingresar Vehiculo{% endblock title %}
+{% block title %}Vehiculos{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehiculos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Registrar vehiculo</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
 
 {% block content %}
   <div class="container">

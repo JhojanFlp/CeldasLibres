@@ -24,3 +24,10 @@ select {
     -webkit-box-shadow: 0 0 0 0.2rem rgba(254, 218, 110, 0.25);
     box-shadow: 0 0 0 0.2rem rgba(254, 218, 110, 0.25);
 }
+
+.nav-tabs {
+    max-width: 1140px !important;
+}
+ .nav-tabs a {
+     color: black;
+ }

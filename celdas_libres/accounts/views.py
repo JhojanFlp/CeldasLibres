@@ -12,7 +12,7 @@ from django.views.generic.edit import CreateView
 from django.contrib import messages
 
 
-
+@method_decorator([login_required, staff_member_required], name='dispatch')
 class CrearUsuario(CreateView):
     template_name = 'accounts/signup.html'
     model = CustomUser

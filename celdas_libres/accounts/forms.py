@@ -59,12 +59,11 @@ class SignUpForm(UserCreationForm):
         ))
     fecha_nacimiento = forms.DateField(input_formats=['%d/%m/%Y'],
     required=False,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'dd/mm/aaaa'
-                }
-        ))
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
     telefono = forms.CharField(max_length=15, required=False,
         widget=forms.TextInput(
             attrs={

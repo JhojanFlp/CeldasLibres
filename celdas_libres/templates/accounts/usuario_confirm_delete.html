@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
 
+{% block title %}Usuarios{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'usuarios' %}">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'signup' %}">Registrar Operario</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
 {% block content %}
   <div class="container">
     <div class="card card-register mx-auto mt-5">
