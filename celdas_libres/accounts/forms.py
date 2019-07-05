@@ -6,13 +6,13 @@ class SignUpForm(UserCreationForm):
     first_name = forms.CharField(
         label='Primer nombre', max_length=50, required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Pepito', 'autofocus': 'autofocus', 'id': '2dasd'}
+            attrs={'class': 'form-control', 'autofocus': 'autofocus', 'id': '2dasd'}
         )
     )
     last_name = forms.CharField(
         label='Primer apellidos', max_length=50, required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Perez'}
+            attrs={'class': 'form-control'}
         )
     )
     # Username es con lo que se va a logear, que en este caso lo vamos a tratar como la identificacion
