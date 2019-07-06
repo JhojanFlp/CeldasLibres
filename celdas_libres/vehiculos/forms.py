@@ -25,5 +25,5 @@ class CrearVehiculoForm(forms.ModelForm):
                     'class': 'form-control',
                     'readonly': True
                 }
-            ),
+            )
         }

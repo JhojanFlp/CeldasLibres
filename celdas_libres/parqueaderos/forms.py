@@ -3,6 +3,7 @@ from .models import Tarifa, EntradaVehiculo
 
 
 class CrearTarifaForm(forms.ModelForm):
+    #AQUÍ SE DEBEN PONER LOS TIPOS DE VEHÍCULOS, NO ESAS OPCIONES
     tipo_vehiculo = forms.ChoiceField(
         choices=[
             ('carro', 'Carro'),
@@ -22,6 +23,12 @@ class CrearTarifaForm(forms.ModelForm):
             'por_hora': forms.NumberInput(
                 attrs={
                     'class': 'form-control'
+                }
+            ),
+            'anno': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'hidden'
                 }
             )
         }
