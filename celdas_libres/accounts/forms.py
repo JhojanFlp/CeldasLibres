@@ -4,32 +4,32 @@ from .models import CustomUser, Usuario
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(
-        label='Primer nombre', max_length=50, required=True,
+        label='Primer nombre', max_length=40, required=True,
         widget=forms.TextInput(
             attrs={'class': 'form-control', 'autofocus': 'autofocus', 'id': '2dasd'}
         )
     )
     last_name = forms.CharField(
-        label='Primer apellidos', max_length=50, required=True,
+        label='Primer apellidos', max_length=40, required=True,
         widget=forms.TextInput(
             attrs={'class': 'form-control'}
         )
     )
     # Username es con lo que se va a logear, que en este caso lo vamos a tratar como la identificacion
     username = forms.CharField(
-        label='Identificacion', required=True,
+        label='Identificacion', required=True,max_length=40,
         widget=forms.TextInput(
             attrs={'class': 'form-control'}
         )
     )
     password1 = forms.CharField(
-        label='Contraseña', required=True,
+        label='Contraseña', required=True,max_length=40,
         widget=forms.PasswordInput(
             attrs={'class': 'form-control'}
         )
     )
     password2 = forms.CharField(
-        label='Verificar contraseña', required=True,
+        label='Verificar contraseña', required=True,max_length=40,
         widget=forms.PasswordInput(
             attrs={'class': 'form-control'}
         )

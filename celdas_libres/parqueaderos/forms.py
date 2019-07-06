@@ -9,6 +9,9 @@ class CrearTarifaForm(forms.ModelForm):
             ('carro', 'Carro'),
             ('moto', 'Moto'),
         ],
+        widget=forms.Select(
+            attrs={'class': 'form-control'}
+        )
     )
 
     class Meta:
