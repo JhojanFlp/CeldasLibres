@@ -7,10 +7,10 @@
         <div class="w-100 border-bottom bg-light">
             <ul class="nav nav-tabs m-auto border-bottom-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehiculos</a>
+                    <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehículos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Registrar vehiculo</a>
+                    <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Registrar vehículo</a>
                 </li>
             </ul>
         </div>
@@ -20,7 +20,7 @@
 {% block content %}
   <div class="container">
     <div class="card card-register mx-auto mt-5">
-      <div class="card-header">Ingreso de vehiculo al parqueadero</div>
+      <div class="card-header">Ingreso de vehículo al parqueadero</div>
       <div class="card-body">
         <form method="POST">
           {% csrf_token %}
@@ -43,7 +43,7 @@
               <table class="table table-secondary table-striped">
                 <thead class="thead-dark">
                   <tr>
-                      <th scope="col">Tipo vehiculo</th>
+                      <th scope="col">Tipo vehículo</th>
                       <th scope="col">Precio por hora</th>
                     </tr>
                 </thead>
@@ -81,7 +81,7 @@
                   </div>
               {% endfor %}
           {% endif %}
-          <button type="submit" class="btn btn-warning btn-block">Ingresar vehiculo</button>
+          <button type="submit" class="btn btn-warning btn-block">Ingresar vehículo</button>
           </div>
         </form>
       </div>

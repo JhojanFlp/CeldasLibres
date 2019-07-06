@@ -9,8 +9,9 @@ select {
     font-size: 14px;
     height: 30px;
     padding: 5px;
-    margin: 5px;
-    width: 250px;
+    margin-inline: 5px;
+    width: auto;
+    float: initial;
 }
 
     select:hover {

@@ -25,11 +25,11 @@
         <form method="POST">
           {% csrf_token %}
           <div class="form-group">
-            <label for="Pnombre">Tipo vehiculo</label>
+            <label for="Pnombre">Tipo vehiculo *</label>
             {{ form.tipo_vehiculo }}
           </div>
           <div class="form-group">
-            <label for="Papell">Precio por hora</label>
+            <label for="Papell">Precio por hora *</label>
             {{ form.por_hora }}
           </div>
           <div class="form-group">
