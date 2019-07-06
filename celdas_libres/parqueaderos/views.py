@@ -60,8 +60,8 @@ class EliminarTarifa(DeleteView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        if form.is_valid():
-            messages.success(request, 'Tarifa eliminada correctamente')
+        
+        messages.success(request, 'Tarifa eliminada correctamente')
         return super(EliminarTarifa, self).post(request, *args, **kwargs)
 
 @method_decorator([login_required], name='dispatch')
