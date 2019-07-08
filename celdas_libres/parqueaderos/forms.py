@@ -39,7 +39,7 @@ class CrearTarifaForm(forms.ModelForm):
 
 class EntradaVehiculoForm(forms.ModelForm):
     tarifa=forms.ModelChoiceField(queryset=Tarifa.objects.all())
-    placa=forms.CharField(max_length=6, required=True)
+    placa=forms.CharField(max_length=6, min_length=5, required=True)
     class Meta:
         model = EntradaVehiculo
         fields = '__all__'
