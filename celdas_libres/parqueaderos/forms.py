@@ -39,7 +39,11 @@ class CrearTarifaForm(forms.ModelForm):
 
 class EntradaVehiculoForm(forms.ModelForm):
     tarifa=forms.ModelChoiceField(queryset=Tarifa.objects.all())
-    placa=forms.CharField(max_length=6, min_length=5, required=True)
+    placa=forms.CharField( max_length=15, min_length=5, required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control'}
+        )
+        )
     class Meta:
         model = EntradaVehiculo
         fields = '__all__'
