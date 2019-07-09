@@ -15,11 +15,11 @@ class CrearVehiculoForm(forms.ModelForm):
                     'class':'form-control'
                 }
             ),
-            'tarifa': forms.NumberInput(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
+            # 'tarifa': forms.NumberInput(
+            #     attrs={
+            #         'class': 'form-control'
+            #     }
+            # ),
             'anno': forms.NumberInput(
                 attrs={
                     'class': 'form-control',

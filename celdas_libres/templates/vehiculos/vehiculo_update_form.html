@@ -10,13 +10,13 @@
         <form method="POST">
           {% csrf_token %}
           <div class="form-group">
-            <label for="Pnombre">Tipo vehiculo</label>
+            <label for="Pnombre">Tipo de vehículo *</label>
             {{ form.tipo_vehiculo }}
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="Papell">Tarifa</label>
             {{ form.tarifa }}
-          </div>
+          </div> -->
           <div class="form-group">
             <label for="Pnombre">Año</label>
             {{ form.anno }}

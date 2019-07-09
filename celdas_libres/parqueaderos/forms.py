@@ -1,18 +1,30 @@
 from django import forms
 from .models import Tarifa, EntradaVehiculo
+from vehiculos.models import Vehiculo
 
+
+def get_my_choices():
+    list = Vehiculo.objects.filter()
+    listV = []
+    for l in list:
+        listV.append((l, l))
+    return listV
 
 class CrearTarifaForm(forms.ModelForm):
-    #AQUÍ SE DEBEN PONER LOS TIPOS DE VEHÍCULOS, NO ESAS OPCIONES
-    tipo_vehiculo = forms.ChoiceField(
-        choices=[
-            ('carro', 'Carro'),
-            ('moto', 'Moto'),
-        ],
-        widget=forms.Select(
-            attrs={'class': 'form-control'}
-        )
-    )
+    def __init__(self, *args, **kwargs):
+        super(CrearTarifaForm, self).__init__(*args, **kwargs)
+        self.fields['tipo_vehiculo'] = forms.ChoiceField(
+            choices=get_my_choices(),
+            widget=forms.Select(
+                attrs={'class': 'form-control'}
+                )
+            )
+    # tipo_vehiculo = forms.ChoiceField(
+    #     choices=get_my_choices(),
+    #     widget=forms.Select(
+    #         attrs={'class': 'form-control'}
+    #     )
+    # )
 
     class Meta:
         model = Tarifa

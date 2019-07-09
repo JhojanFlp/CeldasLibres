@@ -20,18 +20,18 @@
 {% block content %}
   <div class="container">
     <div class="card card-register mx-auto mt-5">
-      <div class="card-header">Ingreso de Vehiculo</div>
+      <div class="card-header">Ingreso de Tipo de Vehiculo</div>
       <div class="card-body">
         <form method="POST">
           {% csrf_token %}
           <div class="form-group">
-            <label for="Pnombre">Tipo vehiculo *</label>
+            <label for="Pnombre">Tipo de vehiculo *</label>
             {{ form.tipo_vehiculo }}
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="Papell">Tarifa *</label>
             {{ form.tarifa }}
-          </div>
+          </div> -->
           <div class="form-group">
             {{ form.anno }}
           </div>
