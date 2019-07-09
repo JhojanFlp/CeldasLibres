@@ -9,8 +9,8 @@ def current_year():
     return datetime.now().year
 
 class Vehiculo(models.Model):
-    tipo_vehiculo = models.CharField(max_length=10)
-    tarifa = models.ForeignKey(Tarifa, on_delete=models.SET_NULL, null=True)
+    tipo_vehiculo = models.CharField(max_length=10, unique=True)
+    tarifa = models.PositiveIntegerField(null=True)
     anno = models.PositiveIntegerField(default=current_year, verbose_name="año")
 
     def __str__(self):
