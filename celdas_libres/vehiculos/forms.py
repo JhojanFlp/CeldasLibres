@@ -1,7 +1,7 @@
 from django import forms
 
 from .models import Vehiculo
-from parqueaderos.models import Tarifa
+#from parqueaderos.models import Tarifa
 
 class CrearVehiculoForm(forms.ModelForm):
 
@@ -15,7 +15,7 @@ class CrearVehiculoForm(forms.ModelForm):
                     'class':'form-control'
                 }
             ),
-            'tarifa': forms.Select(
+            'tarifa': forms.NumberInput(
                 attrs={
                     'class': 'form-control'
                 }
@@ -23,7 +23,8 @@ class CrearVehiculoForm(forms.ModelForm):
             'anno': forms.NumberInput(
                 attrs={
                     'class': 'form-control',
-                    'readonly': True
+                    'type': 'hidden'
+
                 }
             )
         }

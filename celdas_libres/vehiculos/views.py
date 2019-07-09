@@ -46,8 +46,7 @@ class ModificarVehiculo(UpdateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        if form.is_valid():
-            messages.success(request, 'Vehiculo modificado')
+        messages.success(request, 'Vehiculo modificado')
         return super(ModificarVehiculo, self).post(request, kwargs)
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
@@ -58,6 +57,5 @@ class EliminarVehiculo(DeleteView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        if form.is_valid():
-            messages.success(request, 'Vehiculo eliminado')
+        messages.success(request, 'Vehiculo eliminado')
         return super(EliminarVehiculo, self).post(request, kwargs)
