@@ -9,9 +9,9 @@ def current_year():
 
 class Vehiculo(models.Model):
     tipo_vehiculo = models.CharField(max_length=20, unique=True)
-    tarifa = models.PositiveIntegerField(null=True,validators=[
-            MaxValueValidator(9999999)
-        ])
+    # tarifa = models.PositiveIntegerField(null=True,validators=[
+    #         MaxValueValidator(9999999)
+    #     ])
     anno = models.PositiveIntegerField(default=current_year, verbose_name="año")
 
     def __str__(self):

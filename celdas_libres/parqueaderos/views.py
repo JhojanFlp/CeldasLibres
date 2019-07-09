@@ -13,6 +13,8 @@ from .models import Tarifa, EntradaVehiculo
 from .forms import CrearTarifaForm, EntradaVehiculoForm
 from django.contrib import messages
 
+from vehiculos.models import Vehiculo
+
 
 
 @method_decorator([login_required, staff_member_required], name='dispatch')

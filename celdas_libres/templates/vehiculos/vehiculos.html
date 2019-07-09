@@ -10,7 +10,7 @@
                     <a class="nav-link" href="{% url 'vehiculos' %}">Vehiculos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'crear_vehiculo' %}">Crear vehiculo</a>
+                    <a class="nav-link" href="{% url 'crear_vehiculo' %}">Crear un tipo de vehiculo</a>
                 </li>
             </ul>
         </div>
@@ -24,9 +24,9 @@
             <tr>
                 <th scope="col">Año</th>
                 <th scope="col">Tipo vehiculo</th>
-                <th scope="col">Tarifa</th>
+                <!-- <th scope="col">Tarifa</th> -->
                 {% if user.is_staff %}
-                <th scope="col">Modificar</th>
+                <!-- <th scope="col">Modificar</th> -->
                 <th scope="col">Eliminar</th>
                 {% endif %}
             </tr>
@@ -38,11 +38,11 @@
                 <tr>
                     <th scope="row">{{ vehiculo.anno }}</th>
                     <td>{{ vehiculo.tipo_vehiculo }}</td>
-                    <td>{{ vehiculo.tarifa }}</td>
+                    <!-- <td>{{ vehiculo.tarifa }}</td> -->
                     {% if user.is_staff %}
-                    <td>
+                    <!-- <td>
                         <a href="{% url 'modificar-vehiculo' vehiculo.id %}">Modificar</a>
-                    </td>
+                    </td> -->
                     <td>
                         <a href="{% url 'eliminar-vehiculo' vehiculo.id %}">Eliminar</a>
                     </td>

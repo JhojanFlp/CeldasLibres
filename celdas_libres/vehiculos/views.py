@@ -11,6 +11,7 @@ from django.contrib import messages
 
 from .models import Vehiculo
 from .forms import CrearVehiculoForm
+from parqueaderos import views
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class CrearVehiculo(CreateView):
@@ -23,9 +24,9 @@ class CrearVehiculo(CreateView):
         form = self.form_class(request.POST)
         anno = request.POST.get('anno')
         tipo_vehiculo = request.POST.get('tipo_vehiculo')
-        tarifa = request.POST.get('tarifa')
+        # tarifa = request.POST.get('tarifa')
         for vehiculo in Vehiculo.objects.all():
-            if (vehiculo.anno, vehiculo.tipo_vehiculo, vehiculo.tarifa) == (int(anno), tipo_vehiculo, tarifa):
+            if (vehiculo.anno, vehiculo.tipo_vehiculo) == (int(anno), tipo_vehiculo):
                 vehiculo.delete()
         if form.is_valid():
             messages.success(request, 'Vehiculo creado')
