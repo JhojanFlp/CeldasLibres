@@ -1,4 +1,5 @@
 import datetime
+#import re
 
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -77,7 +78,6 @@ class CrearEntradaVehiculo(CreateView):
     success_url = reverse_lazy('vehiculos-ingresados')
     context_object_name = 'tarifas_list'
 
-
     def get_context_data(self, **kwargs):
         context = super(CrearEntradaVehiculo, self).get_context_data(**kwargs)
         context['tarifas'] = Tarifa.objects.filter(anno = datetime.date.today().year)#datetime.now().year)
@@ -85,7 +85,6 @@ class CrearEntradaVehiculo(CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        
         if form.is_valid():
             messages.success(request, 'Vehículo ingresado')
             return super(CrearEntradaVehiculo, self).post(request, kwargs)

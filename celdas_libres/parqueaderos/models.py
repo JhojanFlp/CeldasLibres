@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db import models
 
+
 def default_id():
     return datetime.now().year
 
