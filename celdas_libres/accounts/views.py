@@ -40,6 +40,8 @@ class CrearUsuario(CreateView):
              
             messages.success(request, 'Usuario registrado correctamente')
             return redirect('home')
+        else:
+            messages.error(request, 'Fallo en el registro')
         return render(request, 'accounts/signup.html', {'form': form})
 
 @method_decorator([login_required, staff_member_required], name='dispatch')

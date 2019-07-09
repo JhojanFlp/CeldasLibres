@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -12,7 +12,6 @@ from .models import Tarifa, EntradaVehiculo
 from .forms import CrearTarifaForm, EntradaVehiculoForm
 from django.contrib import messages
 
-import re
 
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
@@ -49,14 +48,14 @@ class ModificarTarifa(UpdateView):
 
     def post(self, request, *args, **kwargs):
         request.POST = request.POST.copy()
-        request.POST['anno'] = datetime.now().year
+        request.POST['anno'] = datetime.date.today().year
         form = self.form_class(request.POST)
-        if form.is_valid():
-            messages.success(request, 'Tarifa actualizada correctamente')
-            return super(ModificarTarifa, self).post(request, *args, **kwargs)
-        else:
-            messages.error(request, 'Tarifa no actualizada') 
-            return super(ModificarTarifa, self).post(request, *args, **kwargs)
+        #if form.is_valid():
+        messages.success(request, 'Tarifa actualizada correctamente')
+        return super(ModificarTarifa, self).post(request, *args, **kwargs)
+        # else:
+        #     messages.error(request, 'Tarifa no actualizada') 
+        #     return super(ModificarTarifa, self).post(request, *args, **kwargs)
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class EliminarTarifa(DeleteView):
@@ -81,7 +80,7 @@ class CrearEntradaVehiculo(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CrearEntradaVehiculo, self).get_context_data(**kwargs)
-        context['tarifas'] = Tarifa.objects.filter(anno=datetime.now().year)
+        context['tarifas'] = Tarifa.objects.filter(anno = datetime.date.today().year)#datetime.now().year)
         return context
 
     def post(self, request, *args, **kwargs):
