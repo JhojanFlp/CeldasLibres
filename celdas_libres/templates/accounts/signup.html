@@ -25,6 +25,28 @@
         <form method="POST">
           {% csrf_token %}
           <div class="form-group">
+              {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="card border-danger mb-3">
+                          <div class="card-body text-danger">
+                              <p class="card-text">
+                                  {{ error|escape }}
+                              </p>
+                          </div>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="card border-danger mb-3">
+                      <div class="card-body text-danger">
+                          <p class="card-text">
+                              {{ error|escape }}
+                          </p>
+                      </div>
+                  </div>
+              {% endfor %}
+          {% endif %}
             <div class="form-row">
               <div class="col-md-6">
                 <label>Tipo de documento *</label>
@@ -85,28 +107,6 @@
             <label>Nacionalidad *</label>
             {{ form.nacionalidad }}
           </div>
-          {% if form.errors %}
-              {% for field in form %}
-                  {% for error in field.errors %}
-                      <div class="card border-danger mb-3">
-                          <div class="card-body text-danger">
-                              <p class="card-text">
-                                  {{ error|escape }}
-                              </p>
-                          </div>
-                      </div>
-                  {% endfor %}
-              {% endfor %}
-              {% for error in form.non_field_errors %}
-                  <div class="card border-danger mb-3">
-                      <div class="card-body text-danger">
-                          <p class="card-text">
-                              {{ error|escape }}
-                          </p>
-                      </div>
-                  </div>
-              {% endfor %}
-          {% endif %}
           <button type="submit" class="btn btn-warning btn-block">Registrar</button>
           </div>
         </form>
