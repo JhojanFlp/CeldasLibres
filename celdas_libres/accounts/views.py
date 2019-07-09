@@ -37,7 +37,7 @@ class CrearUsuario(CreateView):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-
+             
             messages.success(request, 'Usuario registrado correctamente')
             return redirect('home')
         return render(request, 'accounts/signup.html', {'form': form})

@@ -48,9 +48,15 @@ class ModificarTarifa(UpdateView):
     success_url =  reverse_lazy('tarifas')
 
     def post(self, request, *args, **kwargs):
-        #form = self.form_class(request.POST)
-        messages.success(request, 'Tarifa actualizada correctamente')
-        return super(ModificarTarifa, self).post(request, *args, **kwargs)
+        request.POST = request.POST.copy()
+        request.POST['anno'] = datetime.now().year
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Tarifa actualizada correctamente')
+            return super(ModificarTarifa, self).post(request, *args, **kwargs)
+        else:
+            messages.error(request, 'Tarifa no actualizada') 
+            return super(ModificarTarifa, self).post(request, *args, **kwargs)
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class EliminarTarifa(DeleteView):
