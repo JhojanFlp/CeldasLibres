@@ -20,7 +20,7 @@ from core import views as core_views
 from django.urls import path, include
 
 urlpatterns = [
-    path('', core_views.home, name='home'),
+    path('', include('accounts.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('parqueaderos/', include('parqueaderos.urls')),
