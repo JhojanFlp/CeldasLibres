@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Planes de pago{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'planes-pago' %}">Planes de pago</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crear-plan-pago' %}">Crear plan de pago</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+<div class="container pt-5 mt-3">
+    <table class="table table-secondary table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Periodicidad</th>
+                <th scope="col">Creado</th>
+                <th scope="col">Tarifa</th>
+                <th scope="col">Descuento</th>
+                {% if user.is_staff %}
+                <th scope="col">Modificar</th>
+                <th scope="col">Eliminar</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for plan_pago in planes_pago_list %}
+                {% if not plan_pago.eliminado %}
+                <tr>
+                    <th rowspan="{{ plan_pago.descuentos.all.count  }}">{{ plan_pago.nombre }}</th>
+                    <td rowspan="{{ plan_pago.descuentos.all.count  }}">{{ plan_pago.periodicidad }}</td>
+                    <td rowspan="{{ plan_pago.descuentos.all.count  }}">{{ plan_pago.creado|date:"d/M/Y" }}</td>
+                    {% for descuento_tarifa in plan_pago.descuentos.all %}
+                        {% if forloop.first %}
+                            <td>{{ descuento_tarifa.tarifa }}</td>
+                            <td>{{ descuento_tarifa.descuento }}</td>
+                            {% if user.is_staff %}
+                            <td rowspan="{{ plan_pago.descuentos.all.count  }}">
+                                <a href="{% url 'modificar-plan-pago' plan_pago.id %}">Modificar</a>
+                            </td>
+                            <td rowspan="{{ plan_pago.descuentos.all.count  }}">
+                                <a href="{% url 'eliminar-plan-pago' plan_pago.id %}">Eliminar</a>
+                            </td>
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td>{{ descuento_tarifa.tarifa }}</td>
+                                <td>{{ descuento_tarifa.descuento }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

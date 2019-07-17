@@ -32,3 +32,12 @@ select {
  .nav-tabs a {
      color: black;
  }
+
+ #descuentos-tarifas input[type=text] {
+    height: 38px !important;
+    width: 100%;
+ }
+
+th[rowspan], td[rowspan] {
+    vertical-align: middle;
+}

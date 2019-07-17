@@ -1,19 +1,24 @@
 import datetime
-#import re
 
-from django.shortcuts import render
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
-from django.views.generic.list import ListView
-from django.urls import reverse_lazy
-
-from .models import Tarifa, EntradaVehiculo
-from .forms import CrearTarifaForm, EntradaVehiculoForm
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
 
 from vehiculos.models import Vehiculo
+
+from .forms import (CrearTarifaForm, CreateDescuentoTarifa, CreatePlanPago,
+                    EntradaVehiculoForm)
+from .models import DescuentoTarifa, EntradaVehiculo, PlanPago, Tarifa
+
+#import re
+
+
+
 
 
 
@@ -57,7 +62,7 @@ class ModificarTarifa(UpdateView):
         messages.success(request, 'Tarifa actualizada correctamente')
         return super(ModificarTarifa, self).post(request, *args, **kwargs)
         # else:
-        #     messages.error(request, 'Tarifa no actualizada') 
+        #     messages.error(request, 'Tarifa no actualizada')
         #     return super(ModificarTarifa, self).post(request, *args, **kwargs)
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
@@ -68,7 +73,7 @@ class EliminarTarifa(DeleteView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        
+
         messages.success(request, 'Tarifa eliminada correctamente')
         return super(EliminarTarifa, self).post(request, *args, **kwargs)
 
@@ -97,3 +102,77 @@ class VerIngresados(ListView):
     model = EntradaVehiculo
     context_object_name = 'ingresados_list'
     template_name = 'parqueaderos/ingresados_list.html'
+
+
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class CrearPlanPago(CreateView):
+    model = PlanPago
+    template_name = 'parqueaderos/create_plan_pago.html'
+    form_class = CreatePlanPago
+    success_url = reverse_lazy('planes-pago')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        tarifas = request.POST.getlist('tarifa')
+        descuentos = request.POST.getlist('descuento')
+        if form.is_valid():
+            plan_pago =  form.save()
+            for tarifa_id, descuento in zip(tarifas, descuentos):
+                DescuentoTarifa.objects.create(
+                    plan_pago=plan_pago,
+                    tarifa=Tarifa.objects.get(id=tarifa_id),
+                    descuento=descuento
+                )
+            messages.success(request, 'Plan de pago creado correctamente')
+        return redirect(self.success_url)
+
+    def get_context_data(self, **kwargs):
+        context = super(CrearPlanPago, self).get_context_data(**kwargs)
+        context['plan_form'] = self.form_class()
+        context['descuento_form'] = CreateDescuentoTarifa()
+        context['tarifas'] = Tarifa.objects.filter(anno=datetime.date.today().year)
+        return context
+
+@method_decorator([login_required], name='dispatch')
+class VerPlanesPago(ListView):
+    model = PlanPago
+    context_object_name = 'planes_pago_list'
+    template_name = 'parqueaderos/planes_pago.html'
+    ordering  = ['-creado']
+
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class ModificarPlanPago(UpdateView):
+    model = PlanPago
+    form_class = CreatePlanPago
+    template_name = 'parqueaderos/plan_pago_update_form.html'
+    success_url =  reverse_lazy('planes-pago')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        tarifas = request.POST.getlist('tarifa')
+        descuentos = request.POST.getlist('descuento')
+        if form.is_valid():
+            plan_pago = PlanPago.objects.get(pk=kwargs['pk'])
+            plan_pago.eliminado = True
+            plan_pago.save()
+            plan_pago = form.save()
+            for tarifa_id, descuento in zip(tarifas, descuentos):
+                DescuentoTarifa.objects.create(
+                    plan_pago=plan_pago,
+                    tarifa=Tarifa.objects.get(id=tarifa_id),
+                    descuento=descuento
+                )
+            messages.success(request, 'Plan de pago modificado correctamente')
+        return redirect(self.success_url)
+
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class EliminarPlanPago(DeleteView):
+    model = PlanPago
+    success_url = reverse_lazy('planes-pago')
+
+    def post(self, request, *args, **kwargs):
+        plan_pago = PlanPago.objects.get(pk=kwargs['pk'])
+        plan_pago.eliminado = True
+        plan_pago.save()
+        messages.success(request, 'Tarifa eliminada correctamente')
+        return redirect(self.success_url)

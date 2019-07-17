@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Planes de pago{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'planes-pago' %}">Planes de pago</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crear-plan-pago' %}">Crear plan de pago</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-header">Modificar plan de pago</div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <div class="col-6">
+                        <label>Nombre *</label>
+                        {{ form.nombre }}
+                    </div>
+                    <div class="col-6">
+                        <label>Periodicidad (dias) *</label>
+                        {{ form.periodicidad }}
+                    </div>
+                </div>
+                {% if plan_form.errors %}
+                    {% for field in plan_form %}
+                        {% for error in field.errors %}
+                            <div class="card border-danger mb-3">
+                                <div class="card-body text-danger">
+                                    <p class="card-text">
+                                        {{ error|escape }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in plan_form.non_field_errors %}
+                        <div class="card border-danger mb-3">
+                            <div class="card-body text-danger">
+                                <p class="card-text">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <hr>
+                {% for descuento in planpago.descuentos.all %}
+                    <div class="form-group row" id="descuentos-tarifas">
+                        <div class="col-6">
+                            <input type="hidden" value="{{ descuento.tarifa.id }}" name="tarifa">
+                            <input type="text" value="{{ descuento.tarifa.tipo_vehiculo }}" disabled>
+                        </div>
+                        <div class="col-6">
+                            <input type="number" min="0" max="70" name="descuento" value="{{ descuento.get_descuento }}" class="form-control" step="any" required="" id="id_descuento">
+                        </div>
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-warning btn-block">
+                    Modificar plan
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

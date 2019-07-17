@@ -1,5 +1,5 @@
 from django import forms
-from .models import Tarifa, EntradaVehiculo
+from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa
 from django.core.validators import RegexValidator
 import re
 from django.core.exceptions import ValidationError
@@ -55,14 +55,14 @@ class CrearTarifaForm(forms.ModelForm):
 
 class EntradaVehiculoForm(forms.ModelForm):
     tarifa=forms.ModelChoiceField(queryset=Tarifa.objects.all())
-    placa=forms.CharField( 
-        max_length=6, 
-        min_length=6, 
-        required=True, 
+    placa=forms.CharField(
+        max_length=6,
+        min_length=6,
+        required=True,
         widget=forms.TextInput(
             attrs={'class': 'form-control',
                    'autocomplete': 'off',
-                   'pattern':'[A-Za-z0-9]+', 
+                   'pattern':'[A-Za-z0-9]+',
                    'title':'Solo ingrese caracteres alfanumericos'
                     }
             )
@@ -75,6 +75,47 @@ class EntradaVehiculoForm(forms.ModelForm):
             'tarifa': forms.Select(
                 attrs={
                     'class': 'form-control'
+                }
+            )
+        }
+
+
+class CreatePlanPago(forms.ModelForm):
+    class Meta:
+        model = PlanPago
+        exclude = ['creado', 'eliminado']
+        widgets = {
+            'nombre': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': ''
+                }
+            ),
+            'periodicidad': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': '',
+                    'min': 0,
+                    'max': 999
+                }
+            )
+        }
+
+class CreateDescuentoTarifa(forms.ModelForm):
+    class Meta:
+        model = DescuentoTarifa
+        exclude = ['plan_pago']
+        widgets = {
+            'tarifa': forms.NumberInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'descuento': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'min': 0,
+                    'max': 70
                 }
             )
         }
