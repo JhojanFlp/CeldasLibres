@@ -4,6 +4,7 @@ from django.core.validators import (MaxLengthValidator, MaxValueValidator,
                                     MinLengthValidator, MinValueValidator)
 from django.db import models
 
+from accounts.models import Usuario
 
 def default_id():
     return datetime.now().year
@@ -73,3 +74,12 @@ class DescuentoTarifa(models.Model):
     @property
     def get_descuento(self):
         return str(self.descuento).replace(',', '.')
+
+class Parqueadero(models.Model):
+    nombre = models.CharField(unique=True, primary_key=True,validators=[MinLengthValidator(5), MaxLengthValidator(25)],max_length=25)
+    direccion = models.CharField(validators=[MinLengthValidator(5), MaxLengthValidator(25)],max_length=25)
+    telefono = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
+    encargado = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.nombre).capitalize()
