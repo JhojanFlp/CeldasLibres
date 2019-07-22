@@ -21,7 +21,7 @@
 <div class="container pt-5 mt-3">
     <table class="table table-secondary table-striped">
         <thead class="thead-dark">
-            <tr>
+            <tr align="center">
                 <th scope="col">Nombre</th>
                 <th scope="col">Periodicidad</th>
                 <th scope="col">Creado</th>
@@ -36,7 +36,7 @@
         <tbody>
             {% for plan_pago in planes_pago_list %}
                 {% if not plan_pago.eliminado %}
-                <tr>
+                <tr align="center">
                     <th rowspan="{{ plan_pago.descuentos.all.count  }}">{{ plan_pago.nombre }}</th>
                     <td rowspan="{{ plan_pago.descuentos.all.count  }}">{{ plan_pago.periodicidad }}</td>
                     <td rowspan="{{ plan_pago.descuentos.all.count  }}">{{ plan_pago.creado|date:"d/M/Y" }}</td>
@@ -46,14 +46,14 @@
                             <td>{{ descuento_tarifa.descuento }}</td>
                             {% if user.is_staff %}
                             <td rowspan="{{ plan_pago.descuentos.all.count  }}">
-                                <a href="{% url 'modificar-plan-pago' plan_pago.id %}">Modificar</a>
+                                <a href="{% url 'modificar-plan-pago' plan_pago.id %}"><input type="image" width="30" height="30"  name="botonmodificar" src="https://image.flaticon.com/icons/png/512/61/61776.png"></a>
                             </td>
                             <td rowspan="{{ plan_pago.descuentos.all.count  }}">
-                                <a href="{% url 'eliminar-plan-pago' plan_pago.id %}">Eliminar</a>
+                                <a href="{% url 'eliminar-plan-pago' plan_pago.id %}"><input type="image" width="30" height="30"  name="botoneliminar" src="https://image.flaticon.com/icons/png/512/61/61848.png"></a>
                             </td>
                             {% endif %}
                         {% else %}
-                            <tr>
+                            <tr align="center">
                                 <td>{{ descuento_tarifa.tarifa }}</td>
                                 <td>{{ descuento_tarifa.descuento }}</td>
                             </tr>

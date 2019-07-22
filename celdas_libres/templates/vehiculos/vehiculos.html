@@ -21,7 +21,7 @@
 <div class="container pt-5 mt-3">
     <table class="table table-secondary table-striped">
         <thead class="thead-dark">
-            <tr>
+            <tr align="center">
                 <th scope="col">Año</th>
                 <th scope="col">Tipo vehiculo</th>
                 <!-- <th scope="col">Tarifa</th> -->
@@ -35,7 +35,7 @@
             {% for vehiculo in vehiculos_list %}
                 {% now "Y" as current %}
                 {% ifequal vehiculo.anno|stringformat:'i' current %}
-                <tr>
+                <tr align="center">
                     <th scope="row">{{ vehiculo.anno }}</th>
                     <td>{{ vehiculo.tipo_vehiculo }}</td>
                     <!-- <td>{{ vehiculo.tarifa }}</td> -->
@@ -44,7 +44,7 @@
                         <a href="{% url 'modificar-vehiculo' vehiculo.id %}">Modificar</a>
                     </td> -->
                     <td>
-                        <a href="{% url 'eliminar-vehiculo' vehiculo.id %}">Eliminar</a>
+                        <a href="{% url 'eliminar-vehiculo' vehiculo.id %}"><input type="image" width="30" height="30"  name="botoneliminar" src="https://image.flaticon.com/icons/png/512/61/61848.png"></a>
                     </td>
                     {% endif %}
                 </tr>

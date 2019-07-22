@@ -21,7 +21,7 @@
 <div class="container pt-5 mt-3">
     <table class="table table-secondary table-striped">
         <thead class="thead-dark">
-            <tr>
+            <tr  align="center">
                 <th scope="col">Año</th>
                 <th scope="col">Tipo vehiculo</th>
                 <th scope="col">Precio por hora</th>
@@ -35,16 +35,17 @@
             {% for tarifa in tarifas_list %}
                 {% now "Y" as current %}
                 {% ifequal tarifa.anno|stringformat:'i' current %}
-                <tr>
+                <tr  align="center">
                     <th scope="row">{{ tarifa.anno }}</th>
                     <td>{{ tarifa.tipo_vehiculo }}</td>
                     <td>{{ tarifa.por_hora }}</td>
                     {% if user.is_staff %}
-                    <td>
-                        <a href="{% url 'modificar-tarifa' tarifa.id %}">Modificar</a>
+                    <td  align="center">
+                        
+                       <a href="{% url 'modificar-tarifa' tarifa.id %}"> <input type="image" width="30" height="30"  name="botonmodificar" src="https://image.flaticon.com/icons/png/512/61/61776.png"></a>
                     </td>
-                    <td>
-                        <a href="{% url 'eliminar-tarifa' tarifa.id %}">Eliminar</a>
+                    <td align="center">
+                        <a href="{% url 'eliminar-tarifa' tarifa.id %}"><input type="image" width="30" height="30"  name="botondeenvio" src="https://image.flaticon.com/icons/png/512/61/61848.png"></a>
                     </td>
                     {% endif %}
                 </tr>

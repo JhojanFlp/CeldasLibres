@@ -21,7 +21,7 @@
 <div class="container pt-5 mt-3">
     <table class="table table-secondary table-striped">
         <thead class="thead-dark">
-            <tr>
+            <tr align="center">
                 <th scope="col">Identificador</th>
                 <th scope="col">Tipo identificación</th>
                 <th scope="col">Fecha nacimiento</th>
@@ -36,7 +36,7 @@
         <tbody>
             {% for usuario in usuarios_list %}
                 {% if not usuario.user.is_staff %}
-                <tr>
+                <tr align="center">
                     <th scope="row">{{ usuario.user }}</th>
                     <td>{{ usuario.tipo_identificacion }}</td>
                     <td>{{ usuario.fecha_nacimiento }}</td>
@@ -44,11 +44,11 @@
                     <td>{{ usuario.telefono }}</td>
                     <td>{{ usuario.nacionalidad }}</td>
                     <td>{{ usuario.direccion }}</td>
-                    <td>
-                        <a href="{% url 'modificar-usuario' usuario.user.id %}">Modificar</a>
+                    <td >
+                        <a href="{% url 'modificar-usuario' usuario.user.id %}"><input type="image" width="30" height="30"  name="botonmodificar" src="https://image.flaticon.com/icons/png/512/61/61776.png"></a>
                     </td>
                     <td>
-                        <a href="{% url 'eliminar-usuario' usuario.user.id %}">Eliminar</a>
+                        <a href="{% url 'eliminar-usuario' usuario.user.id %}"><input type="image" width="30" height="30"  name="botoneliminar" src="https://image.flaticon.com/icons/png/512/61/61848.png"></a>
                     </td>
                 </tr>
                 {% endif %}
