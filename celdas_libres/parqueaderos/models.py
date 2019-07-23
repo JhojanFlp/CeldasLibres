@@ -26,6 +26,7 @@ class EntradaVehiculo(models.Model):
     tarifa = models.ForeignKey(Tarifa, on_delete=models.SET_NULL, null=True)
     fecha_ingreso = models.DateTimeField(auto_now_add=True)
     placa = models.CharField(max_length=6)
+    usuario=models.CharField(max_length=20,null=True)
 
     class Meta:
         unique_together = (('placa', 'fecha_ingreso'),)

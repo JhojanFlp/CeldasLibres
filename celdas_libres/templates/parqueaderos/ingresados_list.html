@@ -25,6 +25,7 @@
                 <th scope="col">Placa</th>
                 <th scope="col">Fecha ingreso</th>
                 <th scope="col">Tarifa aplicable</th>
+                <th scope="col">Registrado por: </th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                     <th scope="row">{{ ingresado.placa }}</th>
                     <td>{{ ingresado.fecha_ingreso }}</td>
                     <td>{{ ingresado.tarifa }}</td>
+                    <td>{{ ingresado.usuario }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -37,6 +37,7 @@
                         <option value="{{ tarifa.id }}">{{ tarifa }}</option>
                     {% endfor %}
                 </select>
+                <input type="hidden" name="usuario" value="{{ user.first_name | capfirst }} {{ user.last_name | capfirst }}">
               </div>
             </div>
             <div class="col-md-6">
