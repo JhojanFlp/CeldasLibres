@@ -12,8 +12,8 @@ from django.views.generic.list import ListView
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearTarifaForm, CreateDescuentoTarifa, CreatePlanPago,
-                    EntradaVehiculoForm)
-from .models import DescuentoTarifa, EntradaVehiculo, PlanPago, Tarifa
+                    EntradaVehiculoForm, CrearParqueadero, CrearCapacidadVehiculo)
+from .models import DescuentoTarifa, EntradaVehiculo, PlanPago, Tarifa, Parqueadero, CapacidadVehiculo
 
 #import re
 
@@ -176,3 +176,39 @@ class EliminarPlanPago(DeleteView):
         plan_pago.save()
         messages.success(request, 'Tarifa eliminada correctamente')
         return redirect(self.success_url)
+
+
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class CrearParqueadero(CreateView):
+    model = Parqueadero
+    template_name = 'parqueaderos/crear_parqueadero.html'
+    form_class = CrearParqueadero
+    success_url = reverse_lazy('parqueaderos')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        vehiculos = request.POST.getlist('vehiculo')
+        capacidades = request.POST.getlist('capacidad')
+        if form.is_valid():
+            parqueadero =  form.save()
+            for vehiculo_id, capacidad in zip(vehiculos, capacidades):
+                CapacidadVehiculo.objects.create(
+                    parqueadero=parqueadero,
+                    vehiculo=Vehiculo.objects.get(id=vehiculo_id),
+                    capacidad=capacidad
+                )
+            messages.success(request, 'Parqueadero creado correctamente')
+        return redirect(self.success_url)
+
+    def get_context_data(self, **kwargs):
+        context = super(CrearParqueadero, self).get_context_data(**kwargs)
+        context['parqueadero_form'] = self.form_class()
+        context['capacidad_form'] = CrearCapacidadVehiculo()
+        context['vehiculos'] =  Vehiculo.objects.all()
+        return context
+
+@method_decorator([login_required], name='dispatch')
+class VerParqueaderos(ListView):
+    model = Parqueadero
+    context_object_name = 'parqueaderos_list'
+    template_name = 'parqueaderos/parqueaderos.html'

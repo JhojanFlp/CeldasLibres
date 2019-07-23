@@ -43,7 +43,7 @@ class ModificarVehiculo(UpdateView):
     model = Vehiculo
     form_class = CrearVehiculoForm
     template_name_suffix = '_update_form'
-    success_url =  reverse_lazy('vehiculos')
+    success_url =  reverse_lazy('crear-parqueadero')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)

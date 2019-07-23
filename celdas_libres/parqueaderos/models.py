@@ -5,6 +5,7 @@ from django.core.validators import (MaxLengthValidator, MaxValueValidator,
 from django.db import models
 
 from accounts.models import Usuario
+from vehiculos.models import Vehiculo
 
 def default_id():
     return datetime.now().year
@@ -83,3 +84,11 @@ class Parqueadero(models.Model):
 
     def __str__(self):
         return str(self.nombre).capitalize()
+
+class CapacidadVehiculo(models.Model):
+    parqueadero = models.ForeignKey(Parqueadero, on_delete=models.CASCADE, related_name="capacidades")
+    vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
+    capacidad = models.PositiveIntegerField(validators=[MaxValueValidator(9999)])
+
+    def __str__(self):
+        return str(self.vehiculo+" "+self.capacidad).capitalize()

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Parqueadero{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'parqueaderos' %}">Parqueaderos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crear-parqueadero' %}">Crear Parqueadero</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+<div class="container">
+    <div class="card card-register mx-auto mt-5">
+        <div class="card-header">Crear parqueadero</div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label>Nombre *</label>
+                            {{ parqueadero_form.nombre }}
+                        </div>
+                        <div class="col-6">
+                            <label>Direccion *</label>
+                            {{ parqueadero_form.direccion }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label>Telefono *</label>
+                            {{ parqueadero_form.telefono }}
+                        </div>
+                        <div class="col-6">
+                            <label>Encargado *</label>
+                            {{ parqueadero_form.encargado }}
+                        </div>
+                    </div>
+                </div>
+                {% if parqueadero_form.errors %}
+                    {% for field in parqueadero_form %}
+                        {% for error in field.errors %}
+                            <div class="card border-danger mb-3">
+                                <div class="card-body text-danger">
+                                    <p class="card-text">
+                                        {{ error|escape }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in parqueadero_form.non_field_errors %}
+                        <div class="card border-danger mb-3">
+                            <div class="card-body text-danger">
+                                <p class="card-text">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <hr>
+                {% for vehiculo in vehiculos %}
+                    <div class="form-group row" id="capacidad">
+                        <div class="col-6">
+                            <input type="hidden" value="{{ vehiculo.id }}" name="vehiculo">
+                            <input type="text" class="form-control" value="{{ vehiculo.tipo_vehiculo }}" disabled>
+                        </div>
+                        <div class="col-6">
+                            {{ capacidad_form.capacidad }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-warning btn-block">
+                    Crear parqueadero
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
