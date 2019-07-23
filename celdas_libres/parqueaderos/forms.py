@@ -170,3 +170,30 @@ class CrearCapacidadVehiculo(forms.ModelForm):
                 }
             )
         }
+
+class UpdateParqueaderoForm(forms.ModelForm):
+    class Meta:
+        model = Parqueadero
+        fields = ['nombre', 'direccion', 'telefono', 'encargado']
+        widgets = {
+            'nombre': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'direccion': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'telefono': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'encargado': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            )
+        }

@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib import messages
+from django.contrib.auth import login, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -8,11 +9,13 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
+from django.contrib import messages
 
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearTarifaForm, CreateDescuentoTarifa, CreatePlanPago,
-                    EntradaVehiculoForm, CrearParqueadero, CrearCapacidadVehiculo)
+                    EntradaVehiculoForm, CrearParqueadero, CrearCapacidadVehiculo,
+                    UpdateParqueaderoForm)
 from .models import DescuentoTarifa, EntradaVehiculo, PlanPago, Tarifa, Parqueadero, CapacidadVehiculo
 
 #import re
@@ -180,8 +183,8 @@ class EliminarPlanPago(DeleteView):
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class CrearParqueadero(CreateView):
-    model = Parqueadero
     template_name = 'parqueaderos/crear_parqueadero.html'
+    model = Parqueadero
     form_class = CrearParqueadero
     success_url = reverse_lazy('parqueaderos')
 
@@ -212,3 +215,24 @@ class VerParqueaderos(ListView):
     model = Parqueadero
     context_object_name = 'parqueaderos_list'
     template_name = 'parqueaderos/parqueaderos.html'
+
+@method_decorator([login_required,staff_member_required], name='dispatch')
+class ModificarParqueadero(UpdateView):
+    model = Parqueadero
+    form_class = UpdateParqueaderoForm
+    success_url = reverse_lazy('parqueaderos')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Parqueadero actualizado correctamente')
+        return super(ModificarParqueadero, self).post(request, *args, **kwargs)
+
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class EliminarParqueadero(DeleteView):
+    model = Parqueadero
+    success_url = reverse_lazy('parqueaderos')
+
+    def post(self, request, *args, **kwargs):
+        messages.success(request, 'Parqueadero eliminado correctamente')
+        return super(EliminarParqueadero, self).post(request, *args, **kwargs)
