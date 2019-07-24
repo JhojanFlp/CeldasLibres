@@ -20,6 +20,6 @@ urlpatterns = [
    
     path('crear-parqueadero/',CrearParqueadero.as_view(), name='crear-parqueadero'),
     path('parqueaderos/', VerParqueaderos.as_view(), name='parqueaderos'),
-    path('modificar-parqueadero', ModificarParqueadero.as_view(), name='modificar-parqueadero'),
-    path('eliminar-parqueadero', EliminarParqueadero.as_view(), name='eliminar-parqueadero'),
+    path('modificar-parqueadero/<str:pk>', ModificarParqueadero.as_view(), name='modificar-parqueadero'),
+    path('eliminar-parqueadero/<str:pk>', EliminarParqueadero.as_view(), name='eliminar-parqueadero'),
 ]

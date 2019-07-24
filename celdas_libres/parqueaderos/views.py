@@ -216,17 +216,29 @@ class VerParqueaderos(ListView):
     context_object_name = 'parqueaderos_list'
     template_name = 'parqueaderos/parqueaderos.html'
 
-@method_decorator([login_required,staff_member_required], name='dispatch')
+@method_decorator([login_required, staff_member_required], name='dispatch')
 class ModificarParqueadero(UpdateView):
+    template_name = 'parqueaderos/parqueadero_update_form.html'
     model = Parqueadero
-    form_class = UpdateParqueaderoForm
+    form_class = CrearParqueadero
     success_url = reverse_lazy('parqueaderos')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        vehiculos = request.POST.getlist('vehiculo')
+        capacidades = request.POST.getlist('capacidad')
         if form.is_valid():
-            messages.success(request, 'Parqueadero actualizado correctamente')
-        return super(ModificarParqueadero, self).post(request, *args, **kwargs)
+            parqueadero = Parqueadero.objects.get(pk=kwargs['pk'])
+            parqueadero.save()
+            parqueadero =  form.save()
+            for vehiculo_id, capacidad in zip(vehiculos, capacidades):
+                CapacidadVehiculo.objects.create(
+                    parqueadero=parqueadero,
+                    vehiculo=Vehiculo.objects.get(id=vehiculo_id),
+                    capacidad=capacidad
+                )
+            messages.success(request, 'Parqueadero creado correctamente')
+        return redirect(self.success_url)
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class EliminarParqueadero(DeleteView):

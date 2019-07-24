@@ -47,10 +47,10 @@
                             <td>{{ capacidad.capacidad }}</td>
                             {% if user.is_staff %}
                             <td rowspan="{{ parqueadero.capacidades.all.count }}">
-                                <a href="#">Modificar</a>
+                                <a href="{% url 'modificar-parqueadero' parqueadero.nombre%}">Modificar</a>
                             </td>
                             <td rowspan="{{ parqueadero.capacidades.all.count }}">
-                                <a href="#">Eliminar</a>
+                                <a href="{% url 'eliminar-parqueadero' parqueadero.nombre%}">Eliminar</a>
                             </td>
                             {% endif %}
                         {% else %}
