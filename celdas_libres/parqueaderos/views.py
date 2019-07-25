@@ -82,7 +82,7 @@ class CrearEntradaVehiculo(CreateView):
     model = EntradaVehiculo
     template_name = 'parqueaderos/ingresar_vehiculo.html'
     form_class = EntradaVehiculoForm
-    success_url = reverse_lazy('vehiculos-ingresados')
+    #success_url = reverse_lazy('ficho-parqueadero')
     context_object_name = 'tarifas_list'
 
     def get_context_data(self, **kwargs):
@@ -90,12 +90,14 @@ class CrearEntradaVehiculo(CreateView):
         context['tarifas'] = Tarifa.objects.filter(anno = datetime.date.today().year)#datetime.now().year)
         return context
 
+
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             messages.success(request, 'Vehículo ingresado')
             return super(CrearEntradaVehiculo, self).post(request, kwargs)
-
+    def get_success_url(self):
+        return reverse_lazy('ficho-parqueadero',args=(self.object.id,))
 
 @method_decorator([login_required], name='dispatch')
 class VerIngresados(ListView):
