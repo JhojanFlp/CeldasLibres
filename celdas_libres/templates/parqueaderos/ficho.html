@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehiculos{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehículos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Registrar vehículo</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Ficho de vehiculo en parqueadero </div>
+      <div class="card-body">
+          {% csrf_token %}
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="Pnombre">Fecha y hora: {{ficho.fecha_ingreso}}</label>
+              </div>
+              <div class="form-group">
+              <div class="form-group">
+                <label for="Pnombre">Placa: {{ficho.placa}}</label>
+              </div>
+              <div class="form-group">
+                <label for="Pnombre">Tipo Vehiculo: {{ficho.tarifa.tipo_vehiculo}}</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <table class="table table-secondary table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">Nombre Parqueadero</th>
+                      <th scope="col">Teléfono</th>
+                      <th scope="col">Dirección</th>
+                    </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                          <td>{{ ficho.nom_parq }}</td>
+                          <td>{{ ficho.tel_parq }}</td>
+                          <td>{{ ficho.dir_parq }}</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="card border-danger mb-3">
+                          <div class="card-body text-danger">
+                              <p class="card-text">
+                                  {{ error|escape }}
+                              </p>
+                          </div>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="card border-danger mb-3">
+                      <div class="card-body text-danger">
+                          <p class="card-text">
+                              {{ error|escape }}
+                          </p>
+                      </div>
+                  </div>
+              {% endfor %}
+          {% endif %}
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

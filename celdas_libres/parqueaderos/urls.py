@@ -2,9 +2,13 @@ from django.urls import path
 
 from .views import (CrearEntradaVehiculo, CrearPlanPago, CrearTarifa,
                     EliminarTarifa, ModificarTarifa, VerIngresados, VerTarifas,
+<<<<<<< HEAD
                     VerPlanesPago, ModificarPlanPago, EliminarPlanPago,
                     ModificarParqueadero, CrearParqueadero, VerParqueaderos,
                     EliminarParqueadero)
+=======
+                    VerPlanesPago, ModificarPlanPago, EliminarPlanPago,VerFicho)
+>>>>>>> 0891aa79fd2577e56376a20408a20815fbe0b5ef
 
 urlpatterns = [
     path('crear-tarifa/', CrearTarifa.as_view(), name='crear-tarifa'),
@@ -17,9 +21,13 @@ urlpatterns = [
     path('planes-pago/', VerPlanesPago.as_view(), name='planes-pago'),
     path('modificar-plan-pago/<int:pk>', ModificarPlanPago.as_view(), name='modificar-plan-pago'),
     path('eliminar-plan-pago/<int:pk>', EliminarPlanPago.as_view(), name='eliminar-plan-pago'),
+<<<<<<< HEAD
    
     path('crear-parqueadero/',CrearParqueadero.as_view(), name='crear-parqueadero'),
     path('parqueaderos/', VerParqueaderos.as_view(), name='parqueaderos'),
     path('modificar-parqueadero/<str:pk>', ModificarParqueadero.as_view(), name='modificar-parqueadero'),
     path('eliminar-parqueadero/<str:pk>', EliminarParqueadero.as_view(), name='eliminar-parqueadero'),
+=======
+    path('ver-ficho/<int:pk>', VerFicho.as_view(), name='ficho-parqueadero'),
+>>>>>>> 0891aa79fd2577e56376a20408a20815fbe0b5ef
 ]

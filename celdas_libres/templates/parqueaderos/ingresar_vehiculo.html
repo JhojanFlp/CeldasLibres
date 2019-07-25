@@ -38,6 +38,9 @@
                     {% endfor %}
                 </select>
                 <input type="hidden" name="usuario" value="{{ user.first_name | capfirst }} {{ user.last_name | capfirst }}">
+              <input type="hidden" name="nom_parq" value="Parqueadero Laureles">
+              <input type="hidden" name="tel_parq" value=5473322>
+              <input type="hidden" name="dir_parq" value="Cra 15 #17-22">
               </div>
             </div>
             <div class="col-md-6">
@@ -83,7 +86,7 @@
               {% endfor %}
           {% endif %}
           
-          <button type="submit" class="btn btn-warning btn-block">Ingresar vehículo</button>
+          <button type="submit" class="btn btn-warning btn-block" >Ingresar vehículo</button>
           </div>
         </form>
       </div>
