@@ -82,7 +82,7 @@ class CrearEntradaVehiculo(CreateView):
     model = EntradaVehiculo
     template_name = 'parqueaderos/ingresar_vehiculo.html'
     form_class = EntradaVehiculoForm
-    success_url = reverse_lazy('ficho-parqueadero')
+    success_url = reverse_lazy('vehiculos-ingresados')
     context_object_name = 'tarifas_list'
 
     def get_context_data(self, **kwargs):
