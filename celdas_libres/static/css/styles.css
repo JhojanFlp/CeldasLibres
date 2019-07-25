@@ -41,3 +41,9 @@ select {
 th[rowspan], td[rowspan] {
     vertical-align: middle;
 }
+
+body {
+    background-image: url("/static/campaign-bg-3.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+  }
