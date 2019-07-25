@@ -59,14 +59,6 @@ class CrearTarifaForm(forms.ModelForm):
 
 
 class CrearVehiculoTarifaForm(forms.ModelForm):
-     def __init__(self, *args, **kwargs):
-        super(CrearVehiculoTarifaForm, self).__init__(*args, **kwargs)
-    # tipo_vehiculo = forms.ChoiceField(
-    #     choices=get_my_choices(),
-    #     widget=forms.Select(
-    #         attrs={'class': 'form-control'}
-    #     )
-    # )
 
      class Meta:
         model = Tarifa
@@ -78,6 +70,12 @@ class CrearVehiculoTarifaForm(forms.ModelForm):
                 }
             ),
             'anno': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'hidden'
+                }
+            ),
+            'tipo_vehiculo': forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'type': 'hidden'
@@ -111,9 +109,9 @@ class CrearVehiculoForm(forms.ModelForm):
             )
         }
 
-class EmpleadoPersonaModelForm(MultiModelForm):
-    form_classes = {
-        'vehiculo': CrearVehiculoForm,
+class VehiculoYTarifa(MultiModelForm):
+        form_classes = {
+        'vehiculo':  CrearVehiculoForm,
         'tarifa': CrearVehiculoTarifaForm,
     }
 

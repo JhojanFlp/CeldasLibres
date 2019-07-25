@@ -14,7 +14,7 @@ from django.contrib import messages
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearTarifaForm, CreateDescuentoTarifa, CreatePlanPago,
-                    EntradaVehiculoForm, CrearVehiculoTarifaForm, CrearParqueadero)
+                    EntradaVehiculoForm, CrearVehiculoTarifaForm, CrearParqueadero, VehiculoYTarifa)
 from .models import DescuentoTarifa, EntradaVehiculo, PlanPago, Tarifa, Parqueadero, CapacidadVehiculo
 
 #import re
@@ -46,9 +46,8 @@ class CrearTarifa(CreateView):
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class CrearVehiculoTarifa(CreateView):
-    model = Tarifa
     template_name = 'parqueaderos/crear_vehiculo_tarifa.html'
-    form_class = CrearVehiculoTarifaForm
+    form_class = VehiculoYTarifa
     success_url = reverse_lazy('tarifas')
 
 
@@ -62,6 +61,7 @@ class CrearVehiculoTarifa(CreateView):
         if form.is_valid():
             messages.success(request, 'Tarifa creada correctamente')
         return super(CrearTarifa, self).post(request, *args, **kwargs)
+
 
 @method_decorator([login_required], name='dispatch')
 class VerTarifas(ListView):
