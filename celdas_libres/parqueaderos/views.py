@@ -82,7 +82,7 @@ class CrearEntradaVehiculo(CreateView):
     model = EntradaVehiculo
     template_name = 'parqueaderos/ingresar_vehiculo.html'
     form_class = EntradaVehiculoForm
-    success_url = reverse_lazy('vehiculos-ingresados')
+    success_url = reverse_lazy('ficho-parqueadero')
     context_object_name = 'tarifas_list'
 
     def get_context_data(self, **kwargs):
@@ -102,6 +102,17 @@ class VerIngresados(ListView):
     model = EntradaVehiculo
     context_object_name = 'ingresados_list'
     template_name = 'parqueaderos/ingresados_list.html'
+
+@method_decorator([login_required], name='dispatch')
+class VerFicho(ListView):
+    model = EntradaVehiculo
+    context_object_name = 'ficho'
+    template_name = 'parqueaderos/ficho.html'
+    def get_context_data(self, **kwargs):
+        context = super(VerFicho, self).get_context_data(**kwargs)
+        context['ficho'] =EntradaVehiculo.objects.get(pk=self.kwargs.get('pk'))
+        return context
+
 
 
 @method_decorator([login_required, staff_member_required], name='dispatch')

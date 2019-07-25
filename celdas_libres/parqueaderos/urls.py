@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import (CrearEntradaVehiculo, CrearPlanPago, CrearTarifa,
                     EliminarTarifa, ModificarTarifa, VerIngresados, VerTarifas,
-                    VerPlanesPago, ModificarPlanPago, EliminarPlanPago)
+                    VerPlanesPago, ModificarPlanPago, EliminarPlanPago,VerFicho)
 
 urlpatterns = [
     path('crear-tarifa/', CrearTarifa.as_view(), name='crear-tarifa'),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('planes-pago/', VerPlanesPago.as_view(), name='planes-pago'),
     path('modificar-plan-pago/<int:pk>', ModificarPlanPago.as_view(), name='modificar-plan-pago'),
     path('eliminar-plan-pago/<int:pk>', EliminarPlanPago.as_view(), name='eliminar-plan-pago'),
+    path('ver-ficho/<int:pk>', VerFicho.as_view(), name='ficho-parqueadero'),
 ]

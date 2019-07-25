@@ -20,44 +20,37 @@
 {% block content %}
   <div class="container">
     <div class="card card-register mx-auto mt-5">
-      <div class="card-header">Ingreso de vehículo al parqueadero</div>
+      <div class="card-header">Ficho de vehiculo en parqueadero </div>
       <div class="card-body">
-        <form method="POST">
           {% csrf_token %}
           <div class="row justify-content-center">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="Pnombre">Placa *</label>
-                {{ form.placa }}
+                <label for="Pnombre">Fecha y hora: {{ficho.fecha_ingreso}}</label>
               </div>
               <div class="form-group">
-                <label for="Pnombre">Tipo vehículo *</label>
-                <select name="tarifa" required id="id_tarifa">
-                    {% for tarifa in tarifas %}
-                        <option value="{{ tarifa.id }}">{{ tarifa }}</option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" name="usuario" value="{{ user.first_name | capfirst }} {{ user.last_name | capfirst }}">
-              <input type="hidden" name="nom_parq" value="Parqueadero Laureles">
-              <input type="hidden" name="tel_parq" value=5473322>
-              <input type="hidden" name="dir_parq" value="Cra 15 #17-22">
+              <div class="form-group">
+                <label for="Pnombre">Placa: {{ficho.placa}}</label>
+              </div>
+              <div class="form-group">
+                <label for="Pnombre">Placa: {{ficho.tipo_vehiculo}}</label>
               </div>
             </div>
             <div class="col-md-6">
               <table class="table table-secondary table-striped">
                 <thead class="thead-dark">
                   <tr>
-                      <th scope="col">Tipo vehículo</th>
-                      <th scope="col">Precio por hora</th>
+                      <th scope="col">nombre</th>
+                      <th scope="col">telefono</th>
+                      <th scope="col">Dirección</th>
                     </tr>
                 </thead>
                 <tbody>
-                  {% for tarifa in tarifas %}
                       <tr>
-                          <td>{{ tarifa.tipo_vehiculo }}</td>
-                          <td>{{ tarifa.por_hora }}</td>
+                          <td>{{ ficho.nom_parq }}</td>
+                          <td>{{ ficho.tel_parq }}</td>
+                          <td>{{ ficho.dir_parq }}</td>
                       </tr>
-                  {% endfor %}
                 </tbody>
               </table>
             </div>
@@ -85,10 +78,7 @@
                   </div>
               {% endfor %}
           {% endif %}
-          
-          <button type="submit" class="btn btn-warning btn-block">Ingresar vehículo</button>
           </div>
-        </form>
       </div>
     </div>
   </div>
