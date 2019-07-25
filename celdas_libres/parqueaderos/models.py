@@ -53,8 +53,9 @@ class PlanPago(models.Model):
     eliminado = models.BooleanField(default=False)
 
     class Meta:
+        ordering = ['-creado']
         verbose_name = 'plan de pago'
-        ordering = ['nombre']
+        
 
     def __str__(self):
         return str(self.nombre).capitalize()
@@ -79,6 +80,16 @@ class DescuentoTarifa(models.Model):
     @property
     def get_descuento(self):
         return str(self.descuento).replace(',', '.')
+
+class Vehiculo(models.Model):
+    tipo_vehiculo = models.CharField(max_length=20, unique=True)
+    # tarifa = models.PositiveIntegerField(null=True,validators=[
+    #         MaxValueValidator(9999999)
+    #     ])
+    anno = models.PositiveIntegerField(default=default_id, verbose_name="año")
+
+    def __str__(self):
+        return str(self.tipo_vehiculo).capitalize()
 
 class Parqueadero(models.Model):
     nombre = models.CharField(unique=True, primary_key=True,validators=[MinLengthValidator(5), MaxLengthValidator(25)],max_length=25)

@@ -4,10 +4,11 @@ from .views import (CrearEntradaVehiculo, CrearPlanPago, CrearTarifa,
                     EliminarTarifa, ModificarTarifa, VerIngresados, VerTarifas,
                     VerPlanesPago, ModificarPlanPago, EliminarPlanPago,
                     ModificarParqueadero, CrearParqueadero, VerParqueaderos,
-                    EliminarParqueadero, VerPlanesPago, ModificarPlanPago, EliminarPlanPago,VerFicho)
+                    EliminarParqueadero, VerPlanesPago, ModificarPlanPago, EliminarPlanPago,VerFicho, CrearVehiculoTarifa)
 
 urlpatterns = [
     path('crear-tarifa/', CrearTarifa.as_view(), name='crear-tarifa'),
+    path('crear-vehiculo-tarifa/', CrearVehiculoTarifa.as_view(), name='crear-vehiculo-tarifa'),
     path('tarifas/', VerTarifas.as_view(), name='tarifas'),
     path('ingresar-vehiculo/', CrearEntradaVehiculo.as_view(), name='ingresar-vehiculo'),
     path('vehiculos-ingresados/', VerIngresados.as_view(), name='vehiculos-ingresados'),

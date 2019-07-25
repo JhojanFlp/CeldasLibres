@@ -14,8 +14,7 @@ from django.contrib import messages
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearTarifaForm, CreateDescuentoTarifa, CreatePlanPago,
-                    EntradaVehiculoForm, CrearParqueadero, CrearCapacidadVehiculo,
-                    UpdateParqueaderoForm)
+                    EntradaVehiculoForm, CrearVehiculoTarifaForm, CrearParqueadero)
 from .models import DescuentoTarifa, EntradaVehiculo, PlanPago, Tarifa, Parqueadero, CapacidadVehiculo
 
 #import re
@@ -30,6 +29,26 @@ class CrearTarifa(CreateView):
     model = Tarifa
     template_name = 'parqueaderos/crear_tarifa.html'
     form_class = CrearTarifaForm
+    success_url = reverse_lazy('tarifas')
+
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        anno = request.POST.get('anno')
+        tipo_vehiculo = request.POST.get('tipo_vehiculo')
+        for tarifa in Tarifa.objects.all():
+            if (tarifa.anno, tarifa.tipo_vehiculo) == (int(anno), tipo_vehiculo):
+                tarifa.delete()
+        if form.is_valid():
+            messages.success(request, 'Tarifa creada correctamente')
+        return super(CrearTarifa, self).post(request, *args, **kwargs)
+
+
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class CrearVehiculoTarifa(CreateView):
+    model = Tarifa
+    template_name = 'parqueaderos/crear_vehiculo_tarifa.html'
+    form_class = CrearVehiculoTarifaForm
     success_url = reverse_lazy('tarifas')
 
 
@@ -154,7 +173,7 @@ class VerPlanesPago(ListView):
     model = PlanPago
     context_object_name = 'planes_pago_list'
     template_name = 'parqueaderos/planes_pago.html'
-    ordering  = ['-creado']
+    ordering = ['-creado']
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class ModificarPlanPago(UpdateView):

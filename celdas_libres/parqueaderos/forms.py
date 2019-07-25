@@ -1,4 +1,6 @@
 from django import forms
+from betterforms.multiform import MultiModelForm
+from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa
 from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa, Parqueadero, CapacidadVehiculo
 from django.core.validators import RegexValidator
 import re
@@ -52,6 +54,69 @@ class CrearTarifaForm(forms.ModelForm):
                 }
             )
         }
+
+
+
+
+class CrearVehiculoTarifaForm(forms.ModelForm):
+     def __init__(self, *args, **kwargs):
+        super(CrearVehiculoTarifaForm, self).__init__(*args, **kwargs)
+    # tipo_vehiculo = forms.ChoiceField(
+    #     choices=get_my_choices(),
+    #     widget=forms.Select(
+    #         attrs={'class': 'form-control'}
+    #     )
+    # )
+
+     class Meta:
+        model = Tarifa
+        fields = '__all__'
+        widgets = {
+            'por_hora': forms.NumberInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'anno': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'hidden'
+                }
+            )
+        }
+
+class CrearVehiculoForm(forms.ModelForm):
+
+
+    class Meta:
+        model = Vehiculo
+        fields = '__all__'
+        widgets = {
+            'tipo_vehiculo' : forms.TextInput(
+                attrs={
+                    'class':'form-control'
+                }
+            ),
+            # 'tarifa': forms.NumberInput(
+            #     attrs={
+            #         'class': 'form-control'
+            #     }
+            # ),
+            'anno': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'hidden'
+
+                }
+            )
+        }
+
+class EmpleadoPersonaModelForm(MultiModelForm):
+    form_classes = {
+        'vehiculo': CrearVehiculoForm,
+        'tarifa': CrearVehiculoTarifaForm,
+    }
+
 
 
 class EntradaVehiculoForm(forms.ModelForm):

@@ -1,0 +1,67 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Tarifas{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'tarifas' %}">Tarifas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crear-tarifa' %}">Crear tarifa</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Ingreso de Tarifas</div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="Pnombre">Tipo de vehiculo *</label>
+            {{ form.tipo_vehiculo }}
+          </div>
+          <div class="form-group">
+            <label for="Papell">Precio por hora *</label>
+            {{ form.por_hora }}
+          </div>
+          <div class="form-group">
+            {{ form.anno }}
+          </div>
+          {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="card border-danger mb-3">
+                          <div class="card-body text-danger">
+                              <p class="card-text">
+                                  {{ error|escape }}
+                              </p>
+                          </div>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="card border-danger mb-3">
+                      <div class="card-body text-danger">
+                          <p class="card-text">
+                              {{ error|escape }}
+                          </p>
+                      </div>
+                  </div>
+              {% endfor %}
+          {% endif %}
+          <button type="submit" class="btn btn-warning btn-block">Crear tarifa</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
