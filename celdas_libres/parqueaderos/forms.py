@@ -78,7 +78,6 @@ class CrearVehiculoTarifaForm(forms.ModelForm):
             'tipo_vehiculo': forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'type': 'hidden'
                 }
             )
         }

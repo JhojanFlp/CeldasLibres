@@ -36,6 +36,7 @@ class CrearTarifa(CreateView):
         form = self.form_class(request.POST)
         anno = request.POST.get('anno')
         tipo_vehiculo = request.POST.get('tipo_vehiculo')
+        por_hora=request.POST.get('tipo_vehiculo')
         for tarifa in Tarifa.objects.all():
             if (tarifa.anno, tarifa.tipo_vehiculo) == (int(anno), tipo_vehiculo):
                 tarifa.delete()
@@ -55,12 +56,9 @@ class CrearVehiculoTarifa(CreateView):
         form = self.form_class(request.POST)
         anno = request.POST.get('anno')
         tipo_vehiculo = request.POST.get('tipo_vehiculo')
-        for tarifa in Tarifa.objects.all():
-            if (tarifa.anno, tarifa.tipo_vehiculo) == (int(anno), tipo_vehiculo):
-                tarifa.delete()
         if form.is_valid():
             messages.success(request, 'Tarifa creada correctamente')
-        return super(CrearTarifa, self).post(request, *args, **kwargs)
+        return super(CrearVehiculoTarifa, self).post(request, *args, **kwargs)
 
 
 @method_decorator([login_required], name='dispatch')
