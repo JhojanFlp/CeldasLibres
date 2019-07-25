@@ -21,7 +21,7 @@
 <div class="container pt-5 mt-3">
     <table class="table table-secondary table-striped">
         <thead class="thead-dark">
-            <tr>
+            <tr align="center">
                 <th scope="col">Nombre</th>
                 <th scope="col">Direccion</th>
                 <th scope="col">Telefono</th>
@@ -36,7 +36,7 @@
         </thead>
         <tbody>
             {% for parqueadero in parqueaderos_list %}
-                <tr>
+                <tr align="center">
                     <th rowspan="{{ parqueadero.capacidades.all.count }}">{{ parqueadero.nombre }}</th>
                     <td rowspan="{{ parqueadero.capacidades.all.count }}">{{ parqueadero.direccion }}</td>
                     <td rowspan="{{ parqueadero.capacidades.all.count }}">{{ parqueadero.telefono }}</td>
@@ -47,14 +47,14 @@
                             <td>{{ capacidad.capacidad }}</td>
                             {% if user.is_staff %}
                             <td rowspan="{{ parqueadero.capacidades.all.count }}">
-                                <a href="{% url 'modificar-parqueadero' parqueadero.nombre%}">Modificar</a>
+                                <a href="{% url 'modificar-parqueadero' parqueadero.nombre%}"><input type="image" width="30" height="30"  name="botonmodificar" src="https://image.flaticon.com/icons/png/512/61/61776.png"></a>
                             </td>
                             <td rowspan="{{ parqueadero.capacidades.all.count }}">
-                                <a href="{% url 'eliminar-parqueadero' parqueadero.nombre%}">Eliminar</a>
+                                <a href="{% url 'eliminar-parqueadero' parqueadero.nombre%}"><input type="image" width="30" height="30"  name="botoneliminar" src="https://image.flaticon.com/icons/png/512/61/61848.png"></a>
                             </td>
                             {% endif %}
                         {% else %}
-                            <tr>
+                            <tr align="center">
                                 <td>{{ capacidad.vehiculo }}</td>
                                 <td>{{ capacidad.capacidad }}</td>
                             </tr>
