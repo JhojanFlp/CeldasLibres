@@ -36,7 +36,7 @@ class CrearTarifa(CreateView):
         form = self.form_class(request.POST)
         anno = request.POST.get('anno')
         tipo_vehiculo = request.POST.get('tipo_vehiculo')
-        por_hora=request.POST.get('tipo_vehiculo')
+        por_hora=request.POST.get('por_hora')
         for tarifa in Tarifa.objects.all():
             if (tarifa.anno, tarifa.tipo_vehiculo) == (int(anno), tipo_vehiculo):
                 tarifa.delete()
