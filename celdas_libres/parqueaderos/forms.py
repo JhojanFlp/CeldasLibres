@@ -1,9 +1,10 @@
 from django import forms
-from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa
+from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa, Parqueadero, CapacidadVehiculo
 from django.core.validators import RegexValidator
 import re
 from django.core.exceptions import ValidationError
 from vehiculos.models import Vehiculo
+from accounts.models import Usuario
 
 
 
@@ -116,6 +117,83 @@ class CreateDescuentoTarifa(forms.ModelForm):
                     'class': 'form-control',
                     'min': 0,
                     'max': 70
+                }
+            )
+        }
+
+class CrearParqueadero(forms.ModelForm):
+    class Meta:
+        model = Parqueadero
+        fields = '__all__'
+        widgets = {
+            'nombre':forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': ''
+                }
+            ),
+            'direccion':forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': ''
+                }
+            ),
+            'telefono':forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'required':'',
+                    'max':'9999999999'
+                }
+            ),
+            'encargado':forms.Select(
+                attrs={
+                    'class':'form-control'
+                }
+            )
+        }
+
+class CrearCapacidadVehiculo(forms.ModelForm):
+    class Meta:
+        model = CapacidadVehiculo
+        exclude = ['parqueadero']
+        widgets = {
+            'vehiculo':forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'required': ''
+                }
+            ),
+            'capacidad':forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'required':''
+                }
+            )
+        }
+
+class UpdateParqueaderoForm(forms.ModelForm):
+    class Meta:
+        model = Parqueadero
+        fields = ['nombre', 'direccion', 'telefono', 'encargado']
+        widgets = {
+            'nombre': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'direccion': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'telefono': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'encargado': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
                 }
             )
         }

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Parqueaderos{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'parqueaderos' %}">Parqueaderos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crear-parqueadero' %}">Crear parqueadero</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+<div class="container pt-5 mt-3">
+    <table class="table table-secondary table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Direccion</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">Encargado</th>
+                <th scope="col">Vehiculo</th>
+                <th scope="col">Capacidad</th> 
+                {% if user.is_staff %}
+                <th scope="col">Modificar</th>
+                <th scope="col">Eliminar</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for parqueadero in parqueaderos_list %}
+                <tr>
+                    <th rowspan="{{ parqueadero.capacidades.all.count }}">{{ parqueadero.nombre }}</th>
+                    <td rowspan="{{ parqueadero.capacidades.all.count }}">{{ parqueadero.direccion }}</td>
+                    <td rowspan="{{ parqueadero.capacidades.all.count }}">{{ parqueadero.telefono }}</td>
+                    <td rowspan="{{ parqueadero.capacidades.all.count }}">{{ parqueadero.encargado }} </td>
+                    {% for capacidad in parqueadero.capacidades.all %}
+                        {% if forloop.first %}
+                            <td>{{ capacidad.vehiculo }}</td>
+                            <td>{{ capacidad.capacidad }}</td>
+                            {% if user.is_staff %}
+                            <td rowspan="{{ parqueadero.capacidades.all.count }}">
+                                <a href="{% url 'modificar-parqueadero' parqueadero.nombre%}">Modificar</a>
+                            </td>
+                            <td rowspan="{{ parqueadero.capacidades.all.count }}">
+                                <a href="{% url 'eliminar-parqueadero' parqueadero.nombre%}">Eliminar</a>
+                            </td>
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td>{{ capacidad.vehiculo }}</td>
+                                <td>{{ capacidad.capacidad }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

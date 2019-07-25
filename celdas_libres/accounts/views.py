@@ -55,7 +55,7 @@ class ModificarUsuario(UpdateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             messages.success(request, 'Usuario actualizado correctamente')
-        return super(ModificarUsuario, self).post(request, kwargs)
+        return super(ModificarUsuario, self).post(request, *args, **kwargs)
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class VerUsuarios(ListView):
