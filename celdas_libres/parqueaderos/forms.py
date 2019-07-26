@@ -191,13 +191,17 @@ class CrearParqueadero(forms.ModelForm):
             'nombre':forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': ''
+                    'required': '',
+                    'minlength' :5,
+                    'maxlength' :25
                 }
             ),
             'direccion':forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'required': ''
+                    'required': '',
+                    'minlength' :5,
+                    'maxlength' :25
                 }
             ),
             'telefono':forms.NumberInput(
@@ -228,7 +232,9 @@ class CrearCapacidadVehiculo(forms.ModelForm):
             'capacidad':forms.NumberInput(
                 attrs={
                     'class': 'form-control',
-                    'required':''
+                    'required':'',
+                    'min': 0,
+                    'max': 9999
                 }
             )
         }

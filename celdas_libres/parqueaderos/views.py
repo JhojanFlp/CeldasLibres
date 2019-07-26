@@ -14,7 +14,8 @@ from django.contrib import messages
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearTarifaForm, CreateDescuentoTarifa, CreatePlanPago,
-                    EntradaVehiculoForm, CrearVehiculoTarifaForm, CrearParqueadero, VehiculoYTarifa, CrearCapacidadVehiculo)
+                    EntradaVehiculoForm, CrearVehiculoTarifaForm, CrearParqueadero, 
+                    VehiculoYTarifa, CrearCapacidadVehiculo)
 from .models import DescuentoTarifa, EntradaVehiculo, PlanPago, Tarifa, Parqueadero, CapacidadVehiculo
 
 #import re
