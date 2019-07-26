@@ -232,6 +232,8 @@ class CrearParqueadero(CreateView):
                     capacidad=capacidad
                 )
             messages.success(request, 'Parqueadero creado correctamente')
+        else:
+            messages.error(request, 'Error al crear parqueadero')
         return redirect(self.success_url)
 
     def get_context_data(self, **kwargs):
