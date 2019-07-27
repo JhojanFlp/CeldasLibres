@@ -24,22 +24,6 @@ class Tarifa(models.Model):
         #+ ' ' + str(self.anno) + ' por ' + str(self.por_hora) + ' h'
         return str(self.tipo_vehiculo).capitalize()
 
-class EntradaVehiculo(models.Model):
-    tarifa = models.ForeignKey(Tarifa, on_delete=models.SET_NULL, null=True, related_name='tarifa')
-    fecha_ingreso = models.DateTimeField(auto_now_add=True)
-    placa = models.CharField(max_length=6)
-    usuario=models.CharField(max_length=20,null=True)
-    nom_parq = models.CharField(max_length=80,default="Parqueadero Laureles")
-    tel_parq = models.BigIntegerField(default=5473322)
-    dir_parq = models.CharField(max_length=80,default="Cra 15 #17-22")
-
-    class Meta:
-        unique_together = (('placa', 'fecha_ingreso'),)
-        verbose_name =  'entrada vehiculo'
-        ordering = ['fecha_ingreso']
-
-    def __str__(self):
-        return str(self.placa)
 
 class PlanPago(models.Model):
     nombre = models.CharField(
@@ -98,3 +82,19 @@ class CapacidadVehiculo(models.Model):
 
     def __str__(self):
         return str(self.vehiculo+" "+self.capacidad).capitalize()
+
+class EntradaVehiculo(models.Model):
+    tarifa = models.ForeignKey(Tarifa, on_delete=models.SET_NULL, null=True, related_name='tarifa')
+    fecha_ingreso = models.DateTimeField(auto_now_add=True)
+    placa = models.CharField(max_length=6)
+    usuario=models.CharField(max_length=20,null=True)
+    parqueadero = models.ForeignKey(Parqueadero, on_delete=models.CASCADE,null=True, related_name='parq')
+
+
+    class Meta:
+        unique_together = (('placa', 'fecha_ingreso'),)
+        verbose_name =  'entrada vehiculo'
+        ordering = ['fecha_ingreso']
+
+    def __str__(self):
+        return str(self.placa)

@@ -103,12 +103,15 @@ class CrearEntradaVehiculo(CreateView):
     model = EntradaVehiculo
     template_name = 'parqueaderos/ingresar_vehiculo.html'
     form_class = EntradaVehiculoForm
+
     #success_url = reverse_lazy('ficho-parqueadero')
     context_object_name = 'tarifas_list'
 
     def get_context_data(self, **kwargs):
         context = super(CrearEntradaVehiculo, self).get_context_data(**kwargs)
-        context['tarifas'] = Tarifa.objects.filter(anno = datetime.date.today().year)#datetime.now().year)
+        context['tarifas'] = Tarifa.objects.filter(anno = datetime.date.today().year)
+        context['parqueadero']=Parqueadero.objects.filter(encargado=self.request.user.id)
+        context['user_id']=self.request.user.id
         return context
 
 
@@ -117,6 +120,9 @@ class CrearEntradaVehiculo(CreateView):
         if form.is_valid():
             messages.success(request, 'Vehículo ingresado')
             return super(CrearEntradaVehiculo, self).post(request, kwargs)
+        else:
+            messages.warning(request, 'Debe tener asignado un parqueadero')
+            return reverse_lazy('vehiculos-ingresados')
     def get_success_url(self):
         return reverse_lazy('ficho-parqueadero',args=(self.object.id,))
 

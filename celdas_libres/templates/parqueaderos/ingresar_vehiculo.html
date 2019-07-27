@@ -38,9 +38,9 @@
                     {% endfor %}
                 </select>
                 <input type="hidden" name="usuario" value="{{ user.first_name | capfirst }} {{ user.last_name | capfirst }}">
-              <input type="hidden" name="nom_parq" value="Parqueadero Laureles">
-              <input type="hidden" name="tel_parq" value=5473322>
-              <input type="hidden" name="dir_parq" value="Cra 15 #17-22">
+                {% for parq in parqueadero %}       
+                <input type="hidden" name="parqueadero" value="{{parq.nombre}}">
+                {% endfor %}                
               </div>
             </div>
             <div class="col-md-6">
