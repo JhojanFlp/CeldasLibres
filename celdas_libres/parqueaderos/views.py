@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.contrib import messages
+from django.shortcuts import redirect
 
 from vehiculos.models import Vehiculo
 
@@ -113,6 +114,9 @@ class CrearEntradaVehiculo(CreateView):
         context['parqueadero']=Parqueadero.objects.filter(encargado=self.request.user.id)
         context['user_id']=self.request.user.id
         return context
+            
+            
+
 
 
     def post(self, request, *args, **kwargs):
@@ -122,7 +126,8 @@ class CrearEntradaVehiculo(CreateView):
             return super(CrearEntradaVehiculo, self).post(request, kwargs)
         else:
             messages.warning(request, 'Debe tener asignado un parqueadero')
-            return reverse_lazy('vehiculos-ingresados')
+            return redirect('vehiculos-ingresados')
+            
     def get_success_url(self):
         return reverse_lazy('ficho-parqueadero',args=(self.object.id,))
 
