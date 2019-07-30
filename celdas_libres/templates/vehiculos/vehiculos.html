@@ -14,10 +14,16 @@
                 </li>
             </ul>
         </div>
+    {% else %}
+        <meta http-equiv="refresh"
+   content="0; url={% url 'home' %}">
     {% endif %}
 {% endblock role_nav %}
 
+
+
 {% block content %}
+{% if user.is_authenticated and user.is_staff %}
 <div class="container pt-5 mt-3">
     <table class="table table-secondary table-striped">
         <thead class="thead-dark">
@@ -53,4 +59,5 @@
         </tbody>
     </table>
 </div>
+{% endif %}
 {% endblock content %}

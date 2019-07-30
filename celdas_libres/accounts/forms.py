@@ -77,13 +77,13 @@ class SignUpForm(UserCreationForm):
         })
     )
     telefono = forms.CharField(max_length=15, required=True,
-        widget=forms.TextInput(
+        widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
                 }
         ))
     celular = forms.CharField(max_length=15, required=True,
-        widget=forms.TextInput(
+        widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
                 }

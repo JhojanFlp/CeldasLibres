@@ -24,15 +24,11 @@ class CrearVehiculo(CreateView):
         form = self.form_class(request.POST)
         anno = request.POST.get('anno')
         tipo_vehiculo = request.POST.get('tipo_vehiculo')
-        # tarifa = request.POST.get('tarifa')
-        for vehiculo in Vehiculo.objects.all():
-            if (vehiculo.anno, vehiculo.tipo_vehiculo) == (int(anno), tipo_vehiculo):
-                vehiculo.delete()
         if form.is_valid():
             messages.success(request, 'Vehiculo creado')
         return super(CrearVehiculo, self).post(request, *args, **kwargs)
 
-@method_decorator([login_required], name='dispatch')
+@method_decorator([login_required, staff_member_required], name='dispatch')
 class VerVehiculos(ListView):
     model = Vehiculo
     context_object_name = 'vehiculos_list'
