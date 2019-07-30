@@ -15,6 +15,13 @@ def get_my_choices():
         listV.append((l, l))
     return listV
 
+def opciones():
+    list = Usuario.objects.filter()
+    listV = []
+    for l in list:
+        listV.append((l, l))
+    return listV
+
 class CrearTarifaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CrearTarifaForm, self).__init__(*args, **kwargs)
@@ -144,13 +151,18 @@ class CrearParqueadero(forms.ModelForm):
                     'required':'',
                     'max':'9999999999'
                 }
-            ),
-            'encargado':forms.Select(
-                attrs={
-                    'class':'form-control'
-                }
             )
         }
+
+    def __init__(self, *args, **kwargs):
+        super(CrearParqueadero, self).__init__(*args, **kwargs)
+        self.fields['encargado'] = forms.ChoiceField(
+            choices=opciones(),
+            widget=forms.Select(
+                attrs={'class': 'form-control'}
+            )
+        )
+
 
 class CrearCapacidadVehiculo(forms.ModelForm):
     class Meta:

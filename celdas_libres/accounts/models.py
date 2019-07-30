@@ -24,8 +24,13 @@ class Usuario(models.Model):
     celular = models.BigIntegerField(null=True)
     direccion = models.CharField(max_length=50, null=True)
 
+    @property
+    def idxnombre(self):
+        respuesta = self.identificacion+" "+self.user.first_name+" "+self.user.last_name
+        return respuesta
+
     def __str__(self):
-        return self.user.username
+        return self.user.username   #self.user.username
 
 
 @receiver(post_save, sender=CustomUser)
