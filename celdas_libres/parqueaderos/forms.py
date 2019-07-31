@@ -1,7 +1,6 @@
 from django import forms
 from betterforms.multiform import MultiModelForm
-from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa
-from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa, Parqueadero, CapacidadVehiculo
+from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa, Parqueadero, CapacidadVehiculo, SalidaVehiculo
 from django.core.validators import RegexValidator
 import re
 from django.core.exceptions import ValidationError
@@ -141,6 +140,19 @@ class EntradaVehiculoForm(forms.ModelForm):
                 }
             )
         }
+
+class SalidaVehiculoForm(forms.ModelForm):
+    class Meta:
+        model = SalidaVehiculo
+        fields = ['documento']
+        widgets = {
+            'documento': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            )
+        }
+
 
 
 class CreatePlanPago(forms.ModelForm):

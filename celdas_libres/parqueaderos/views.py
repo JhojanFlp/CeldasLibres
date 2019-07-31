@@ -1,30 +1,25 @@
 import datetime
 
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
-from django.contrib import messages
-from django.shortcuts import redirect
 
 from vehiculos.models import Vehiculo
 
-from .forms import (CrearTarifaForm, CreateDescuentoTarifa, CreatePlanPago,
-                    EntradaVehiculoForm, CrearVehiculoTarifaForm, CrearParqueadero, 
-                    VehiculoYTarifa, CrearCapacidadVehiculo)
-from .models import DescuentoTarifa, EntradaVehiculo, PlanPago, Tarifa, Parqueadero, CapacidadVehiculo
+from .forms import (CrearCapacidadVehiculo, CrearParqueadero, CrearTarifaForm,
+                    CrearVehiculoTarifaForm, CreateDescuentoTarifa,
+                    CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,
+                    VehiculoYTarifa)
+from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
+                     Parqueadero, PlanPago, SalidaVehiculo, Tarifa)
 
 #import re
-
-
-
-
-
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class CrearTarifa(CreateView):
@@ -114,10 +109,6 @@ class CrearEntradaVehiculo(CreateView):
         context['parqueadero']=Parqueadero.objects.filter(encargado=self.request.user.id)
         context['user_id']=self.request.user.id
         return context
-            
-            
-
-
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -127,9 +118,41 @@ class CrearEntradaVehiculo(CreateView):
         else:
             messages.warning(request, 'Debe tener asignado un parqueadero')
             return redirect('vehiculos-ingresados')
-            
+
     def get_success_url(self):
         return reverse_lazy('ficho-parqueadero',args=(self.object.id,))
+
+@method_decorator([login_required], name='dispatch')
+class CrearSalidaVehiculo(CreateView):
+    model = SalidaVehiculo
+    template_name = 'parqueaderos/salida_vehiculo.html'
+    form_class = SalidaVehiculoForm
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Salida registrada')
+            salida = form.save(commit=False)
+            salida.tipo_vehiculo = request.POST.get('tipo_vehiculo')
+            salida.fecha_salida = request.POST.get('fecha_salida')
+            salida.entrada_vehiculo = EntradaVehiculo.objects.get(
+                pk=request.POST.get('entrada_vehiculo')
+            )
+            salida.operario = request.user.usuario
+            salida.save()
+        else:
+            messages.warning(request, 'Debe tener asignado un parqueadero')
+        return redirect('vehiculos-ingresados')
+
+    def get_context_data(self, **kwargs):
+        context = super(CrearSalidaVehiculo, self).get_context_data(**kwargs)
+        entrada = EntradaVehiculo.objects.get(pk=self.kwargs.get('pk'))
+        context['entrada_vehiculo'] = entrada.id
+        context['placa'] = entrada.placa
+        context['tipo_vehiculo'] = entrada.tarifa.tipo_vehiculo
+        context['fecha_entrada'] = entrada.fecha_ingreso.strftime('%d/%m/%Y %H:%M:%S')
+        context['fecha_salida'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        return context
 
 @method_decorator([login_required], name='dispatch')
 class VerIngresados(ListView):
@@ -146,7 +169,6 @@ class VerFicho(ListView):
         context = super(VerFicho, self).get_context_data(**kwargs)
         context['ficho'] =EntradaVehiculo.objects.get(pk=self.kwargs.get('pk'))
         return context
-
 
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
@@ -272,9 +294,7 @@ class ModificarParqueadero(UpdateView):
         vehiculos = request.POST.getlist('vehiculo')
         capacidades = request.POST.getlist('capacidad')
         if form.is_valid():
-            parqueadero = Parqueadero.objects.get(pk=kwargs['pk'])
-            parqueadero.save()
-            parqueadero =  form.save()
+            parqueadero = form.save()
             for vehiculo_id, capacidad in zip(vehiculos, capacidades):
                 CapacidadVehiculo.objects.create(
                     parqueadero=parqueadero,

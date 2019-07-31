@@ -28,6 +28,7 @@
                 <th scope="col">Tarifa aplicable</th>
                 <th scope="col">Registrado por: </th>
                 <th scope="col">Ficho: </th>
+                <th scope="col">Registrar salida </th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +40,7 @@
                     <td>{{ ingresado.tarifa }}</td> 
                     <td>{{ ingresado.usuario }}</td>
                    <td> <a class="nav-link" href="{% url 'ficho-parqueadero' pk=ingresado.id %}">Ver</a></td>
+                   <td> <a class="nav-link" href="{% url 'salida-vehiculo' pk=ingresado.id %}">Registrar salida</a></td>
                 </tr>
             {% endfor %}
         </tbody>

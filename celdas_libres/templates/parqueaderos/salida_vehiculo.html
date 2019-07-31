@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehiculos{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehículos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Registrar vehículo</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Salida de vehículo del parqueadero</div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-sm-6 form-group ">
+                    <label>Documento de la persona *</label>
+                    {{ form.documento }}
+                </div>
+                <div class="col-12 col-sm-6 form-group ">
+                    <label>Placa</label>
+                    <input name="placa" class="form-control" type="text" readonly value="{{ placa }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-4 form-group ">
+                    <label>Fecha entrada</label>
+                    <input name="fecha_entrada" class="form-control" type="text" readonly value="{{ fecha_entrada }}">
+                </div>
+                <div class="col-12 col-sm-4 form-group ">
+                    <label>Fecha salida</label>
+                    <input name="fecha_salida" class="form-control" type="text" readonly value="{{ fecha_salida }}">
+                </div>
+                <div class="col-12 col-sm-4 form-group">
+                    <label>Tipo vehículo</label>
+                    <input name="tipo_vehiculo" class="form-control" type="text" readonly value="{{ tipo_vehiculo }}">
+                </div>
+            </div>
+            <input name="entrada_vehiculo" type="hidden" readonly value="{{ entrada_vehiculo }}">
+
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="card border-danger mb-3">
+                            <div class="card-body text-danger">
+                                <p class="card-text">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="card border-danger mb-3">
+                        <div class="card-body text-danger">
+                            <p class="card-text">
+                                {{ error|escape }}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <button type="submit" class="btn btn-warning btn-block">Registar salida de vehículo</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

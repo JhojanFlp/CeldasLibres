@@ -9,7 +9,7 @@ def default_id():
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     def __str__(self):
         return self.username
 

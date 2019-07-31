@@ -39,7 +39,6 @@ class PlanPago(models.Model):
     class Meta:
         ordering = ['-creado']
         verbose_name = 'plan de pago'
-        
 
     def __str__(self):
         return str(self.nombre).capitalize()
@@ -90,7 +89,6 @@ class EntradaVehiculo(models.Model):
     usuario=models.CharField(max_length=20,null=True)
     parqueadero = models.ForeignKey(Parqueadero, on_delete=models.CASCADE,null=True, related_name='parq')
 
-
     class Meta:
         unique_together = (('placa', 'fecha_ingreso'),)
         verbose_name =  'entrada vehiculo'
@@ -98,3 +96,14 @@ class EntradaVehiculo(models.Model):
 
     def __str__(self):
         return str(self.placa)
+
+class SalidaVehiculo(models.Model):
+    documento = models.CharField(max_length=20)
+    tipo_vehiculo =  models.CharField(max_length=10)
+    fecha_salida = models.DateTimeField(auto_now_add=True)
+    entrada_vehiculo = models.ForeignKey(
+        EntradaVehiculo, on_delete=models.SET_NULL, null=True
+    )
+    operario = models.ForeignKey(
+        Usuario, on_delete=models.SET_NULL, null=True
+    )
