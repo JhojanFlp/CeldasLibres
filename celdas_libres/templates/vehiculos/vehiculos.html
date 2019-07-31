@@ -4,7 +4,7 @@
 
 {% block role_nav %}
     {% if user.is_authenticated and user.is_staff %}
-        <div class="w-100 border-bottom bg-light">
+        <!--<div class="w-100 border-bottom bg-light">
             <ul class="nav nav-tabs m-auto border-bottom-0">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'vehiculos' %}">Vehiculos</a>
@@ -13,7 +13,7 @@
                     <a class="nav-link" href="{% url 'crear_vehiculo' %}">Crear un tipo de vehiculo</a>
                 </li>
             </ul>
-        </div>
+        </div>-->
     {% else %}
         <meta http-equiv="refresh"
    content="0; url={% url 'home' %}">

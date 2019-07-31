@@ -56,65 +56,6 @@ class CrearTarifaForm(forms.ModelForm):
 
 
 
-
-class CrearVehiculoTarifaForm(forms.ModelForm):
-
-     class Meta:
-        model = Tarifa
-        fields = '__all__'
-        widgets = {
-            'por_hora': forms.NumberInput(
-                attrs={
-                    'class': 'form-control'
-                }
-            ),
-            'anno': forms.NumberInput(
-                attrs={
-                    'class': 'form-control',
-                    'type': 'hidden'
-                }
-            ),
-            'tipo_vehiculo': forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                }
-            )
-        }
-
-class CrearVehiculoForm(forms.ModelForm):
-
-
-    class Meta:
-        model = Vehiculo
-        fields = '__all__'
-        widgets = {
-            'tipo_vehiculo' : forms.TextInput(
-                attrs={
-                    'class':'form-control'
-                }
-            ),
-            # 'tarifa': forms.NumberInput(
-            #     attrs={
-            #         'class': 'form-control'
-            #     }
-            # ),
-            'anno': forms.NumberInput(
-                attrs={
-                    'class': 'form-control',
-                    'type': 'hidden'
-
-                }
-            )
-        }
-
-class VehiculoYTarifa(MultiModelForm):
-        form_classes = {
-        'vehiculo':  CrearVehiculoForm,
-        'tarifa': CrearVehiculoTarifaForm,
-    }
-
-
-
 class EntradaVehiculoForm(forms.ModelForm):
     tarifa=forms.ModelChoiceField(queryset=Tarifa.objects.all())
     placa=forms.CharField(

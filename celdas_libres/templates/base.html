@@ -18,6 +18,9 @@
   <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
   <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 
+  <!---MODAL--------->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}">
+
 </head>
 
 <body class="pt-5">
@@ -98,6 +101,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
+
+  <!-----MODALm para tarifas y vehiculos.--->
+
+  <script type="text/javascript" src="{% static 'vendor/jquery/jquery.js' %}" charset="UTF-8"></script>
+  <script type="text/javascript" src="{% static 'vendor/bootstrap/js/bootstrap.js' %}" charset="UTF-8"></script>
+  <script type="text/javascript" src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+  
+  <script type="text/javascript">
+  $(document).ready(function() {
+
+    $(".create-vehiculo").modalForm({
+        formURL: "{% url 'crear_vehiculo' %}"
+    });
+
+  });
+  </script>
 
   {% for message in messages %}
 <script>

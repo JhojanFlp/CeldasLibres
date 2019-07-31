@@ -13,9 +13,7 @@ from django.views.generic.list import ListView
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearCapacidadVehiculo, CrearParqueadero, CrearTarifaForm,
-                    CrearVehiculoTarifaForm, CreateDescuentoTarifa,
-                    CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,
-                    VehiculoYTarifa)
+                    CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm)
 from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
                      Parqueadero, PlanPago, SalidaVehiculo, Tarifa)
 
@@ -42,20 +40,7 @@ class CrearTarifa(CreateView):
         return super(CrearTarifa, self).post(request, *args, **kwargs)
 
 
-@method_decorator([login_required, staff_member_required], name='dispatch')
-class CrearVehiculoTarifa(CreateView):
-    template_name = 'parqueaderos/crear_vehiculo_tarifa.html'
-    form_class = VehiculoYTarifa
-    success_url = reverse_lazy('tarifas')
 
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        anno = request.POST.get('anno')
-        tipo_vehiculo = request.POST.get('tipo_vehiculo')
-        if form.is_valid():
-            messages.success(request, 'Tarifa creada correctamente')
-        return super(CrearVehiculoTarifa, self).post(request, *args, **kwargs)
 
 
 @method_decorator([login_required], name='dispatch')

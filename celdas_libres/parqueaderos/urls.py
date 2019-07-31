@@ -1,15 +1,22 @@
 from django.urls import path
 
+
+from .views import (CrearEntradaVehiculo, CrearPlanPago, CrearTarifa,
+                    EliminarTarifa, ModificarTarifa, VerIngresados, VerTarifas,
+                    VerPlanesPago, ModificarPlanPago, EliminarPlanPago,
+                    ModificarParqueadero, CrearParqueadero, VerParqueaderos,
+                    EliminarParqueadero, VerPlanesPago, ModificarPlanPago, EliminarPlanPago,VerFicho)
+from vehiculos.views import CrearVehiculo
+
 from .views import (CrearEntradaVehiculo, CrearParqueadero, CrearPlanPago,
-                    CrearSalidaVehiculo, CrearTarifa, CrearVehiculoTarifa,
-                    EliminarParqueadero, EliminarPlanPago, EliminarTarifa,
+                    CrearSalidaVehiculo, CrearTarifa, EliminarParqueadero, EliminarPlanPago, EliminarTarifa,
                     ModificarParqueadero, ModificarPlanPago, ModificarTarifa,
                     VerFicho, VerIngresados, VerParqueaderos, VerPlanesPago,
                     VerTarifas)
 
+
 urlpatterns = [
     path('crear-tarifa/', CrearTarifa.as_view(), name='crear-tarifa'),
-    path('crear-vehiculo-tarifa/', CrearVehiculoTarifa.as_view(), name='crear-vehiculo-tarifa'),
     path('tarifas/', VerTarifas.as_view(), name='tarifas'),
     path('entrada-vehiculo/', CrearEntradaVehiculo.as_view(), name='ingresar-vehiculo'),
     path('salida-vehiculo/<int:pk>', CrearSalidaVehiculo.as_view(), name='salida-vehiculo'),

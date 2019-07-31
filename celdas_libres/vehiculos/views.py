@@ -6,6 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.contrib import messages
+from bootstrap_modal_forms.generic import BSModalCreateView
 
 # Create your views here.
 
@@ -14,11 +15,11 @@ from .forms import CrearVehiculoForm
 from parqueaderos import views
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
-class CrearVehiculo(CreateView):
+class CrearVehiculo(BSModalCreateView):
     model = Vehiculo
     template_name = 'vehiculos/crear_vehiculo.html'
     form_class = CrearVehiculoForm
-    success_url = reverse_lazy('vehiculos')
+    success_url = reverse_lazy('crear-tarifa')
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
