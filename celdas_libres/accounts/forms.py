@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser, Usuario
+import datetime
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(
@@ -35,7 +36,7 @@ class SignUpForm(UserCreationForm):
         )
     )
     email = forms.EmailField(
-        label='Correo electrónico', required=True,
+        label='Correo electrónico', required=True, max_length=40,
         widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
@@ -94,6 +95,26 @@ class SignUpForm(UserCreationForm):
                 'class': 'form-control',
                 }
         ))
+
+    def clean_fecha_nacimiento(self):
+        date = self.cleaned_data['fecha_nacimiento']
+        if date > datetime.date.today():
+            raise forms.ValidationError("Solo se permiten fechas pasadas.")
+        return date
+
+    def clean_email(self):
+        correo = self.cleaned_data['email']
+        temp = CustomUser.objects.filter(email=correo).count()
+        if temp>0:
+            raise forms.ValidationError("Ya existe un usuario registrado con ese correo.")
+        return correo
+
+    def clean_username(self):
+        id = self.cleaned_data['username']
+        temp = Usuario.objects.filter(identificacion=id).count()
+        if temp>0:
+            raise forms.ValidationError("Ya existe un usuario registrado con esa identificación.")
+        return id
 
     class Meta:
         model = CustomUser
