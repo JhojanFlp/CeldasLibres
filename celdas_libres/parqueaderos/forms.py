@@ -89,7 +89,8 @@ class SalidaVehiculoForm(forms.ModelForm):
         widgets = {
             'documento': forms.TextInput(
                 attrs={
-                    'class': 'form-control'
+                    'class': 'form-control',
+                    'name': 'documento'
                 }
             )
         }
