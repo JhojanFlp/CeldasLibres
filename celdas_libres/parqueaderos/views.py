@@ -119,7 +119,7 @@ class CrearSalidaVehiculo(CreateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            messages.success(request, 'Salida registrada')
+            messages.success(request, 'Salida registrada y factura generada')
             salida = form.save(commit=False)
             salida.tipo_vehiculo = request.POST.get('tipo_vehiculo')
             salida.fecha_salida = request.POST.get('fecha_salida')
@@ -182,6 +182,7 @@ class GenerarFactura(TemplateView):
         context['salida']= factura.out_date
         context['total']= factura.total
         return context
+
     
 @method_decorator([login_required], name='dispatch')
 class VerIngresados(ListView):
