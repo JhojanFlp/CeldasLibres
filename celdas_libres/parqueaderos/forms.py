@@ -6,11 +6,18 @@ import re
 from django.core.exceptions import ValidationError
 from vehiculos.models import Vehiculo
 from accounts.models import Usuario
+from parqueaderos.models import Parqueadero
 from django.contrib.auth.forms import UserCreationForm
 
 
 def get_my_choices():
     list = Vehiculo.objects.filter()
+    listV = []
+    for l in list:
+        listV.append((l, l))
+    return listV
+def get_my_choices2():
+    list = Parqueadero.objects.filter()
     listV = []
     for l in list:
         listV.append((l, l))
@@ -227,15 +234,7 @@ class UpdateParqueaderoForm(forms.ModelForm):
 
 class GenerarBalanceForm(UserCreationForm):
     parqueadero = forms.ChoiceField(required=True,
-        choices=[
-            ('COL', 'Colombiana'),
-            ('VEN', 'Venezolana'),
-            ('ECU', 'Ecuatoriana'),
-            ('ESP', 'Española'),
-            ('CHI', 'Chilena'),
-            ('PER', 'Peruana'),
-            ('PAN', 'Panameña'),
-        ],
+        choices=get_my_choices2(),
         widget=forms.Select(
             attrs={'class': 'form-control'}
         )
