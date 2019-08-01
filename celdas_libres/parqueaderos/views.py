@@ -15,7 +15,7 @@ from django.db.models import Count
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearCapacidadVehiculo, CrearParqueadero, CrearTarifaForm,
-                    CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm)
+                    CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,GenerarBalanceForm)
 from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
                      Parqueadero, PlanPago, SalidaVehiculo, Tarifa)
 
@@ -302,6 +302,7 @@ class EliminarParqueadero(DeleteView):
         messages.success(request, 'Parqueadero eliminado correctamente')
         return super(EliminarParqueadero, self).post(request, *args, **kwargs)
 
+<<<<<<< HEAD
 @method_decorator([login_required], name='dispatch')
 class VerBalance(ListView):
     model = EntradaVehiculo
@@ -353,3 +354,13 @@ class VerBalance(ListView):
         #.values_list('tipo_vehiculo', flat='true')
         return context
 
+=======
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class GenerarBalance(CreateView):
+    template_name = 'parqueaderos/generar_balance.html'
+    form_class = GenerarBalanceForm
+    success_url =  reverse_lazy('home')
+    def post(self, request, *args, **kwargs):
+        messages.success(request, 'Parqueadero eliminado correctamente')
+        return super(EliminarParqueadero, self).post(request, *args, **kwargs)
+>>>>>>> e08f3ed9ad5203c91292fa414d7fcbf43a95e052
