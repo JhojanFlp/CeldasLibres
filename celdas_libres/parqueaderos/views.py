@@ -302,7 +302,7 @@ class EliminarParqueadero(DeleteView):
         messages.success(request, 'Parqueadero eliminado correctamente')
         return super(EliminarParqueadero, self).post(request, *args, **kwargs)
 
-<<<<<<< HEAD
+
 @method_decorator([login_required], name='dispatch')
 class VerBalance(ListView):
     model = EntradaVehiculo
@@ -354,7 +354,6 @@ class VerBalance(ListView):
         #.values_list('tipo_vehiculo', flat='true')
         return context
 
-=======
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class GenerarBalance(CreateView):
     template_name = 'parqueaderos/generar_balance.html'
@@ -363,4 +362,4 @@ class GenerarBalance(CreateView):
     def post(self, request, *args, **kwargs):
         messages.success(request, 'Parqueadero eliminado correctamente')
         return super(EliminarParqueadero, self).post(request, *args, **kwargs)
->>>>>>> e08f3ed9ad5203c91292fa414d7fcbf43a95e052
+

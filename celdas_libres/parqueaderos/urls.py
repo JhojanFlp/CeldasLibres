@@ -12,11 +12,9 @@ from .views import (CrearEntradaVehiculo, CrearParqueadero, CrearPlanPago,
                     CrearSalidaVehiculo, CrearTarifa, EliminarParqueadero, EliminarPlanPago, EliminarTarifa,
                     ModificarParqueadero, ModificarPlanPago, ModificarTarifa,
                     VerFicho, VerIngresados, VerParqueaderos, VerPlanesPago,
-<<<<<<< HEAD
-                    VerTarifas,VerBalance)
-=======
-                    VerTarifas,GenerarBalance)
->>>>>>> e08f3ed9ad5203c91292fa414d7fcbf43a95e052
+
+                    VerTarifas,VerBalance,GenerarBalance)
+
 
 
 urlpatterns = [
