@@ -1,6 +1,6 @@
 import datetime
 import collections
-
+from django.utils import timezone
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login
@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.db.models import Count
+from dateutil.relativedelta import relativedelta
 
 from vehiculos.models import Vehiculo
 
@@ -348,6 +349,14 @@ class VerBalance(ListView):
         dic3['Total']=total2
         context['balance']=dic2
         context['salidas']=dic3
+        primer=EntradaVehiculo.objects.first()
+        context['fecha_entrada']=primer.fecha_ingreso
+        first=primer.fecha_ingreso
+        context['fecha_salida']=datetime.datetime.now()
+        last= timezone.now()#datetime.datetime.now()
+        diff=relativedelta(last, first)
+        context['fecha_total']=diff.days
+
 
 
         #context['salidas'] = SalidaVehiculo.objects.annotate(num_sal=Count('tipo_vehiculo'),nombre='tipo_vehiculo')
