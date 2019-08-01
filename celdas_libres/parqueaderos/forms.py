@@ -1,6 +1,6 @@
 from django import forms
 from betterforms.multiform import MultiModelForm
-from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa, Parqueadero, CapacidadVehiculo, SalidaVehiculo
+from .models import Tarifa, EntradaVehiculo, PlanPago, DescuentoTarifa, Parqueadero, CapacidadVehiculo, SalidaVehiculo, Factura
 from django.core.validators import RegexValidator
 import re
 from django.core.exceptions import ValidationError
@@ -94,6 +94,9 @@ class SalidaVehiculoForm(forms.ModelForm):
                 }
             )
         }
+
+
+
 
 
 

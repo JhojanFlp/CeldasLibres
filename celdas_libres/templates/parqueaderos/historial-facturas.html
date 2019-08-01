@@ -12,7 +12,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Registrar vehículo</a>
                 </li>
-                <li class="nav-item">
+                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'historial-facturas' %}">Hitorial de Facturas</a>
                 </li>
             </ul>
@@ -25,25 +25,26 @@
     <table class="table table-secondary table-striped">
         <thead class="thead-dark">
             <tr>
+                <th scope="col">Serial</th>
+                <th scope="col">Fecha Salida</th>
+                <th scope="col">Identificación Cliente</th>
                 <th scope="col">Placa</th>
-                <th scope="col">Fecha ingreso</th>
-                <th scope="col">Tipo vehiculo</th>
-                <th scope="col">Tarifa aplicable</th>
-                <th scope="col">Registrado por: </th>
-                <th scope="col">Ficho: </th>
-                <th scope="col">Registrar salida </th>
+                <th scope="col">Tipo de Vehiculo</th>
+                <th scope="col">Total Factura</th>
+
+
+
             </tr>
         </thead>
         <tbody>
-            {% for ingresado in ingresados_list %}
-                <tr>
-                    <th scope="row">{{ ingresado.placa }}</th>
-                    <td>{{ ingresado.fecha_ingreso }}</td>
-                    <th>{{ingresado.tarifa.tipo_vehiculo}}</th>
-                    <td>{{ ingresado.tarifa }}</td> 
-                    <td>{{ ingresado.usuario }}</td>
-                   <td> <a class="nav-link" href="{% url 'ficho-parqueadero' pk=ingresado.id %}">Ver</a></td>
-                   <td> <a class="nav-link" href="{% url 'salida-vehiculo' pk=ingresado.id %}">Registrar salida</a></td>
+            {% for factura in facturas_list %}
+                    <td>{{ factura.serial }}</td>
+                    <td>{{ factura.out_date }}</td>
+                    <td>{{ factura.id_user }}</td>
+                    <td>{{ factura.placa }}</td>
+                    <th>{{ factura.tipo_vehiculo }}</th>
+                    <td>{{ factura.total }}</td> 
+
                 </tr>
             {% endfor %}
         </tbody>

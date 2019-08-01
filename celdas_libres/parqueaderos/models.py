@@ -118,6 +118,11 @@ class Factura(models.Model):
     in_date = models.DateTimeField(auto_now_add=False)
     out_date = models.DateTimeField(auto_now_add=True)
     total = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
-
+    tipo_vehiculo=models.CharField(max_length=20,null=False)
+    
+    class Meta:
+        '''unique_together = (('placa', 'fecha_ingreso'),)'''
+        verbose_name =  'ver factura'
+        ordering = ['-out_date']
     def __str__(self):
         return str(self.name)
