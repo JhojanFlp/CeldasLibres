@@ -14,6 +14,8 @@ from .views import (CrearEntradaVehiculo, CrearParqueadero, CrearPlanPago,
                     VerFicho, VerIngresados, VerParqueaderos, VerPlanesPago,
                     VerTarifas, GenerarFactura, VerBalance, GenerarBalance )
 
+                    VerTarifas,VerBalance,GenerarBalance)
+
 
 
 urlpatterns = [
@@ -41,3 +43,7 @@ urlpatterns = [
 
     path('balance/',GenerarBalance.as_view(),name='Generar_Balance')
 
+    path('ver-balance/', VerBalance.as_view(), name='ver-balance'),
+
+    path('balance/',GenerarBalance.as_view(),name='Generar_Balance')
+]
