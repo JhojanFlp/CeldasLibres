@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Usuarios{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'usuarios' %}">Generar Informe</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Generar Balance</div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+              {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="card border-danger mb-3">
+                          <div class="card-body text-danger">
+                              <p class="card-text">
+                                  {{ error|escape }}
+                              </p>
+                          </div>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="card border-danger mb-3">
+                      <div class="card-body text-danger">
+                          <p class="card-text">
+                              {{ error|escape }}
+                          </p>
+                      </div>
+                  </div>
+              {% endfor %}
+          {% endif %}
+            
+          <div class="form-group">
+            <label>Seleccione parqueadero*</label>
+            {{ form.parqueadero }}
+          </div>
+          <div class="form-group">
+              <label>Desde *</label>
+              <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                {{ form.desde }}
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+              </div>
+          </div>
+          <div class="form-group">
+              <label>Hasta *</label>
+              <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                {{ form.hasta }}
+                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+              </div>
+          </div>
+          <button type="submit" class="btn btn-warning btn-block">Generar Informe</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  $(function () {
+    $("#datetimepicker1").datetimepicker({
+      format: 'DD/MM/YYYY'
+    });
+  });
+</script>
+<script>
+  $(function () {
+    $("#datetimepicker2").datetimepicker({
+      format: 'DD/MM/YYYY'
+    });
+  });
+</script>
+{% endblock scripts %}

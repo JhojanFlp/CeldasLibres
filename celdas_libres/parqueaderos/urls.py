@@ -12,7 +12,8 @@ from .views import (CrearEntradaVehiculo, CrearParqueadero, CrearPlanPago,
                     CrearSalidaVehiculo, CrearTarifa, EliminarParqueadero, EliminarPlanPago, EliminarTarifa,
                     ModificarParqueadero, ModificarPlanPago, ModificarTarifa,
                     VerFicho, VerIngresados, VerParqueaderos, VerPlanesPago,
-                    VerTarifas, GenerarFactura)
+                    VerTarifas, GenerarFactura, VerBalance, GenerarBalance )
+
 
 
 urlpatterns = [
@@ -32,5 +33,11 @@ urlpatterns = [
     path('modificar-parqueadero/<str:pk>', ModificarParqueadero.as_view(), name='modificar-parqueadero'),
     path('eliminar-parqueadero/<str:pk>', EliminarParqueadero.as_view(), name='eliminar-parqueadero'),
     path('ver-ficho/<int:pk>', VerFicho.as_view(), name='ficho-parqueadero'),
+
     path('generar-factura/', GenerarFactura.as_view(), name='generar-factura'),
-]
+
+
+    path('ver-balance/', VerBalance.as_view(), name='ver-balance'),
+
+    path('balance/',GenerarBalance.as_view(),name='Generar_Balance')
+

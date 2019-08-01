@@ -1,4 +1,5 @@
 import datetime
+import collections
 
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -10,11 +11,12 @@ from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.views.generic import TemplateView
+from django.db.models import Count
 
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearCapacidadVehiculo, CrearParqueadero, CrearTarifaForm,
-                    CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm)
+                    CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,GenerarBalanceForm)
 from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
                      Parqueadero, PlanPago, SalidaVehiculo, Tarifa, Factura)
 
@@ -272,6 +274,8 @@ class EliminarPlanPago(DeleteView):
         return redirect(self.success_url)
 
 
+
+
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class CrearParqueadero(CreateView):
     template_name = 'parqueaderos/crear_parqueadero.html'
@@ -341,4 +345,64 @@ class EliminarParqueadero(DeleteView):
         return super(EliminarParqueadero, self).post(request, *args, **kwargs)
 
 
+@method_decorator([login_required], name='dispatch')
+class VerBalance(ListView):
+    model = EntradaVehiculo
+    context_object_name = 'ingresados_list'
+    template_name = 'parqueaderos/balance.html'
+    def get_context_data(self, **kwargs):
+        lista=[]
+        lista2=[]
+        dic={}
+        dic2={}
+        dic3={}
+        total=0
+        context = super(VerBalance, self).get_context_data(**kwargs)
+        context['entradas'] = EntradaVehiculo.objects.values('tarifa__tipo_vehiculo').exclude(tarifa__tipo_vehiculo=None).annotate(num_ent=Count('tarifa__tipo_vehiculo'))
+        nombres_entradas= EntradaVehiculo.objects.values('tarifa__tipo_vehiculo').distinct().exclude(tarifa__tipo_vehiculo=None).annotate(num_ent=Count('tarifa__tipo_vehiculo')).values_list('tarifa__tipo_vehiculo', flat='true')
+        for nombres in nombres_entradas:
+            lista.append(nombres)
+        final=collections.Counter(lista)
+        for clave, valor in final.items():
+            dic[clave]=valor
+            total=valor+total
+        dic['Total']=total
+        context['entradas_f']=dic
+        
+        salida= SalidaVehiculo.objects.all()
+        for nombres in salida:
+            lista2.append(nombres.tipo_vehiculo)
+        final2=collections.Counter(lista2)
+        for clave, valor in final2.items():
+            dic2[clave]=valor
+            dic3[clave]=valor
+        tarifas = Tarifa.objects.all()
+        total=0
+        total2=0
+        for tarifa in tarifas:
+            if tarifa.tipo_vehiculo in dic2:
+                clave=tarifa.tipo_vehiculo
+                aux=int(dic2[clave])
+                dic2[clave]=aux*tarifa.por_hora
+                total=total+(aux*tarifa.por_hora)
+                total2=total2+aux
+        dic2['Total']=total
+        dic3['Total']=total2
+        context['balance']=dic2
+        context['salidas']=dic3
+
+
+        #context['salidas'] = SalidaVehiculo.objects.annotate(num_sal=Count('tipo_vehiculo'),nombre='tipo_vehiculo')
+        #.values_list('tipo_vehiculo', flat='true')
+        return context
+
+
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class GenerarBalance(CreateView):
+    template_name = 'parqueaderos/generar_balance.html'
+    form_class = GenerarBalanceForm
+    success_url =  reverse_lazy('home')
+    def post(self, request, *args, **kwargs):
+        messages.success(request, 'Parqueadero eliminado correctamente')
+        return super(EliminarParqueadero, self).post(request, *args, **kwargs)
 

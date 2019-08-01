@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Balance{% endblock title %}
+
+
+{% block content %}
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Balance</div>
+      <div class="card-body">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input name="fecha" class="form-control" type="text" readonly value="fecha">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <table class="table table-secondary table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">Ingresados</th>
+                      <th scope="col">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for clave,valor in entradas_f.items %}
+                      <tr>
+                          <td>{{ clave }}</td>
+                          <td>{{ valor }}</td>
+                      </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <table class="table table-secondary table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">Salidas</th>
+                      <th scope="col">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for clave,valor in salidas.items %}
+                      <tr>
+                          <td>{{ clave }}</td>
+                          <td>{{ valor }}</td>
+                      </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <table class="table table-secondary table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">Balance</th>
+                      <th scope="col">Ganancia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for clave,valor in balance.items %}
+                      <tr>
+                          <td>{{ clave }}</td>
+                          <td>$ {{ valor }}</td>
+                      </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+    </div>
+  </div>
+{% endblock content %}

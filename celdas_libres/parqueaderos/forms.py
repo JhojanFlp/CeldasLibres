@@ -6,7 +6,7 @@ import re
 from django.core.exceptions import ValidationError
 from vehiculos.models import Vehiculo
 from accounts.models import Usuario
-
+from django.contrib.auth.forms import UserCreationForm
 
 
 def get_my_choices():
@@ -219,3 +219,35 @@ class UpdateParqueaderoForm(forms.ModelForm):
                 }
             )
         }
+
+
+
+class GenerarBalanceForm(UserCreationForm):
+    parqueadero = forms.ChoiceField(required=True,
+        choices=[
+            ('COL', 'Colombiana'),
+            ('VEN', 'Venezolana'),
+            ('ECU', 'Ecuatoriana'),
+            ('ESP', 'Española'),
+            ('CHI', 'Chilena'),
+            ('PER', 'Peruana'),
+            ('PAN', 'Panameña'),
+        ],
+        widget=forms.Select(
+            attrs={'class': 'form-control'}
+        )
+        )
+    desde = forms.DateField(input_formats=['%d/%m/%Y'],
+    required=True,
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
+    hasta = forms.DateField(input_formats=['%d/%m/%Y'],
+    required=True,
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
