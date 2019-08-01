@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
+from django.views.generic import TemplateView
 from django.db.models import Count
 from dateutil.relativedelta import relativedelta
 
@@ -18,7 +19,7 @@ from vehiculos.models import Vehiculo
 from .forms import (CrearCapacidadVehiculo, CrearParqueadero, CrearTarifaForm,
                     CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,GenerarBalanceForm)
 from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
-                     Parqueadero, PlanPago, SalidaVehiculo, Tarifa)
+                     Parqueadero, PlanPago, SalidaVehiculo, Tarifa, Factura)
 
 #import re
 
@@ -119,7 +120,7 @@ class CrearSalidaVehiculo(CreateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            messages.success(request, 'Salida registrada')
+            messages.success(request, 'Salida registrada y factura generada')
             salida = form.save(commit=False)
             salida.tipo_vehiculo = request.POST.get('tipo_vehiculo')
             salida.fecha_salida = request.POST.get('fecha_salida')
@@ -128,9 +129,27 @@ class CrearSalidaVehiculo(CreateView):
             )
             salida.operario = request.user.usuario
             salida.save()
+
+            
+            name = Parqueadero.objects.filter(encargado=request.user.usuario)[0].nombre
+            phone = Parqueadero.objects.filter(nombre__contains=name)[0].telefono
+            ubication = Parqueadero.objects.filter(nombre__contains=name)[0].direccion
+            id_user = request.POST.get('documento')
+            placa = request.POST.get('placa')                            
+            in_date = datetime.datetime.strptime(request.POST.get('fecha_entrada'), '%d/%m/%Y %H:%M:%S')
+            out_date = datetime.datetime.strptime(request.POST.get('fecha_salida'), '%d/%m/%Y %H:%M:%S')
+            serial = 'gfK' + str(request.POST.get('fecha_salida'))
+            request.session['serial']=serial
+            print(Tarifa.objects.filter(tipo_vehiculo = request.POST.get('tipo_vehiculo'))[0].por_hora)
+            total = ((out_date-in_date).seconds/3600) * Tarifa.objects.filter(tipo_vehiculo = request.POST.get('tipo_vehiculo'))[0].por_hora
+            
+            fact = Factura(serial=serial ,name= name, phone= phone, ubication= ubication, id_user= id_user, placa= placa, in_date= in_date, out_date=out_date, total = total)
+            fact.save()
+
         else:
-            messages.warning(request, 'Debe tener asignado un parqueadero')
-        return redirect('vehiculos-ingresados')
+            messages.warning(request, 'Debe tener asignado un parqueadero')       
+
+        return redirect('generar-factura')
 
     def get_context_data(self, **kwargs):
         context = super(CrearSalidaVehiculo, self).get_context_data(**kwargs)
@@ -142,6 +161,30 @@ class CrearSalidaVehiculo(CreateView):
         context['fecha_salida'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         return context
 
+@method_decorator([login_required], name='dispatch')
+class GenerarFactura(TemplateView):
+    template_name = 'parqueaderos/generar_factura.html'
+    #model = GenerarFactura
+    
+
+    """def get(self, request, *args, **kwargs):
+        pk=request.session['serial']
+        return redirect('generar-factura')"""
+
+    def get_context_data(self, **kwargs):
+        context = super(GenerarFactura, self).get_context_data(**kwargs)
+        factura = Factura.objects.filter(serial = self.request.session['serial'])[0]
+        context['name']= factura.name
+        context['telefono']= factura.phone
+        context['direccion']= factura.ubication
+        context['id_usuario']= factura.id_user
+        context['placa']= factura.placa
+        context['entrada']= factura.in_date
+        context['salida']= factura.out_date
+        context['total']= factura.total
+        return context
+
+    
 @method_decorator([login_required], name='dispatch')
 class VerIngresados(ListView):
     model = EntradaVehiculo
@@ -362,6 +405,7 @@ class VerBalance(ListView):
         #context['salidas'] = SalidaVehiculo.objects.annotate(num_sal=Count('tipo_vehiculo'),nombre='tipo_vehiculo')
         #.values_list('tipo_vehiculo', flat='true')
         return context
+
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class GenerarBalance(CreateView):

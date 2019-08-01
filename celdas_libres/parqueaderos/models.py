@@ -107,3 +107,17 @@ class SalidaVehiculo(models.Model):
     operario = models.ForeignKey(
         Usuario, on_delete=models.SET_NULL, null=True
     )
+
+class Factura(models.Model):
+    serial = models.CharField(unique=True, primary_key=True,validators=[MinLengthValidator(5), MaxLengthValidator(25)],max_length=25)
+    name = models.CharField(validators=[MinLengthValidator(5), MaxLengthValidator(25)],max_length=25)
+    phone = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
+    ubication = models.CharField(validators=[MinLengthValidator(5), MaxLengthValidator(25)],max_length=25)
+    id_user = models.CharField(max_length=20,null=False)
+    placa = models.CharField(max_length=6,null=False)
+    in_date = models.DateTimeField(auto_now_add=False)
+    out_date = models.DateTimeField(auto_now_add=True)
+    total = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
+
+    def __str__(self):
+        return str(self.name)
