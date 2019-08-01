@@ -1,4 +1,8 @@
 import datetime
+import pytz
+
+local_tz = pytz.timezone('America/Bogota')
+
 import collections
 from django.utils import timezone
 from django.contrib import messages
@@ -111,6 +115,10 @@ class CrearEntradaVehiculo(CreateView):
     def get_success_url(self):
         return reverse_lazy('ficho-parqueadero',args=(self.object.id,))
 
+def utc_to_local(utc_dt):
+    local_dt= utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)
+    return local_tz.normalize(local_dt)
+
 @method_decorator([login_required], name='dispatch')
 class CrearSalidaVehiculo(CreateView):
     model = SalidaVehiculo
@@ -158,7 +166,7 @@ class CrearSalidaVehiculo(CreateView):
         context['entrada_vehiculo'] = entrada.id
         context['placa'] = entrada.placa
         context['tipo_vehiculo'] = entrada.tarifa.tipo_vehiculo
-        context['fecha_entrada'] = entrada.fecha_ingreso.strftime('%d/%m/%Y %H:%M:%S')
+        context['fecha_entrada'] = utc_to_local(entrada.fecha_ingreso).strftime('%d/%m/%Y %H:%M:%S')
         context['fecha_salida'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         return context
 
