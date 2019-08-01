@@ -13,7 +13,7 @@ from django.views.generic.list import ListView
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearCapacidadVehiculo, CrearParqueadero, CrearTarifaForm,
-                    CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm)
+                    CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,GenerarBalanceForm)
 from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
                      Parqueadero, PlanPago, SalidaVehiculo, Tarifa)
 
@@ -294,6 +294,15 @@ class EliminarParqueadero(DeleteView):
     model = Parqueadero
     success_url = reverse_lazy('parqueaderos')
 
+    def post(self, request, *args, **kwargs):
+        messages.success(request, 'Parqueadero eliminado correctamente')
+        return super(EliminarParqueadero, self).post(request, *args, **kwargs)
+
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class GenerarBalance(CreateView):
+    template_name = 'parqueaderos/generar_balance.html'
+    form_class = GenerarBalanceForm
+    success_url =  reverse_lazy('home')
     def post(self, request, *args, **kwargs):
         messages.success(request, 'Parqueadero eliminado correctamente')
         return super(EliminarParqueadero, self).post(request, *args, **kwargs)
