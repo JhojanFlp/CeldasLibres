@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -20,7 +20,7 @@ from dateutil.relativedelta import relativedelta
 
 from vehiculos.models import Vehiculo
 
-from .forms import (CrearCapacidadVehiculo, CrearParqueadero, CrearTarifaForm,
+from .forms import (CrearCapacidadVehiculo, CrearParqueaderoForm, CrearTarifaForm,
                     CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,GenerarBalanceForm)
 from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
                      Parqueadero, PlanPago, SalidaVehiculo, Tarifa, Factura)
@@ -292,7 +292,7 @@ class EliminarPlanPago(DeleteView):
 class CrearParqueadero(CreateView):
     template_name = 'parqueaderos/crear_parqueadero.html'
     model = Parqueadero
-    form_class = CrearParqueadero
+    form_class = CrearParqueaderoForm
     success_url = reverse_lazy('parqueaderos')
 
     def post(self, request, *args, **kwargs):
@@ -329,7 +329,7 @@ class VerParqueaderos(ListView):
 class ModificarParqueadero(UpdateView):
     template_name = 'parqueaderos/parqueadero_update_form.html'
     model = Parqueadero
-    form_class = CrearParqueadero
+    form_class = CrearParqueaderoForm
     success_url = reverse_lazy('parqueaderos')
 
     def post(self, request, *args, **kwargs):

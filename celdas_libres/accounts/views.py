@@ -1,3 +1,4 @@
+import datetime as dt
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.utils.decorators import method_decorator
@@ -21,7 +22,10 @@ class CrearUsuario(CreateView):
 
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+        post = request.POST.copy()
+        post['fecha_nacimiento'] = dt.datetime.strptime(post.get('fecha_nacimiento').split()[0], '%m/%d/%Y').strftime('%d/%m/%Y')
+        form = self.form_class(post)
+        print(form)
         if form.is_valid():
             username = request.POST.get('username')
             password = request.POST.get('password1')
@@ -37,7 +41,6 @@ class CrearUsuario(CreateView):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-             
             messages.success(request, 'Usuario registrado correctamente')
             return redirect('home')
         else:
