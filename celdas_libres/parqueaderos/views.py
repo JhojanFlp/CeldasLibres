@@ -1,11 +1,15 @@
 import datetime
+import pytz
+
+local_tz = pytz.timezone('America/Bogota')
+
 import collections
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, DeleteView, UpdateView , FormView , View
@@ -19,7 +23,7 @@ from django.forms import formset_factory
 
 from vehiculos.models import Vehiculo
 
-from .forms import (CrearCapacidadVehiculo, CrearParqueadero, CrearTarifaForm,
+from .forms import (CrearCapacidadVehiculo, CrearParqueaderoForm, CrearTarifaForm,
                     CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,GenerarBalanceForm)
 from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
                      Parqueadero, PlanPago, SalidaVehiculo, Tarifa, Factura)
@@ -114,6 +118,10 @@ class CrearEntradaVehiculo(CreateView):
     def get_success_url(self):
         return reverse_lazy('ficho-parqueadero',args=(self.object.id,))
 
+def utc_to_local(utc_dt):
+    local_dt= utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)
+    return local_tz.normalize(local_dt)
+
 @method_decorator([login_required], name='dispatch')
 class CrearSalidaVehiculo(CreateView):
     model = SalidaVehiculo
@@ -121,6 +129,11 @@ class CrearSalidaVehiculo(CreateView):
     form_class = SalidaVehiculoForm
 
     def post(self, request, *args, **kwargs):
+        parqueaderosxencargado = Parqueadero.objects.filter(encargado=request.user.usuario).count()
+        if(parqueaderosxencargado==0):
+            messages.warning(request, 'Debe tener asignado un parqueadero')
+            return redirect('vehiculos-ingresados')
+            
         form = self.form_class(request.POST)
         if form.is_valid():
             messages.success(request, 'Salida registrada y factura generada')
@@ -133,7 +146,6 @@ class CrearSalidaVehiculo(CreateView):
             salida.operario = request.user.usuario
             salida.save()
 
-            
             name = Parqueadero.objects.filter(encargado=request.user.usuario)[0].nombre
             phone = Parqueadero.objects.filter(nombre__contains=name)[0].telefono
             ubication = Parqueadero.objects.filter(nombre__contains=name)[0].direccion
@@ -161,7 +173,7 @@ class CrearSalidaVehiculo(CreateView):
         context['entrada_vehiculo'] = entrada.id
         context['placa'] = entrada.placa
         context['tipo_vehiculo'] = entrada.tarifa.tipo_vehiculo
-        context['fecha_entrada'] = entrada.fecha_ingreso.strftime('%d/%m/%Y %H:%M:%S')
+        context['fecha_entrada'] = utc_to_local(entrada.fecha_ingreso).strftime('%d/%m/%Y %H:%M:%S')
         context['fecha_salida'] = datetime.datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         return context
 
@@ -287,7 +299,7 @@ class EliminarPlanPago(DeleteView):
 class CrearParqueadero(CreateView):
     template_name = 'parqueaderos/crear_parqueadero.html'
     model = Parqueadero
-    form_class = CrearParqueadero
+    form_class = CrearParqueaderoForm
     success_url = reverse_lazy('parqueaderos')
 
     def post(self, request, *args, **kwargs):
@@ -324,7 +336,7 @@ class VerParqueaderos(ListView):
 class ModificarParqueadero(UpdateView):
     template_name = 'parqueaderos/parqueadero_update_form.html'
     model = Parqueadero
-    form_class = CrearParqueadero
+    form_class = CrearParqueaderoForm
     success_url = reverse_lazy('parqueaderos')
 
     def post(self, request, *args, **kwargs):

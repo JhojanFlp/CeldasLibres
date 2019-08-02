@@ -147,7 +147,7 @@ class CreateDescuentoTarifa(forms.ModelForm):
             )
         }
 
-class CrearParqueadero(forms.ModelForm):
+class CrearParqueaderoForm(forms.ModelForm):
     class Meta:
         model = Parqueadero
         fields = '__all__'

@@ -28,25 +28,25 @@
                     <div class="row">
                         <div class="col-6">
                             <label>Nombre *</label>
-                            <input type="text" value="{{ parqueadero.nombre }}" class="form-control" />
+                            <input type="text" value="{{ parqueadero.nombre }}" class="form-control" name="nombre" />
                             
                         </div>
                         <div class="col-6">
                             <label>Direccion *</label>
-                            <input type="text" value="{{ parqueadero.direccion }}" class="form-control" />
+                            <input type="text" value="{{ parqueadero.direccion }}" class="form-control" name="direccion" />
                             
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <label>Telefono *</label>
-                            <input type="number" min="0" max="9999999999" value ="{{ parqueadero.telefono }}" class="form-control" />
+                            <input type="number" min="0" max="9999999999" value ="{{ parqueadero.telefono }}" class="form-control"  name="telefono"/>
                             
                         </div>
                         <div class="col-6">
                             <label>Encargado *</label>
-                            <input type="text" value="{{ parqueadero.encargado }}" class="form-control" />
-                            
+                            <input type="text" value="{{ parqueadero.encargado }}" class="form-control"/>
+                            <input type="hidden" value="{{ parqueadero.encargado.id }}" class="form-control" name="encargado"/>
                         </div>
                     </div>
                 </div>
