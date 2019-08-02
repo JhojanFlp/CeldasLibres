@@ -1,27 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}Generar Balance{% endblock title %}
-{% block role_nav %}
-    {% if user.is_authenticated and user.is_staff %}
-        <div class="w-100 border-bottom bg-light">
-            <ul class="nav nav-tabs m-auto border-bottom-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ver-balance' %}">Balance</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Generar_Balance' %}">Generar Informe</a>
-                </li>
-            </ul>
-        </div>
-    {% endif %}
-{% endblock role_nav %}
-
 {% block content %}
   <div class="container">
     <div class="card card-register mx-auto mt-5">
       <div class="card-header">Generar Balance</div>
       <div class="card-body">
-        <form method="POST">
+        <form  method="POST">
           {% csrf_token %}
           <div class="form-group">
               {% if form.errors %}
@@ -54,18 +39,16 @@
           <div class="form-group">
               <label>Desde *</label>
               <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                {{ form.desde }}
+                <input type="date" name="desde">
                 <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                 </div>
               </div>
           </div>
           <div class="form-group">
               <label>Hasta *</label>
               <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                {{ form.hasta }}
+                <input type="date" name="hasta">
                 <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                 </div>
               </div>
           </div>
@@ -81,14 +64,20 @@
 <script>
   $(function () {
     $("#datetimepicker1").datetimepicker({
-      format: 'DD/MM/YYYY'
+      format: 'DD/MM/YYYY',pickTime: false
+    });
+    $('#datetimepicker1').datetimepicker({
+      pickTime: false
     });
   });
 </script>
 <script>
   $(function () {
     $("#datetimepicker2").datetimepicker({
-      format: 'DD/MM/YYYY'
+      format: 'DD/MM/YYYY',pickTime: false
+    });
+    $('#datetimepicker2').datetimepicker({
+      pickTime: false
     });
   });
 </script>

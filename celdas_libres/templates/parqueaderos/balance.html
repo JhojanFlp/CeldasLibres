@@ -1,20 +1,6 @@
 {% extends 'base.html' %}
 
 {% block title %}Balance{% endblock title %}
-{% block role_nav %}
-    {% if user.is_authenticated and user.is_staff %}
-        <div class="w-100 border-bottom bg-light">
-            <ul class="nav nav-tabs m-auto border-bottom-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ver-balance' %}">Balance</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Generar_Balance' %}">Generar Informe</a>
-                </li>
-            </ul>
-        </div>
-    {% endif %}
-{% endblock role_nav %}
 
 {% block content %}
   <div class="container">
@@ -34,6 +20,10 @@
                <div class="form-group">
                 <label for="Pnombre">Duración: </label>
                 <input name="fecha" class="form-control" type="text" readonly value="{{fecha_total}} Días">
+              </div>
+              <div class="form-group">
+                <label for="Pnombre">Parqueadero: </label>
+                <input name="fecha" class="form-control" type="text" readonly value="{{parq}} Días">
               </div>
             </div>
             <div class="col-md-6">

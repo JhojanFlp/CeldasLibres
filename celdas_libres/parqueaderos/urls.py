@@ -37,11 +37,11 @@ urlpatterns = [
     path('generar-factura/', GenerarFactura.as_view(), name='generar-factura'),
 
 
-    path('ver-balance/', VerBalance.as_view(), name='ver-balance'),
+    path('ver-balance/(?P<parqueadero>[0-9]+/$)/(?P<desde>[0-9]+/$)/(?P<hasta>[0-9]+/$)/', VerBalance.as_view(), name='ver-balance'),
 
     path('balance/',GenerarBalance.as_view(),name='Generar_Balance'),
 
-    path('ver-balance/', VerBalance.as_view(), name='ver-balance'),
+    #path('ver-balance/', VerBalance.as_view(), name='ver-balance'),
 
     path('balance/',GenerarBalance.as_view(),name='Generar_Balance')
 ]

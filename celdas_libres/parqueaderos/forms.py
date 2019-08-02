@@ -232,24 +232,12 @@ class UpdateParqueaderoForm(forms.ModelForm):
 
 
 
-class GenerarBalanceForm(UserCreationForm):
+class GenerarBalanceForm(forms.Form):
     parqueadero = forms.ChoiceField(required=True,
         choices=get_my_choices2(),
         widget=forms.Select(
             attrs={'class': 'form-control'}
         )
         )
-    desde = forms.DateField(input_formats=['%d/%m/%Y'],
-    required=True,
-        widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
-            'data-target': '#datetimepicker1'
-        })
-    )
-    hasta = forms.DateField(input_formats=['%d/%m/%Y'],
-    required=True,
-        widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
-            'data-target': '#datetimepicker1'
-        })
-    )
+    def __init__(self, *args, **kwargs):
+        super(GenerarBalanceForm, self).__init__(*args, **kwargs)

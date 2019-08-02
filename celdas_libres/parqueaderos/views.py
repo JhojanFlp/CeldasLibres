@@ -8,11 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView , FormView , View
 from django.views.generic.list import ListView
 from django.views.generic import TemplateView
 from django.db.models import Count
 from dateutil.relativedelta import relativedelta
+from django.http import HttpResponse,HttpResponseRedirect
+from django.template import context
+from django.forms import formset_factory
 
 from vehiculos.models import Vehiculo
 
@@ -355,15 +358,20 @@ class VerBalance(ListView):
     context_object_name = 'ingresados_list'
     template_name = 'parqueaderos/balance.html'
     def get_context_data(self, **kwargs):
+        parq=self.kwargs.get('parqueadero')
+        desde=self.kwargs.get('desde')
+        #desdetime=datetime.datetime.strptime(desde, '%y/%m/%d')
+        hasta=self.kwargs.get('hasta')
+        #hastatime=datetime.datetime.strptime(hasta, '%y/%m/%d')
         lista=[]
         lista2=[]
         dic={}
         dic2={}
         dic3={}
         total=0
+        #fecha_ingreso=[desdetime, hastatime]
         context = super(VerBalance, self).get_context_data(**kwargs)
-        context['entradas'] = EntradaVehiculo.objects.values('tarifa__tipo_vehiculo').exclude(tarifa__tipo_vehiculo=None).annotate(num_ent=Count('tarifa__tipo_vehiculo'))
-        nombres_entradas= EntradaVehiculo.objects.values('tarifa__tipo_vehiculo').distinct().exclude(tarifa__tipo_vehiculo=None).annotate(num_ent=Count('tarifa__tipo_vehiculo')).values_list('tarifa__tipo_vehiculo', flat='true')
+        nombres_entradas= EntradaVehiculo.objects.values('tarifa__tipo_vehiculo').distinct().filter(parqueadero__nombre=parq).exclude(tarifa__tipo_vehiculo=None).annotate(num_ent=Count('tarifa__tipo_vehiculo')).values_list('tarifa__tipo_vehiculo', flat='true')
         for nombres in nombres_entradas:
             lista.append(nombres)
         final=collections.Counter(lista)
@@ -373,7 +381,7 @@ class VerBalance(ListView):
         dic['Total']=total
         context['entradas_f']=dic
         
-        salida= SalidaVehiculo.objects.all()
+        salida= SalidaVehiculo.objects.filter(operario__parqueadero__nombre=parq)
         for nombres in salida:
             lista2.append(nombres.tipo_vehiculo)
         final2=collections.Counter(lista2)
@@ -395,28 +403,39 @@ class VerBalance(ListView):
         context['balance']=dic2
         context['salidas']=dic3
         primer=EntradaVehiculo.objects.first()
-        context['fecha_entrada']=primer.fecha_ingreso
+        context['fecha_entrada']=desde
         first=primer.fecha_ingreso
-        context['fecha_salida']=datetime.datetime.now()
-        last= timezone.now()#datetime.datetime.now()
-        diff=relativedelta(last, first)
+        context['fecha_salida']=hasta
+        diff=relativedelta(first-timezone.now())
         context['fecha_total']=diff.days
-
-
-
-        #context['salidas'] = SalidaVehiculo.objects.annotate(num_sal=Count('tipo_vehiculo'),nombre='tipo_vehiculo')
-        #.values_list('tipo_vehiculo', flat='true')
+        context['parq']=parq
         return context
+
+        
+
 
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
-class GenerarBalance(CreateView):
+class GenerarBalance(FormView):
     template_name = 'parqueaderos/generar_balance.html'
     form_class = GenerarBalanceForm
-    success_url =  reverse_lazy('home')
-    def post(self, request, *args, **kwargs):
-        messages.success(request, 'Parqueadero eliminado correctamente')
-        return super(EliminarParqueadero, self).post(request, *args, **kwargs)
+    success_url =  reverse_lazy('ver-balance')
+    #def get(self,request):
+     #   form = self.form_class()
+
+    def post(self,request,*args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            parq=form.cleaned_data['parqueadero']
+            since=request.POST.get('desde')
+            until=request.POST.get('hasta')
+            messages.success(request, 'Busqueda correcta')
+            args={'parqueadero':parq,'desde':since,'hasta':until}
+            return redirect('ver-balance',parqueadero=parq,desde=since,hasta=until)
+        else:
+            messages.success(request, 'No dio')
+            return render(request,self.template_name)
+    
 
 @method_decorator([login_required], name='dispatch')
 class HistorialFacturas(ListView):
