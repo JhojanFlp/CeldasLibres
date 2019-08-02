@@ -439,7 +439,7 @@ class GenerarBalance(FormView):
     def post(self,request,*args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            parq=form.cleaned_data['parqueadero']
+            parq=request.POST.get('parqueadero')
             since=request.POST.get('desde')
             until=request.POST.get('hasta')
             messages.success(request, 'Busqueda correcta')

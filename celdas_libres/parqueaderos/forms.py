@@ -17,7 +17,7 @@ def get_my_choices():
         listV.append((l, l))
     return listV
 def get_my_choices2():
-    list = Parqueadero.objects.filter()
+    list = Parqueadero.objects.values_list('nombre',flat='true').all()
     listV = []
     for l in list:
         listV.append((l, l))
