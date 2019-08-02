@@ -126,6 +126,11 @@ class CrearSalidaVehiculo(CreateView):
     form_class = SalidaVehiculoForm
 
     def post(self, request, *args, **kwargs):
+        parqueaderosxencargado = Parqueadero.objects.filter(encargado=request.user.usuario).count()
+        if(parqueaderosxencargado==0):
+            messages.warning(request, 'Debe tener asignado un parqueadero')
+            return redirect('vehiculos-ingresados')
+            
         form = self.form_class(request.POST)
         if form.is_valid():
             messages.success(request, 'Salida registrada y factura generada')
@@ -138,7 +143,6 @@ class CrearSalidaVehiculo(CreateView):
             salida.operario = request.user.usuario
             salida.save()
 
-            
             name = Parqueadero.objects.filter(encargado=request.user.usuario)[0].nombre
             phone = Parqueadero.objects.filter(nombre__contains=name)[0].telefono
             ubication = Parqueadero.objects.filter(nombre__contains=name)[0].direccion
