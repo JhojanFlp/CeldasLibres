@@ -88,6 +88,7 @@ class EntradaVehiculo(models.Model):
     placa = models.CharField(max_length=6)
     usuario=models.CharField(max_length=20,null=True)
     parqueadero = models.ForeignKey(Parqueadero, on_delete=models.CASCADE,null=True, related_name='parq')
+    estado_facturado =  models.BooleanField(default=False)
 
     class Meta:
         unique_together = (('placa', 'fecha_ingreso'),)
@@ -119,7 +120,8 @@ class Factura(models.Model):
     out_date = models.DateTimeField(auto_now_add=True)
     total = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
     tipo_vehiculo=models.CharField(max_length=20,null=False)
-    
+    nameOP = models.CharField(validators=[MinLengthValidator(5), MaxLengthValidator(25)],max_length=25)
+
     class Meta:
         '''unique_together = (('placa', 'fecha_ingreso'),)'''
         verbose_name =  'ver factura'

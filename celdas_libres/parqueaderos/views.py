@@ -155,11 +155,12 @@ class CrearSalidaVehiculo(CreateView):
             in_date = datetime.datetime.strptime(request.POST.get('fecha_entrada'), '%d/%m/%Y %H:%M:%S')
             out_date = datetime.datetime.strptime(request.POST.get('fecha_salida'), '%d/%m/%Y %H:%M:%S')
             serial = 'gfK' + str(request.POST.get('fecha_salida'))
+            nameOP = self.request.user.username
             request.session['serial']=serial
             print(Tarifa.objects.filter(tipo_vehiculo = request.POST.get('tipo_vehiculo'))[0].por_hora)
             total = ((out_date-in_date).seconds/3600) * Tarifa.objects.filter(tipo_vehiculo = request.POST.get('tipo_vehiculo'))[0].por_hora
             
-            fact = Factura(serial=serial ,name= name, phone= phone, ubication= ubication, id_user= id_user, placa= placa, tipo_vehiculo=tipo_vehiculo, in_date= in_date, out_date=out_date, total = total)
+            fact = Factura(serial=serial ,name= name, nameOP=nameOP, phone= phone, ubication= ubication, id_user= id_user, placa= placa, tipo_vehiculo=tipo_vehiculo, in_date= in_date, out_date=out_date, total = total)
             fact.save()
 
         else:
@@ -450,8 +451,14 @@ class GenerarBalance(FormView):
     
 
 @method_decorator([login_required], name='dispatch')
+class HistorialSalidas(ListView):
+    model = Factura
+    context_object_name = 'facturas_list'
+    template_name = 'parqueaderos/historial-salidas.html'
+
+
+@method_decorator([login_required], name='dispatch')
 class HistorialFacturas(ListView):
     model = Factura
     context_object_name = 'facturas_list'
     template_name = 'parqueaderos/historial-facturas.html'
-

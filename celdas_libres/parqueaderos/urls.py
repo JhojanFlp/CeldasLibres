@@ -12,11 +12,12 @@ from .views import (CrearEntradaVehiculo, CrearParqueadero, CrearPlanPago,
                     CrearSalidaVehiculo, CrearTarifa, EliminarParqueadero, EliminarPlanPago, EliminarTarifa,
                     ModificarParqueadero, ModificarPlanPago, ModificarTarifa,
                     VerFicho, VerIngresados, VerParqueaderos, VerPlanesPago,
-                    VerTarifas, GenerarFactura, VerBalance, GenerarBalance, HistorialFacturas)
+                    VerTarifas, GenerarFactura, VerBalance, GenerarBalance, HistorialSalidas, HistorialFacturas )
 
 
 urlpatterns = [
     path('crear-tarifa/', CrearTarifa.as_view(), name='crear-tarifa'),
+    path('historial-salidas/', HistorialSalidas.as_view(), name='historial-salidas'),
     path('historial-facturas/', HistorialFacturas.as_view(), name='historial-facturas'),
     path('tarifas/', VerTarifas.as_view(), name='tarifas'),
     path('entrada-vehiculo/', CrearEntradaVehiculo.as_view(), name='ingresar-vehiculo'),

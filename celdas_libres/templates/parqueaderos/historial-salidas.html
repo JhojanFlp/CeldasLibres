@@ -6,8 +6,14 @@
     {% if user.is_authenticated %}
         <div class="w-100 border-bottom bg-light">
             <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehículos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Registrar vehículo</a>
+                </li>
                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'historial-facturas' %}">Hitorial de Facturas</a>
+                    <a class="nav-link" href="{% url 'historial-salidas' %}">Hitorial de salidas</a>
                 </li>
             </ul>
         </div>
@@ -26,7 +32,6 @@
                 <th scope="col">Identificación Cliente</th>
                 <th scope="col">Placa</th>
                 <th scope="col">Tipo de Vehiculo</th>
-                <th scope="col">Total Facturado</th>
 
 
 
@@ -41,7 +46,6 @@
                     <td>{{ factura.id_user }}</td>
                     <td>{{ factura.placa }}</td>
                     <th>{{ factura.tipo_vehiculo }}</th> 
-                    <th>{{ factura.total }}</th> 
 
                 </tr>
             {% endfor %}
