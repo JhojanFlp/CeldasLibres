@@ -16,34 +16,30 @@
 {% endblock role_nav %}
 
 {% block content %}
-  <div class="container">
-    <div class="card card-register mx-auto mt-5">
-      <div class="card-header">Balance</div>
-      <div class="card-body">
-          <div class="row justify-content-center">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="Pnombre">Desde:</label>
-                <input name="fecha" class="form-control" type="text" readonly value="{{fecha_entrada}}">
-              </div>
-                <div class="form-group">
-                <label for="Pnombre">Hasta: </label>
-                <input name="fecha" class="form-control" type="text" readonly value="{{fecha_salida}}">
-              </div>
-               <div class="form-group">
-                <label for="Pnombre">Duración: </label>
-                <input name="fecha" class="form-control" type="text" readonly value="{{fecha_total}} Días">
-              </div>
-              <div class="form-group">
-                <label for="Pnombre">Parqueadero: </label>
-                <input name="fecha" class="form-control" type="text" readonly value="{{parq}} ">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <table class="table table-secondary table-striped">
+  <div class="container" style="width: 50rem;">
+          <div class="row justify-content-center" style="width: 40rem;">
+            <table class="table table-secondary table-striped" style="width: 8rem;">
                 <thead class="thead-dark">
                   <tr>
-                      <th scope="col">Ingresados</th>
+                    <th scope="col">Desde</th>
+                    <th scope="col">Hasta</th>
+                    <th scope="col">Duración</th>
+                    <th scope="col">Parqueadero</th>
+                      <th scope="col">Ingresos</th>
+                      <th scope="col">Salidas</th>
+                      <th scope="col">Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                        <td>{{fecha_entrada}}</td>
+                        <td> {{fecha_salida}}</td>
+                        <td>{{fecha_total}} Días</td>
+                        <td>{{parq}}</td>
+                          <td><table class="table table-secondary table-striped" style="width: 8rem;">
+                <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">Tipo Vehiculo</th>
                       <th scope="col">Cantidad</th>
                     </tr>
                 </thead>
@@ -55,11 +51,11 @@
                       </tr>
                   {% endfor %}
                 </tbody>
-              </table>
-              <table class="table table-secondary table-striped">
+              </table></td>
+                          <td><table class="table table-secondary table-striped"style="width: 8rem;">
                 <thead class="thead-dark">
                   <tr>
-                      <th scope="col">Salidas</th>
+                      <th scope="col">Tipo Vehiculo</th>
                       <th scope="col">Cantidad</th>
                     </tr>
                 </thead>
@@ -71,11 +67,11 @@
                       </tr>
                   {% endfor %}
                 </tbody>
-              </table>
-              <table class="table table-secondary table-striped">
+              </table></td>
+                          <td><table class="table table-secondary table-striped"style="width: 8rem;">
                 <thead class="thead-dark">
                   <tr>
-                      <th scope="col">Balance</th>
+                      <th scope="col">Tipo Vehiculo</th>
                       <th scope="col">Ganancia</th>
                     </tr>
                 </thead>
@@ -87,14 +83,14 @@
                       </tr>
                   {% endfor %}
                 </tbody>
+              </table></td>
+                      </tr>
+
+                </tbody>
               </table>
-            </div>
         </div>
     </div>
 
-</div>
-</div>
 
-    </div>
   </div>
 {% endblock content %}

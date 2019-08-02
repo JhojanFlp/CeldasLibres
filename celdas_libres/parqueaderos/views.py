@@ -373,30 +373,32 @@ class VerBalance(ListView):
     def get_context_data(self, **kwargs):
         parq=self.kwargs.get('parqueadero')
         desde=self.kwargs.get('desde')
-        #desdetime=datetime.datetime.strptime(desde, '%y/%m/%d')
+        desdetime=datetime.datetime.strptime(desde, '%Y-%m-%d')
         hasta=self.kwargs.get('hasta')
-        #hastatime=datetime.datetime.strptime(hasta, '%y/%m/%d')
+        hastatime=datetime.datetime.strptime(hasta, '%Y-%m-%d')
         lista=[]
         lista2=[]
         dic={}
         dic2={}
         dic3={}
+        new={}
         total=0
         #fecha_ingreso=[desdetime, hastatime]
         context = super(VerBalance, self).get_context_data(**kwargs)
-        nombres_entradas= EntradaVehiculo.objects.values('tarifa__tipo_vehiculo').distinct().filter(parqueadero__nombre=parq).exclude(tarifa__tipo_vehiculo=None).annotate(num_ent=Count('tarifa__tipo_vehiculo')).values_list('tarifa__tipo_vehiculo', flat='true')
+        nombres_entradas= EntradaVehiculo.objects.values('tarifa__tipo_vehiculo').filter(parqueadero__nombre=parq).exclude(tarifa__tipo_vehiculo=None).annotate(num_ent=Count('tarifa__tipo_vehiculo')).values_list('tarifa__tipo_vehiculo', flat='true')
         for nombres in nombres_entradas:
             lista.append(nombres)
         final=collections.Counter(lista)
         for clave, valor in final.items():
             dic[clave]=valor
             total=valor+total
+        #dic=sorted(dic.items())
         dic['Total']=total
         context['entradas_f']=dic
         
         salida= SalidaVehiculo.objects.filter(operario__parqueadero__nombre=parq)
         for nombres in salida:
-            lista2.append(nombres.tipo_vehiculo)
+            lista2.append(nombres.tipo_vehiculo)    
         final2=collections.Counter(lista2)
         for clave, valor in final2.items():
             dic2[clave]=valor
@@ -419,7 +421,7 @@ class VerBalance(ListView):
         context['fecha_entrada']=desde
         first=primer.fecha_ingreso
         context['fecha_salida']=hasta
-        diff=relativedelta(first-timezone.now())
+        diff=hastatime-desdetime
         context['fecha_total']=diff.days
         context['parq']=parq
         return context
