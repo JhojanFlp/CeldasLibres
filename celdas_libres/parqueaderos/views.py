@@ -133,7 +133,13 @@ class CrearSalidaVehiculo(CreateView):
         if(parqueaderosxencargado==0):
             messages.warning(request, 'Debe tener asignado un parqueadero')
             return redirect('vehiculos-ingresados')
-            
+
+        entrada_pk = request.POST.get('entrada_vehiculo')
+        entradaVehiculo = EntradaVehiculo.objects.get(pk=entrada_pk)
+        if(entradaVehiculo.estado_facturado==True):
+            messages.warning(request, 'La salida del vehiculo ya ha sido facturada')
+            return redirect('historial-salidas')
+        
         form = self.form_class(request.POST)
         if form.is_valid():
             messages.success(request, 'Salida registrada y factura generada')
@@ -160,6 +166,9 @@ class CrearSalidaVehiculo(CreateView):
             print(Tarifa.objects.filter(tipo_vehiculo = request.POST.get('tipo_vehiculo'))[0].por_hora)
             total = ((out_date-in_date).seconds/3600) * Tarifa.objects.filter(tipo_vehiculo = request.POST.get('tipo_vehiculo'))[0].por_hora
             
+            entradaVehiculo.estado_facturado = True
+            entradaVehiculo.save()
+
             fact = Factura(serial=serial ,name= name, nameOP=nameOP, phone= phone, ubication= ubication, id_user= id_user, placa= placa, tipo_vehiculo=tipo_vehiculo, in_date= in_date, out_date=out_date, total = total)
             fact.save()
 
