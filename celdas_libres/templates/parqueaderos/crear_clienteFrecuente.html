@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Cliente Frecuente{% endblock title %}
+
+{% block content %}
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Registro de Cliente frecuente</div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+              {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="card border-danger mb-3">
+                          <div class="card-body text-danger">
+                              <p class="card-text">
+                                  {{ error|escape }}
+                              </p>
+                          </div>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="card border-danger mb-3">
+                      <div class="card-body text-danger">
+                          <p class="card-text">
+                              {{ error|escape }}
+                          </p>
+                      </div>
+                  </div>
+              {% endfor %}
+          {% endif %}
+            <div class="form-row">
+              <div class="col-md-6">
+                <label>Tipo de documento *</label>
+                {{ form.tipo_identificacion }}
+              </div>
+              <div class="col-md-6">
+                <label>Identificación *</label>
+                {{ form.identificacion }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nombres *</label>
+            {{ form.nombres }}
+          </div>
+          <div class="form-group">
+            <label>Apellidos *</label>
+            {{ form.apellidos }}
+          </div>
+          <div class="form-group">
+              <label>Teléfono celular *</label>
+              {{ form.celular }}
+          </div>
+          <div class="form-group">
+            <label>Correo electrónico (opcional)</label>
+            {{ form.email }}
+          </div>
+          <div class="form-group">
+              <label>Fecha de nacimiento*</label>
+              <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                {{ form.fecha_nacimiento }}
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+              </div>
+          </div>
+
+           <div class="form-group">
+            <label>Planes de pago *</label>
+            {{ form.planes_pago }}
+          </div>
+          <button type="submit" class="btn btn-warning btn-block">Registrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  $(function () {
+    $("#datetimepicker1").datetimepicker({
+      format: 'DD/MM/YYYY'
+    });
+  });
+</script>
+{% endblock scripts %}

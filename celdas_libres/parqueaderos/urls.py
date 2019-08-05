@@ -12,7 +12,7 @@ from .views import (CrearEntradaVehiculo, CrearParqueadero, CrearPlanPago,
                     CrearSalidaVehiculo, CrearTarifa, EliminarParqueadero, EliminarPlanPago, EliminarTarifa,
                     ModificarParqueadero, ModificarPlanPago, ModificarTarifa,
                     VerFicho, VerIngresados, VerParqueaderos, VerPlanesPago,
-                    VerTarifas, GenerarFactura, VerBalance, GenerarBalance, HistorialSalidas, HistorialFacturas )
+                    VerTarifas, GenerarFactura, VerBalance, GenerarBalance, HistorialSalidas, HistorialFacturas,CrearClienteFrecuente )
 
 
 urlpatterns = [
@@ -44,5 +44,6 @@ urlpatterns = [
 
     #path('ver-balance/', VerBalance.as_view(), name='ver-balance'),
 
-    path('balance/',GenerarBalance.as_view(),name='Generar_Balance')
+    path('balance/',GenerarBalance.as_view(),name='Generar_Balance'),
+    path('crear-cliente-frecuente/',CrearClienteFrecuente.as_view(),name='crear-cliente-frecuente')
 ]

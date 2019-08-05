@@ -3,7 +3,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
 
-
 def default_id():
     return Usuario.objects.count()
 
@@ -39,3 +38,4 @@ def create_user_profile(sender, instance, created, *args, **kwargs):
 def save_user_profile(sender, instance, *args, **kwargs):
     instance.usuario.identificacion = instance.username
     instance.usuario.save()
+
