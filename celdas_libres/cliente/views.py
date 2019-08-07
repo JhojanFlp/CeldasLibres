@@ -1,9 +1,7 @@
 from django.shortcuts import render
 import datetime
 import pytz
-
 local_tz = pytz.timezone('America/Bogota')
-
 import collections
 from django.utils import timezone
 from django.contrib import messages
@@ -23,6 +21,7 @@ from django.template import context
 from django.forms import formset_factory
 from .models import ClienteFrecuente
 from .forms import CrearClienteFrecuenteForm
+from parqueaderos.models import PlanPago
 
 @method_decorator([login_required], name='dispatch')
 class CrearClienteFrecuente(CreateView):
@@ -30,23 +29,32 @@ class CrearClienteFrecuente(CreateView):
     model = ClienteFrecuente
     form_class = CrearClienteFrecuenteForm
     success_url = reverse_lazy('parqueaderos')
+
+    def get_context_data(self, **kwargs):
+    	context = super(CrearClienteFrecuente, self).get_context_data(**kwargs)
+    	context['planes'] = PlanPago.objects.filter(eliminado='False')
+    	return context
+
     def post(self,request,*args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            tipo_documento=request.POST.get('parqueadero')
-            identificacion=request.POST.get('identifiacion')
+            tipo_documento=request.POST.get('tipo_identificacion')
+            identificacion=request.POST.get('identificacion')
             nombres=request.POST.get('nombres')
             apellidos=request.POST.get('apellidos')
             num_cel=request.POST.get('celular')
             correo=request.POST.get('email')
             fecha_nac=request.POST.get('fecha_nacimiento')
-            plan_pago=request.POST.get('planes_pago')
-            messages.success(request, 'Cliente frecuente creado correctamente')
+            plan_pag=request.POST.get('planes_pago')
+            primary=PlanPago.objects.get(nombre=plan_pag, eliminado='False')
             client=ClienteFrecuente(identificacion=identificacion,tipo_documento=tipo_documento,
                 nombres=nombres,apellidos=apellidos,numero_celular=num_cel,email=correo,
-                fecha_nacimiento=fecha_nac,plan_pago=plan_pago)
-            return render(request,self.template_name)
+                fecha_nacimiento=fecha_nac,plan_pago=primary)
+            client.save()
+            messages.success(request, 'Cliente frecuente creado correctamente')
+            return redirect('home')
         else:
-            messages.success(request, 'Error al crear cliente frecuente')
-            return redirect('parqueaderos')
+            messages.warning(request, 'Error al crear cliente frecuente, Intente nuevamente')
+            return redirect('crear-cliente-frecuente')
+
 

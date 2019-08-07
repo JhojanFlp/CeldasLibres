@@ -9,9 +9,9 @@ from accounts.models import Usuario
 from parqueaderos.models import Parqueadero
 from cliente.models import ClienteFrecuente
 from django.contrib.auth.forms import UserCreationForm
-
+import datetime
 def get_my_choices3():
-    list = PlanPago.objects.values_list('nombre',flat='true').all()
+    list = PlanPago.objects.values_list('nombre',flat='true').filter(eliminado='False')
     listV = []
     for l in list:
         listV.append((l, l))
@@ -63,15 +63,6 @@ class CrearClienteFrecuenteForm(forms.ModelForm):
                 }
         )
     )
-
-    fecha_nacimiento = forms.DateField(input_formats=['%d/%m/%Y'],
-    required=True,
-        widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
-            'data-target': '#datetimepicker1'
-        })
-    )
-
     planes_pago = forms.ChoiceField(required=True,
         choices=get_my_choices3(),
         widget=forms.Select(
@@ -81,8 +72,10 @@ class CrearClienteFrecuenteForm(forms.ModelForm):
     class Meta:
         model = ClienteFrecuente
         fields = [
-            'tipo_identificacion', 'identificacion', 'nombres',
+            'identificacion','tipo_identificacion', 'nombres',
             'apellidos', 'celular', 'email', 'fecha_nacimiento',
             'planes_pago',]
+    def __init__(self, *args, **kwargs):
+    	super(CrearClienteFrecuenteForm, self).__init__(*args, **kwargs)
 
 
