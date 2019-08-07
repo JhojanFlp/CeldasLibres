@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'core',
     'vehiculos',
     'bootstrap_modal_forms',
+    'cliente',
 ]
 
 MIDDLEWARE = [

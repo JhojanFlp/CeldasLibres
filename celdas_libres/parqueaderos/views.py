@@ -24,9 +24,9 @@ from django.forms import formset_factory
 from vehiculos.models import Vehiculo
 
 from .forms import (CrearCapacidadVehiculo, CrearParqueaderoForm, CrearTarifaForm,
-                    CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,GenerarBalanceForm,CrearClienteFrecuenteForm)
+                    CreateDescuentoTarifa, CreatePlanPago, EntradaVehiculoForm, SalidaVehiculoForm,GenerarBalanceForm)
 from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
-                     Parqueadero, PlanPago, SalidaVehiculo, Tarifa, Factura,ClienteFrecuente)
+                     Parqueadero, PlanPago, SalidaVehiculo, Tarifa, Factura)
 
 #import re
 
@@ -474,28 +474,3 @@ class HistorialFacturas(ListView):
     context_object_name = 'facturas_list'
     template_name = 'parqueaderos/historial-facturas.html'
 
-@method_decorator([login_required], name='dispatch')
-class CrearClienteFrecuente(CreateView):
-    template_name = 'parqueaderos/crear_clienteFrecuente.html'
-    model = ClienteFrecuente
-    form_class = CrearClienteFrecuenteForm
-    success_url = reverse_lazy('parqueaderos')
-    def post(self,request,*args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            tipo_documento=request.POST.get('parqueadero')
-            identificacion=request.POST.get('identifiacion')
-            nombres=request.POST.get('nombres')
-            apellidos=request.POST.get('apellidos')
-            num_cel=request.POST.get('celular')
-            correo=request.POST.get('email')
-            fecha_nac=request.POST.get('fecha_nacimiento')
-            plan_pago=request.POST.get('planes_pago')
-            messages.success(request, 'Cliente frecuente creado correctamente')
-            client=ClienteFrecuente(identificacion=identificacion,tipo_documento=tipo_documento,
-                nombres=nombres,apellidos=apellidos,numero_celular=num_cel,email=correo,
-                fecha_nacimiento=fecha_nac,plan_pago=plan_pago)
-            return render(request,self.template_name)
-        else:
-            messages.success(request, 'Error al crear cliente frecuente')
-            return redirect('parqueaderos')
