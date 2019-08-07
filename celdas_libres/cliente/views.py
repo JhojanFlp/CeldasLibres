@@ -56,5 +56,9 @@ class CrearClienteFrecuente(CreateView):
         else:
             messages.warning(request, 'Error al crear cliente frecuente, Intente nuevamente')
             return redirect('crear-cliente-frecuente')
-
+@method_decorator([login_required], name='dispatch')
+class VerClientesFrecuentes(ListView):
+    model = ClienteFrecuente
+    context_object_name = 'cliente_frecuente'
+    template_name = 'parqueaderos/clienteFrecuente_list.html'
 

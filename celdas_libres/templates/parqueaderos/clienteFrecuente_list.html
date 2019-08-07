@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Clientes Frecuentes{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ver-cliente-frecuente' %}">Clientes Frecuentes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crear-cliente-frecuente' %}">Registrar cliente frecuente</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+<div class="container pt-5 mt-3">
+    <table class="table table-secondary table-striped">
+        <thead class="thead-dark">
+            <tr align="center">
+                <th scope="col">Identificador</th>
+                <th scope="col">Tipo identificación</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Apellidos</th>
+                
+                <th scope="col">Teléfono celular</th>
+                <th scope="col">Correo electronico</th>
+                <th scope="col">Fecha nacimiento</th>    
+                <th scope="col">Planes de pago</th>
+                <th scope="col">Modificar</th>
+                <th scope="col">Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in cliente_frecuente %}
+                {% if not usuario.identificacion.is_staff %}
+                <tr align="center">
+                    <th scope="row">{{ usuario.identificacion }}</th>
+                    <td>{{ usuario.tipo_documento }}</td>
+                    <td>{{ usuario.nombres }}</td>
+                    <td>{{ usuario.apellidos }}</td>
+                    <td>{{ usuario.numero_celular }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.fecha_nacimiento }}</td>
+                    <td>{{ usuario.plan_pago }}</td>
+                    <!--<td >
+                        <a href="{% url 'modificar-cliente' usuario.identificacion.id %}"><input type="image" width="30" height="30"  name="botonmodificar" src="https://image.flaticon.com/icons/png/512/61/61776.png"></a>
+                    </td>
+                    <td>
+                        <a href="{% url 'eliminar-usuario' usuario.identificacion.id %}"><input type="image" width="30" height="30"  name="botoneliminar" src="https://image.flaticon.com/icons/png/512/61/61848.png"></a>
+                    </td>-->
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
