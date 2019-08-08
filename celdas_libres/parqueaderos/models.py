@@ -83,6 +83,7 @@ class CapacidadVehiculo(models.Model):
         return str(self.vehiculo+" "+self.capacidad).capitalize()
 
 class EntradaVehiculo(models.Model):
+    identificacion = models.CharField(max_length=15, null=True)
     tarifa = models.ForeignKey(Tarifa, on_delete=models.SET_NULL, null=True, related_name='tarifa')
     fecha_ingreso = models.DateTimeField(auto_now_add=True)
     placa = models.CharField(max_length=6)

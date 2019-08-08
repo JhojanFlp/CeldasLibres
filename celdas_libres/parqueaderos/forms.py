@@ -92,6 +92,12 @@ class EntradaVehiculoForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control'
                 }
+            ),
+            'identificacion': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'id': 'idC'
+                }
             )
         }
 

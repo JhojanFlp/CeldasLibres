@@ -3,6 +3,8 @@ from django.db import models
 from parqueaderos.models import PlanPago
 from accounts.models import Usuario
 from vehiculos.models import Vehiculo
+
+
 class ClienteFrecuente(models.Model):
     identificacion=models.BigIntegerField(primary_key=True)
     tipo_documento=models.CharField(max_length=20)

@@ -12,7 +12,7 @@ from .views import (CrearEntradaVehiculo, CrearParqueadero, CrearPlanPago,
                     CrearSalidaVehiculo, CrearTarifa, EliminarParqueadero, EliminarPlanPago, EliminarTarifa,
                     ModificarParqueadero, ModificarPlanPago, ModificarTarifa,
                     VerFicho, VerIngresados, VerParqueaderos, VerPlanesPago,
-                    VerTarifas, GenerarFactura, VerBalance, GenerarBalance, HistorialSalidas, HistorialFacturas )
+                    VerTarifas, GenerarFactura, VerBalance, GenerarBalance, HistorialSalidas, HistorialFacturas, buscar_cliente)
 
 
 urlpatterns = [
@@ -47,5 +47,7 @@ urlpatterns = [
     path('balance/',GenerarBalance.as_view(),name='Generar_Balance'),
     path('crear-cliente-frecuente/',CrearClienteFrecuente.as_view(),name='crear-cliente-frecuente'),
     path('ver-cliente-frecuente/',VerClientesFrecuentes.as_view(),name='ver-cliente-frecuente'),
-    path('modificar-cliente/', GenerarFactura.as_view(), name='generar-factura')
+    path('modificar-cliente/', GenerarFactura.as_view(), name='generar-factura'),
+
+    path('buscar-cliente/<str:identificacion>/', buscar_cliente, name='buscar-cliente'),
 ]

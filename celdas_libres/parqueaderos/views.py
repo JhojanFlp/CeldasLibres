@@ -20,6 +20,7 @@ from dateutil.relativedelta import relativedelta
 from django.http import HttpResponse,HttpResponseRedirect
 from django.template import context
 from django.forms import formset_factory
+from django.http import JsonResponse
 
 from vehiculos.models import Vehiculo
 
@@ -28,7 +29,7 @@ from .forms import (CrearCapacidadVehiculo, CrearParqueaderoForm, CrearTarifaFor
 from .models import (CapacidadVehiculo, DescuentoTarifa, EntradaVehiculo,
                      Parqueadero, PlanPago, SalidaVehiculo, Tarifa, Factura)
 
-#import re
+from cliente.models import ClienteFrecuente
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class CrearTarifa(CreateView):
@@ -459,7 +460,6 @@ class GenerarBalance(FormView):
         else:
             messages.success(request, 'No dio')
             return render(request,self.template_name)
-    
 
 @method_decorator([login_required], name='dispatch')
 class HistorialSalidas(ListView):
@@ -473,4 +473,18 @@ class HistorialFacturas(ListView):
     model = Factura
     context_object_name = 'facturas_list'
     template_name = 'parqueaderos/historial-facturas.html'
+
+def buscar_cliente(request, identificacion):
+    if request.is_ajax():
+        try:
+            cliente = ClienteFrecuente.objects.get(identificacion=identificacion)
+            return JsonResponse({
+                'name': cliente.nombres,
+                'lastname': cliente.apellidos
+            })
+        except:
+            return JsonResponse({
+                'name': None,
+                'lastname': None
+            })
 

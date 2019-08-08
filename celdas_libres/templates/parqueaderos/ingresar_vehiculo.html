@@ -30,6 +30,18 @@
           <div class="row justify-content-center">
             <div class="col-md-6">
               <div class="form-group">
+                <label for="Pnombre">Identificación *</label>
+                {{ form.identificacion }}
+              </div>
+              <div class="form-group">
+                <label for="Pnombre">Nombre</label>
+                <input id="nameC" type="text" readonly="readonly" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="Pnombre">Apellido</label>
+                <input id="lastnameC" type="text" readonly="readonly" class="form-control">
+              </div>
+              <div class="form-group">
                 <label for="Pnombre">Placa *</label>
                 {{ form.placa }}
               </div>
@@ -41,9 +53,9 @@
                     {% endfor %}
                 </select>
                 <input type="hidden" name="usuario" value="{{ user.first_name | capfirst }} {{ user.last_name | capfirst }}">
-                {% for parq in parqueadero %}       
+                {% for parq in parqueadero %}
                 <input type="hidden" name="parqueadero" value="{{parq.nombre}}">
-                {% endfor %}                
+                {% endfor %}
               </div>
             </div>
             <div class="col-md-6">
