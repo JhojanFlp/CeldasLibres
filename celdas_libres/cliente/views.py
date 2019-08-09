@@ -52,7 +52,7 @@ class CrearClienteFrecuente(CreateView):
                 fecha_nacimiento=fecha_nac,plan_pago=primary)
             client.save()
             messages.success(request, 'Cliente frecuente creado correctamente')
-            return redirect('home')
+            return redirect('ver-cliente-frecuente')
         else:
             messages.warning(request, 'Error al crear cliente frecuente, Intente nuevamente')
             return redirect('crear-cliente-frecuente')
