@@ -124,7 +124,7 @@ class Factura(models.Model):
     nameOP = models.CharField(validators=[MinLengthValidator(5), MaxLengthValidator(25)],max_length=25)
 
     class Meta:
-        '''unique_together = (('placa', 'fecha_ingreso'),)'''
+        # unique_together = (('placa', 'fecha_ingreso'),)
         verbose_name =  'ver factura'
         ordering = ['-out_date']
     def __str__(self):

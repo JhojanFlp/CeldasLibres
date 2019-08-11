@@ -16,3 +16,7 @@ class ClienteFrecuente(models.Model):
     plan_pago=models.ForeignKey(
         PlanPago, on_delete=models.SET_NULL, null=True
     )
+
+    def __str__(self):
+        respuesta = str(self.identificacion) + " - "+str(self.nombres)+" "+str(self.apellidos)
+        return respuesta

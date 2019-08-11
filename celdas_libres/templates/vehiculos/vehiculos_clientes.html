@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehiculos Clientes{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated%}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vehiculos-clientes' %}">Vehiculos clientes frecuentes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crear-vehiculo-cliente' %}">Crear Vehiculo de cliente frecuente</a>
+                </li>
+            </ul>
+        </div>
+    {% else %}
+        <meta http-equiv="refresh"
+   content="0; url={% url 'home' %}">
+    {% endif %}
+{% endblock role_nav %}
+
+
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container pt-5 mt-3">
+    <table class="table table-secondary table-striped">
+        <thead class="thead-dark">
+            <tr align="center">
+                <th scope="col">Placa</th>
+                <th scope="col">Color</th>
+                <th scope="col">Tipo vehiculo</th>
+                <th scope="col">ID Propietario</th>
+                <th scope="col">Editar</th>
+                <th scope="col">Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vehiculo in vehiculos_list %}
+                <tr align="center">
+                    <td>{{ vehiculo.placa }}</td>
+                    <td>{{ vehiculo.color }}</td>
+                    <td>{{ vehiculo.tipo_vehiculo }}</td>
+                    <td>{{ vehiculo.propietario }}</td>
+                    <td  align="center">
+                       <a href="{% url 'modificar-vehiculo-cliente' vehiculo.id%}"> <input type="image" width="30" height="30"  name="botonmodificar" src="https://image.flaticon.com/icons/png/512/61/61776.png"></a>
+                    </td>
+                    <td>
+                        <a href="{% url 'eliminar-vehiculo-cliente' vehiculo.id %}"><input type="image" width="30" height="30"  name="botoneliminar" src="https://image.flaticon.com/icons/png/512/61/61848.png"></a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock content %}

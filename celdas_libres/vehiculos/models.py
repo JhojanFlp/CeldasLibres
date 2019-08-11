@@ -16,3 +16,15 @@ class Vehiculo(models.Model):
 
     def __str__(self):
         return str(self.tipo_vehiculo).capitalize()
+
+class VehiculoClienteFrecuente(models.Model):
+    placa = models.CharField(max_length=6)
+    color = models.CharField(max_length=20)
+    tipo_vehiculo = models.CharField(max_length=20)
+    propietario = models.BigIntegerField()
+
+    class Meta:
+        verbose_name = 'vehiculos_clientes'
+
+    def __str__(self):
+        return str(self.placa)+" "+str(self.color)

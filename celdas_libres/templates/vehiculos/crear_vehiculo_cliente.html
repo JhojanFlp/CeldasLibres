@@ -1,0 +1,79 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Tarifas{% endblock title %}
+
+{% block role_nav %}
+    {% if user.is_authenticated %}
+        <div class="w-100 border-bottom bg-light">
+            <ul class="nav nav-tabs m-auto border-bottom-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vehiculos-clientes' %}">Vehiculos clientes frecuentes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crear-vehiculo-cliente' %}">Crear vehiculo de cliente frecuente</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock role_nav %}
+
+{% block content %}
+  <div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header">Creacion de vehiculo</div>
+      <div class="card-body">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="placa">Placa *</label>
+              {{ form.placa }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="color">Color *</label>
+              {{ form.color }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tipo_vehiculo">Tipo vehiculo *</label>
+              {{ form.tipo_vehiculo }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="propietario">Propietario *</label>
+              {{ form.propietario }}
+            </div>
+          </div>
+
+          {% if form.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="card border-danger mb-3">
+                          <div class="card-body text-danger">
+                              <p class="card-text">
+                                  {{ error|escape }}
+                              </p>
+                          </div>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="card border-danger mb-3">
+                      <div class="card-body text-danger">
+                          <p class="card-text">
+                              {{ error|escape }}
+                          </p>
+                      </div>
+                  </div>
+              {% endfor %}
+          {% endif %}
+          <button type="submit" class="btn btn-warning btn-block">Crear vehiculo</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

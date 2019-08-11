@@ -10,8 +10,8 @@ from bootstrap_modal_forms.generic import BSModalCreateView
 
 # Create your views here.
 
-from .models import Vehiculo
-from .forms import CrearVehiculoForm
+from .models import Vehiculo , VehiculoClienteFrecuente
+from .forms import CrearVehiculoForm, CrearVehiculoClienteFrecuenteForm
 from parqueaderos import views
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
@@ -57,3 +57,53 @@ class EliminarVehiculo(DeleteView):
         form = self.form_class(request.POST)
         messages.success(request, 'Vehiculo eliminado')
         return super(EliminarVehiculo, self).post(request, kwargs)
+
+
+@method_decorator([login_required], name='dispatch')
+class CrearVehiculoClienteFrecuente(CreateView):
+    model = VehiculoClienteFrecuente
+    template_name = 'vehiculos/crear_vehiculo_cliente.html'
+    form_class = CrearVehiculoClienteFrecuenteForm
+    success_url = reverse_lazy('vehiculos-clientes')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Vehiculo de cliente frecuente creado correctamente')
+        return super(CrearVehiculoClienteFrecuente, self).post(request, *args, **kwargs)
+
+
+@method_decorator([login_required], name='dispatch')
+class VerVehiculosClientes(ListView):
+    model = VehiculoClienteFrecuente
+    context_object_name = 'vehiculos_list'
+    template_name = 'vehiculos/vehiculos_clientes.html'
+
+
+@method_decorator([login_required], name='dispatch')
+class EliminarVehiculoCliente(DeleteView):
+    model = VehiculoClienteFrecuente
+    form_class = CrearVehiculoClienteFrecuenteForm
+    success_url = reverse_lazy('vehiculos-clientes')
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+
+        messages.success(request, 'Vehiculo eliminado correctamente')
+        return super(EliminarVehiculoCliente, self).post(request, *args, **kwargs)
+
+
+@method_decorator([login_required], name='dispatch')
+class ModificarVehiculoCliente(UpdateView):
+    model = VehiculoClienteFrecuente
+    form_class = CrearVehiculoClienteFrecuenteForm
+    template_name_suffix = '_update_form'
+    success_url =  reverse_lazy('vehiculos-clientes')
+
+    def post(self, request, *args, **kwargs):
+        request.POST = request.POST.copy()
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Vehiculo actualizado correctamente')
+        return super(ModificarVehiculoCliente, self).post(request, *args, **kwargs)
+       
