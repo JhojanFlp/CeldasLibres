@@ -44,7 +44,13 @@
                     <td>{{ usuario.nombres }}</td>
                     <td>{{ usuario.apellidos }}</td>
                     <td>{{ usuario.numero_celular }}</td>
+                    {%if usuario.email%}
                     <td>{{ usuario.email }}</td>
+                    {%endif%}
+                    {%if not usuario.email%}
+                    <td>No se registró email</td>
+                    {%endif%}
+
                     <td>{{ usuario.fecha_nacimiento }}</td>
                     <td>{{ usuario.plan_pago }}</td>
                     <td  align="center">
