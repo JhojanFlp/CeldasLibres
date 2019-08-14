@@ -58,6 +58,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehiculos</a>
               </li>
+              <li class="nav-item">
+            <a class="nav-link" href="{% url 'vehiculos-clientes' %}">Vehiculos de clientes frecuentes </a>
+          </li>
             {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'tarifas' %}">Tarifas</a>
@@ -71,10 +74,6 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'crear-cliente-frecuente' %}">Cliente frecuente </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'vehiculos-clientes' %}">Vehiculos de clientes frecuentes </a>
-          </li>
-
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
           </li>
