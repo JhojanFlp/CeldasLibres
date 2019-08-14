@@ -119,7 +119,9 @@ class Factura(models.Model):
     placa = models.CharField(max_length=6,null=False)
     in_date = models.DateTimeField(auto_now_add=False)
     out_date = models.DateTimeField(auto_now_add=True)
-    total = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
+    total_general = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)], null=True)
+    descuento = models.FloatField(validators=[MaxValueValidator(9999999999)], null=True)
+    total = models.FloatField(validators=[MaxValueValidator(9999999999)])
     tipo_vehiculo=models.CharField(max_length=20,null=False)
     nameOP = models.CharField(validators=[MinLengthValidator(5), MaxLengthValidator(25)],max_length=25)
 

@@ -21,7 +21,11 @@
                 <p>tipo_vehiculo: {{tipo_vehiculo}}</p>
                 <p>Fecha de entrada: {{ entrada }}</p>
                 <p>Fecha de salida: {{ salida }}</p>
-                <p>Total a pagar: <Strong>{{ total }}</Strong></p>
+                {% if descuento != 0 %}
+                  <p>Total sin descuento: $  {{ total_general }}</p>
+                  <p>Descuento: {{ descuento }} %</p>
+                {% endif %}
+                <p>Total a pagar: <Strong>$ {{ total }}</Strong></p>
                 
               </div>
               

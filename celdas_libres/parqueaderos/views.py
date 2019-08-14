@@ -166,17 +166,33 @@ class CrearSalidaVehiculo(CreateView):
             nameOP = self.request.user.username
             request.session['serial']=serial
             print(Tarifa.objects.filter(tipo_vehiculo = request.POST.get('tipo_vehiculo'))[0].por_hora)
-            total = ((out_date-in_date).seconds/3600) * Tarifa.objects.filter(tipo_vehiculo = request.POST.get('tipo_vehiculo'))[0].por_hora
-            
+            total_general = ((out_date-in_date).seconds/3600) * Tarifa.objects.filter(tipo_vehiculo = request.POST.get('tipo_vehiculo'))[0].por_hora
+            print("Total antes de descuentos ", total_general)
+
+            if id_user:
+                try:
+                    cliente = ClienteFrecuente.objects.get(identificacion=id_user)
+                    plan_pago=cliente.plan_pago
+                    descuento=plan_pago.descuentos.all().filter(tarifa__tipo_vehiculo=tipo_vehiculo)[0]
+                    total=int(total_general)*(1-(float(descuento.descuento/100)))
+                    print("Se selecciono: ", descuento.tarifa, ", Descuento:", descuento.descuento, ", Total a Facturar: ", total)
+                    descuento=float(descuento.descuento)
+                except:
+                    plan_pago= None
+                    descuento= 0
+                    total=int(total_general)
+                    print("no es cliente con plan de pago")
+
             entradaVehiculo.estado_facturado = True
             entradaVehiculo.save()
 
-            fact = Factura(serial=serial ,name= name, nameOP=nameOP, phone= phone, ubication= ubication, id_user= id_user, placa= placa, tipo_vehiculo=tipo_vehiculo, in_date= in_date, out_date=out_date, total = total)
+
+            fact = Factura(serial=serial ,name= name, nameOP=nameOP, phone= phone, ubication= ubication, id_user= id_user, placa= placa, tipo_vehiculo=tipo_vehiculo, in_date= in_date, out_date=out_date, total_general=total_general, descuento=descuento, total = total)
             fact.save()
 
         else:
             messages.warning(request, 'Debe tener asignado un parqueadero')       
-
+ 
         return redirect('generar-factura')
 
     def get_context_data(self, **kwargs):
@@ -210,8 +226,10 @@ class GenerarFactura(TemplateView):
         context['placa']= factura.placa
         context['entrada']= factura.in_date
         context['salida']= factura.out_date
-        context['total']= factura.total
         context['tipo_vehiculo']= factura.tipo_vehiculo
+        context['total']= factura.total
+        context['total_general']= factura.total_general
+        context['descuento']= factura.descuento
         return context
 
     

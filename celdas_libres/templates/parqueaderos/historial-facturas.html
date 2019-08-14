@@ -26,6 +26,8 @@
                 <th scope="col">Identificación Cliente</th>
                 <th scope="col">Placa</th>
                 <th scope="col">Tipo de Vehiculo</th>
+                <th scope="col">Total antes de descuento</th>
+                <th scope="col">Descuento</th>
                 <th scope="col">Total Facturado</th>
 
 
@@ -40,7 +42,9 @@
                     <td>{{ factura.out_date }}</td>
                     <td>{{ factura.id_user }}</td>
                     <td>{{ factura.placa }}</td>
-                    <th>{{ factura.tipo_vehiculo }}</th> 
+                    <th>{{ factura.tipo_vehiculo }}</th>
+                    <th>{{ factura.total_general }}</th>  
+                    <th>{{ factura.descuento }}</th> 
                     <th>{{ factura.total }}</th> 
 
                 </tr>
