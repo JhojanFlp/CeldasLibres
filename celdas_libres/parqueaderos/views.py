@@ -152,7 +152,8 @@ class CrearSalidaVehiculo(CreateView):
             )
             salida.operario = request.user.usuario
             salida.save()
-
+            
+        
             name = Parqueadero.objects.filter(encargado=request.user.usuario)[0].nombre
             phone = Parqueadero.objects.filter(nombre__contains=name)[0].telefono
             ubication = Parqueadero.objects.filter(nombre__contains=name)[0].direccion
@@ -181,6 +182,7 @@ class CrearSalidaVehiculo(CreateView):
     def get_context_data(self, **kwargs):
         context = super(CrearSalidaVehiculo, self).get_context_data(**kwargs)
         entrada = EntradaVehiculo.objects.get(pk=self.kwargs.get('pk'))
+        context['documento'] = entrada.identificacion
         context['entrada_vehiculo'] = entrada.id
         context['placa'] = entrada.placa
         context['tipo_vehiculo'] = entrada.tarifa.tipo_vehiculo
