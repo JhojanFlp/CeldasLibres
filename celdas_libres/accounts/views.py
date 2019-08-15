@@ -23,6 +23,7 @@ class CrearUsuario(CreateView):
 
     def post(self, request, *args, **kwargs):
         post = request.POST.copy()
+        # if post['fecha_nacimiento'][0] in '1' and post['fecha_nacimiento'][1] in ''
         post['fecha_nacimiento'] = dt.datetime.strptime(post.get('fecha_nacimiento').split()[0], '%m/%d/%Y').strftime('%d/%m/%Y')
         form = self.form_class(post)
         print(form)

@@ -232,12 +232,18 @@ class GenerarFactura(TemplateView):
         context['descuento']= factura.descuento
         return context
 
-    
+
 @method_decorator([login_required], name='dispatch')
 class VerIngresados(ListView):
     model = EntradaVehiculo
     context_object_name = 'ingresados_list'
     template_name = 'parqueaderos/ingresados_list.html'
+
+    def get_queryset(self):
+        query = super(VerIngresados, self).get_queryset()
+        parking = Parqueadero.objects.filter(encargado=self.request.user.usuario)
+        return query.filter(parqueadero=parking)
+
 
 @method_decorator([login_required], name='dispatch')
 class VerFicho(ListView):
@@ -455,10 +461,6 @@ class VerBalance(ListView):
         context['fecha_total']=diff.days
         context['parq']=parq
         return context
-
-        
-
-
 
 @method_decorator([login_required, staff_member_required], name='dispatch')
 class GenerarBalance(FormView):
