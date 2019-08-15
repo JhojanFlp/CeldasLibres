@@ -25,29 +25,32 @@
       <div class="card-body">
         <form method="POST">
           {% csrf_token %}
+
           <div class="form-group">
             <label for="placa">Placa *</label>
               {{ form.placa }}
-            </div>
           </div>
+          
 
           <div class="form-group">
             <label for="color">Color *</label>
               {{ form.color }}
-            </div>
           </div>
 
           <div class="form-group">
             <label for="tipo_vehiculo">Tipo vehiculo *</label>
               {{ form.tipo_vehiculo }}
-            </div>
           </div>
+
 
           <div class="form-group">
             <label for="propietario">Propietario *</label>
               {{ form.propietario }}
-            </div>
           </div>
+          <button type="submit" class="btn btn-warning btn-block">Modificar vehiculo</button>
+        </div>
+      </div>
+    </div>
 
           {% if form.errors %}
               {% for field in form %}
@@ -71,7 +74,6 @@
                   </div>
               {% endfor %}
           {% endif %}
-          <button type="submit" class="btn btn-warning btn-block">Modificar vehiculo</button>
         </form>
       </div>
     </div>
