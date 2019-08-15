@@ -31,7 +31,11 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="Pnombre">Identificación *</label>
-                {{ form.identificacion }}
+                {% if identificacion != 0 %}
+                  {{ form.identificacion }}
+                {% else %}
+                  <input name="documento" class="form-control" type="text" readonly value=" ">
+                {% endif %}
               </div>
               <div class="form-group">
                 <label for="Pnombre">Nombre</label>
@@ -43,7 +47,11 @@
               </div>
               <div class="form-group">
                 <label for="Pnombre">Placa *</label>
-                {{ form.placa }}
+                {% if identificacion != 0 %}
+                  {{ form.placa }}
+                {% else %}
+                  <input name="documento" class="form-control" type="text" readonly value=" ">
+                {% endif %}
               </div>
               <div class="form-group">
                 <label for="Pnombre">Tipo vehículo *</label>

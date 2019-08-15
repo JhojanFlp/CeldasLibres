@@ -100,11 +100,21 @@ class CrearEntradaVehiculo(CreateView):
     #success_url = reverse_lazy('ficho-parqueadero')
     context_object_name = 'tarifas_list'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self,**kwargs):
         context = super(CrearEntradaVehiculo, self).get_context_data(**kwargs)
-        context['tarifas'] = Tarifa.objects.filter(anno = datetime.date.today().year)
-        context['parqueadero']=Parqueadero.objects.filter(encargado=self.request.user.id)
-        context['user_id']=self.request.user.id
+        parqueaderosxencargado = Parqueadero.objects.filter(encargado=self.request.user.usuario).count()
+        print(parqueaderosxencargado)
+        if(parqueaderosxencargado==0):
+            #context['messages']= ('Debe tener asignado un parqueadero')
+            messages.warning(self.request, 'Debe tener asignado un parqueadero')
+            messages.warning(self.request, 'Los campos se desbloquearan cuando tenga asignado un parqueadero')
+            context['identificacion']=0
+            template_name = 'parqueaderos/vehiculos-ingresados.html'
+            print('entre al if')
+        else:
+            context['tarifas'] = Tarifa.objects.filter(anno = datetime.date.today().year)
+            context['parqueadero']=Parqueadero.objects.filter(encargado=self.request.user.id)
+            context['user_id']=self.request.user.id
         return context
 
     def post(self, request, *args, **kwargs):
@@ -174,13 +184,13 @@ class CrearSalidaVehiculo(CreateView):
                     cliente = ClienteFrecuente.objects.get(identificacion=id_user)
                     plan_pago=cliente.plan_pago
                     descuento=plan_pago.descuentos.all().filter(tarifa__tipo_vehiculo=tipo_vehiculo)[0]
-                    total=int(total_general)*(1-(float(descuento.descuento/100)))
+                    total=total_general*(1-(float(descuento.descuento/100)))
                     print("Se selecciono: ", descuento.tarifa, ", Descuento:", descuento.descuento, ", Total a Facturar: ", total)
                     descuento=float(descuento.descuento)
                 except:
                     plan_pago= None
                     descuento= 0
-                    total=int(total_general)
+                    total=total_general
                     print("no es cliente con plan de pago")
 
             entradaVehiculo.estado_facturado = True
@@ -238,11 +248,31 @@ class VerIngresados(ListView):
     model = EntradaVehiculo
     context_object_name = 'ingresados_list'
     template_name = 'parqueaderos/ingresados_list.html'
+    def get_context_data(self,**kwargs):
+    #    print("estoy al principio")
+        context = super(VerIngresados, self).get_context_data(**kwargs)
+    #    print("estoy antes del filtro")
+        parqueaderosxencargado = Parqueadero.objects.filter(encargado=self.request.user.usuario).count()
+    #    print("estoy despues del filtro")
+    #    print(parqueaderosxencargado)
+        if(parqueaderosxencargado==0):
+    #        #context['messages']= ('Debe tener asignado un parqueadero')
+            messages.warning(self.request, 'Debe tener asignado un parqueadero para registrar vehiculos')
+            context['parqueadero']=0
+            print('entre al if')
+        else:
+            context['parqueadero']=parqueaderosxencargado
+    #        print('no entre al if')
+        return context
 
     def get_queryset(self):
-        query = super(VerIngresados, self).get_queryset()
-        parking = Parqueadero.objects.filter(encargado=self.request.user.usuario)[0]
-        return query.filter(parqueadero=parking)
+        try:
+            query = super(VerIngresados, self).get_queryset()
+            parking = Parqueadero.objects.filter(encargado=self.request.user.usuario)[0]
+            return query.filter(parqueadero=parking)
+        except:
+            messages.warning(self.request, 'Debe tener asignado un parqueadero para registrar vehiculos')
+        #    context['parqueadero']=0
 
 
 @method_decorator([login_required], name='dispatch')

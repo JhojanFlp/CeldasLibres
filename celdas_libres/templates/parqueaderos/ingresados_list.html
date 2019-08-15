@@ -9,46 +9,58 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'vehiculos-ingresados' %}">Vehículos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Registrar vehículo</a>
-                </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'historial-salidas' %}">Hitorial de salidas</a>
-                </li>
+                {% if parqueadero != 0 %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ingresar-vehiculo' %}">Registrar vehículo</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'historial-salidas' %}">Hitorial de salidas</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     {% endif %}
 {% endblock role_nav %}
 
 {% block content %}
-<div class="container pt-5 mt-3">
-    <table class="table table-secondary table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Placa</th>
-                <th scope="col">Fecha ingreso</th>
-                <th scope="col">Tipo vehiculo</th>
-                <th scope="col">Tarifa aplicable</th>
-                <th scope="col">Registrado por: </th>
-                <th scope="col">Ficho: </th>
-                <th scope="col">Registrar salida </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ingresado in ingresados_list %}
-                {% if ingresado.estado_facturado == False %}
-                    <tr>
-                        <th scope="row">{{ ingresado.placa }}</th>
-                        <td>{{ ingresado.fecha_ingreso }}</td>
-                        <th>{{ingresado.tarifa.tipo_vehiculo}}</th>
-                        <td>{{ ingresado.tarifa }}</td> 
-                        <td>{{ ingresado.usuario }}</td>
-                    <td> <a class="nav-link" href="{% url 'ficho-parqueadero' pk=ingresado.id %}">Ver</a></td>
-                    <td> <a class="nav-link" href="{% url 'salida-vehiculo' pk=ingresado.id %}">Registrar salida</a></td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+{% if parqueadero != 0 %}
+    <div class="container pt-5 mt-3">
+        <table class="table table-secondary table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Fecha ingreso</th>
+                    <th scope="col">Tipo vehiculo</th>
+                    <th scope="col">Tarifa aplicable</th>
+                    <th scope="col">Registrado por: </th>
+                    <th scope="col">Ficho: </th>
+                    <th scope="col">Registrar salida </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ingresado in ingresados_list %}
+                    {% if ingresado.estado_facturado == False %}
+                        <tr>
+                            <th scope="row">{{ ingresado.placa }}</th>
+                            <td>{{ ingresado.fecha_ingreso }}</td>
+                            <th>{{ingresado.tarifa.tipo_vehiculo}}</th>
+                            <td>{{ ingresado.tarifa }}</td> 
+                            <td>{{ ingresado.usuario }}</td>
+                        <td> <a class="nav-link" href="{% url 'ficho-parqueadero' pk=ingresado.id %}">Ver</a></td>
+                        <td> <a class="nav-link" href="{% url 'salida-vehiculo' pk=ingresado.id %}">Registrar salida</a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="container pt-5 mt-3">
+        <div class="row justify-content-center text-justify pt-2">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <h2><p class="text-center">No tienes parqueaderos asignados!!</p></h2>
+            </div>
+        </div>
+    </div>
+{% endif %}
 {% endblock content %}
