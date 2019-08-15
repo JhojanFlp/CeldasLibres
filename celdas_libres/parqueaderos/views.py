@@ -241,7 +241,7 @@ class VerIngresados(ListView):
 
     def get_queryset(self):
         query = super(VerIngresados, self).get_queryset()
-        parking = Parqueadero.objects.filter(encargado=self.request.user.usuario)
+        parking = Parqueadero.objects.filter(encargado=self.request.user.usuario)[0]
         return query.filter(parqueadero=parking)
 
 
