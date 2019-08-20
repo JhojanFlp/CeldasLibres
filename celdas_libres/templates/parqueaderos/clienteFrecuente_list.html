@@ -54,7 +54,7 @@
                     <td>{{ usuario.fecha_nacimiento }}</td>
                     <td>{{ usuario.plan_pago }}</td>
                     <td  align="center">
-                       <a > <input type="image" width="30" height="30"  name="botonmodificar" src="https://image.flaticon.com/icons/png/512/61/61776.png"></a>
+                       <a href="{% url 'modificar-cliente' usuario.identificacion %}"> <input type="image" width="30" height="30"  name="botonmodificar" src="https://image.flaticon.com/icons/png/512/61/61776.png"></a>
                     </td>
                     <td>
                         <a href="{% url 'eliminar-clientefrecuente' usuario.identificacion %}" ><input type="image" width="30" height="30"  name="botoneliminar" src="https://image.flaticon.com/icons/png/512/61/61848.png"></a>
