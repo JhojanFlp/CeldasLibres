@@ -51,5 +51,5 @@ urlpatterns = [
 
     path('buscar-cliente/<str:identificacion>/', buscar_cliente, name='buscar-cliente'),
     path('eliminar-clientefrecuente/<int:pk>', EliminarCliente.as_view(), name='eliminar-clientefrecuente'),
-    path('modificar-cliente/<int:pk>'ModificarCliente.as_view(),name='modificar_cliente')
+    path('modificar-cliente/<int:pk>',ModificarCliente.as_view(),name='modificar_cliente')
 ]
