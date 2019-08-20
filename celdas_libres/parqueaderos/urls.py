@@ -7,7 +7,7 @@ from .views import (CrearEntradaVehiculo, CrearPlanPago, CrearTarifa,
                     ModificarParqueadero, CrearParqueadero, VerParqueaderos,
                     EliminarParqueadero, VerPlanesPago, ModificarPlanPago, EliminarPlanPago,VerFicho)
 from vehiculos.views import CrearVehiculo
-from cliente.views import CrearClienteFrecuente,VerClientesFrecuentes,EliminarCliente
+from cliente.views import CrearClienteFrecuente,VerClientesFrecuentes,EliminarCliente, ModificarCliente
 from .views import (CrearEntradaVehiculo, CrearParqueadero, CrearPlanPago,
                     CrearSalidaVehiculo, CrearTarifa, EliminarParqueadero, EliminarPlanPago, EliminarTarifa,
                     ModificarParqueadero, ModificarPlanPago, ModificarTarifa,
