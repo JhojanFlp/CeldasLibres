@@ -20,7 +20,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.template import context
 from django.forms import formset_factory
 from .models import ClienteFrecuente
-from .forms import CrearClienteFrecuenteForm
+from .forms import CrearClienteFrecuenteForm, UpdateClienteForm
 from parqueaderos.models import PlanPago
 
 @method_decorator([login_required], name='dispatch')
