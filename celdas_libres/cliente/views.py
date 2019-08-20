@@ -70,3 +70,16 @@ class EliminarCliente(DeleteView):
         messages.success(request, 'Cliente eliminado correctamente')
         return super(EliminarCliente, self).post(request, *args, **kwargs)
 
+@method_decorator([login_required, staff_member_required], name='dispatch')
+class ModificarCliente(UpdateView):
+    model = ClienteFrecuente
+    form_class = UpdateClienteForm
+    template_name_suffix = '_update_form'
+    success_url =  reverse_lazy('ver-cliente-frecuente')
+    template_name = 'parqueaderos/crear_clienteFrecuente.html'
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Cliente actualizado correctamente')
+        return super(ModificarCliente, self).post(request, *args, **kwargs)
