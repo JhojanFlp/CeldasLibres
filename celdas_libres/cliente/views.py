@@ -61,7 +61,7 @@ class VerClientesFrecuentes(ListView):
     model = ClienteFrecuente
     context_object_name = 'cliente_frecuente'
     template_name = 'parqueaderos/clienteFrecuente_list.html'
-@method_decorator([login_required, staff_member_required], name='dispatch')
+@method_decorator([login_required], name='dispatch')
 class EliminarCliente(DeleteView):
     model = ClienteFrecuente
     success_url = reverse_lazy('ver-cliente-frecuente')
@@ -70,7 +70,7 @@ class EliminarCliente(DeleteView):
         messages.success(request, 'Cliente eliminado correctamente')
         return super(EliminarCliente, self).post(request, *args, **kwargs)
 
-@method_decorator([login_required, staff_member_required], name='dispatch')
+@method_decorator([login_required], name='dispatch')
 class ModificarCliente(UpdateView):
     model = ClienteFrecuente
     form_class = UpdateClienteForm

@@ -75,6 +75,12 @@ class CrearClienteFrecuenteForm(forms.ModelForm):
             'identificacion','tipo_identificacion', 'nombres',
             'apellidos', 'celular', 'email', 'fecha_nacimiento',
             'planes_pago',]
+
+        widgets = {
+            'fecha_nacimiento': forms.DateField(attrs={
+                "class": 'form-control'
+            })
+        }
     def __init__(self, *args, **kwargs):
     	super(CrearClienteFrecuenteForm, self).__init__(*args, **kwargs)
 
