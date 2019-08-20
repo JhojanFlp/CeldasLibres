@@ -20,7 +20,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.template import context
 from django.forms import formset_factory
 from .models import ClienteFrecuente
-from .forms import CrearClienteFrecuenteForm, UpdateClienteForm
+from .forms import CrearClienteFrecuenteForm
 from parqueaderos.models import PlanPago
 
 @method_decorator([login_required], name='dispatch')
@@ -61,17 +61,12 @@ class VerClientesFrecuentes(ListView):
     model = ClienteFrecuente
     context_object_name = 'cliente_frecuente'
     template_name = 'parqueaderos/clienteFrecuente_list.html'
-
 @method_decorator([login_required, staff_member_required], name='dispatch')
-class ModificarCliente(UpdateView):
+class EliminarCliente(DeleteView):
     model = ClienteFrecuente
-    form_class = UpdateClienteForm
-    template_name_suffix = '_update_form'
-    success_url =  reverse_lazy('ver-cliente-frecuente')
-    template_name = 'parqueaderos/crear_clienteFrecuente.html'
+    success_url = reverse_lazy('ver-cliente-frecuente')
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            messages.success(request, 'Cliente actualizado correctamente')
-        return super(ModificarCliente, self).post(request, *args, **kwargs)
+        messages.success(request, 'Cliente eliminado correctamente')
+        return super(EliminarCliente, self).post(request, *args, **kwargs)
+
