@@ -28,7 +28,7 @@ matplotlib==3.1.0
 mccabe==0.6.1
 mysql-connector==2.2.9
 mysqlclient==1.4.2.post1
-numpy==1.16.4
+numpy==1.22.0
 psycopg2==2.8.3
 pycparser==2.19
 pylint==2.3.1
